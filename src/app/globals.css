@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --canvas: #FAF9F6;
+  --surface: #FFFFFF;
+  --surface-muted: #F2EFE9;
+  --hairline: #E5E2DC;
+  --ink: #111827;
+  --ink-muted: #4B5563;
+  --gdg-blue: #4285F4;
+  --gdg-red: #EA4335;
+  --gdg-yellow: #FBBC04;
+  --gdg-green: #34A853;
+  --blueprint-line: rgba(17, 24, 39, 0.055);
+  --blueprint-dot: rgba(17, 24, 39, 0.14);
+}
+
+.dark {
+  --canvas: #0C0F14;
+  --surface: #141922;
+  --surface-muted: #1C2330;
+  --hairline: #252D3D;
+  --ink: #F8FAFC;
+  --ink-muted: #94A3B8;
+  --gdg-blue: #669DF6;
+  --gdg-red: #F28B82;
+  --gdg-yellow: #FDD663;
+  --gdg-green: #81C995;
+  --blueprint-line: rgba(148, 163, 184, 0.075);
+  --blueprint-dot: rgba(148, 163, 184, 0.18);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-hairline: var(--hairline);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-gdg-blue: var(--gdg-blue);
+  --color-gdg-red: var(--gdg-red);
+  --color-gdg-yellow: var(--gdg-yellow);
+  --color-gdg-green: var(--gdg-green);
+  --font-sans: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+html {
+  background-color: var(--canvas);
+  color: var(--ink);
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+/* Architectural studio blueprint grid */
+.bg-blueprint-grid {
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--blueprint-dot) 1px, transparent 0),
+    linear-gradient(to right, var(--blueprint-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--blueprint-line) 1px, transparent 1px);
+  background-size: 32px 32px, 32px 32px, 32px 32px;
+  background-position: -1px -1px, 0 0, 0 0;
+}
+
+/* Pure CSS 3D helpers */
+.perspective-studio {
+  perspective: 900px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* GPU-composited keyframes: ONLY transform & opacity */
+@keyframes gdg-spin-3d {
+  0% {
+    transform: rotateX(22deg) rotateY(0deg) rotateZ(6deg);
+  }
+  50% {
+    transform: rotateX(-16deg) rotateY(180deg) rotateZ(-6deg);
+  }
+  100% {
+    transform: rotateX(22deg) rotateY(360deg) rotateZ(6deg);
+  }
+}
+
+@keyframes gdg-spin-reverse-3d {
+  0% {
+    transform: rotateX(64deg) rotateY(14deg) rotateZ(360deg);
+  }
+  50% {
+    transform: rotateX(56deg) rotateY(-14deg) rotateZ(180deg);
+  }
+  100% {
+    transform: rotateX(64deg) rotateY(14deg) rotateZ(0deg);
+  }
+}
+
+@keyframes gdg-float-3d {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.92;
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+    opacity: 1;
+  }
+}
+
+.animate-gdg-spin-3d {
+  animation: gdg-spin-3d 18s linear infinite;
+  will-change: transform;
+}
+
+.animate-gdg-spin-reverse-3d {
+  animation: gdg-spin-reverse-3d 14s linear infinite;
+  will-change: transform;
+}
+
+.animate-gdg-float-3d {
+  animation: gdg-float-3d 6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-gdg-spin-3d,
+  .animate-gdg-spin-reverse-3d,
+  .animate-gdg-float-3d {
+    animation: none !important;
+    will-change: auto;
+  }
+}
