@@ -25,11 +25,13 @@ function ChannelIcon({ id }: { id: CommunityLinkItem["id"] }) {
   }
 }
 
-const CHANNEL_BADGE: Record<CommunityLinkItem["accentColor"], string> = {
-  blue: "bg-[#1765CC] text-white rounded-xl",
-  green: "bg-[#137333] text-white rounded-full",
-  red: "bg-[#C5221F] text-white rounded-2xl",
-  yellow: "bg-[#FBBC04] text-[#111827] rounded-xl", // Strict #111827 dark ink on yellow
+const CHANNEL_BADGE: Record<CommunityLinkItem["id"], string> = {
+  github: "bg-[#181717] text-white dark:bg-[#F0F6FC] dark:text-[#181717] rounded-xl",
+  discord: "bg-[#5865F2] text-white rounded-full",
+  linkedin: "bg-[#0A66C2] text-white rounded-xl",
+  instagram:
+    "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white rounded-2xl",
+  youtube: "bg-[#FF0000] text-white rounded-xl",
 };
 
 export function CommunityLinks() {
@@ -68,7 +70,7 @@ export function CommunityLinks() {
                   >
                     <div className="flex items-center gap-3 sm:col-span-3">
                       <span
-                        className={`inline-flex h-9 w-9 shrink-0 items-center justify-center transition-spring group-hover:-rotate-6 ${CHANNEL_BADGE[channel.accentColor]}`}
+                        className={`inline-flex h-9 w-9 shrink-0 items-center justify-center transition-spring group-hover:-rotate-6 ${CHANNEL_BADGE[channel.id]}`}
                       >
                         <ChannelIcon id={channel.id} />
                       </span>
