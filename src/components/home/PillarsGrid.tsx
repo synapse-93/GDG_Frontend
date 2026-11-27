@@ -51,7 +51,7 @@ export function PillarsGrid() {
       aria-labelledby="disciplines-heading"
       className="border-b border-hairline bg-[#111827] py-16 text-[#F8FAFC] dark:bg-[#161D2B] sm:py-24"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="gdg-reveal mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <h2

@@ -31,7 +31,7 @@ export function LatestRecap() {
       aria-labelledby="latest-recap-heading"
       className="border-b border-hairline bg-surface-muted/45 py-16 sm:py-24"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="gdg-reveal mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left: Magazine Editorial Field Note (7 cols) */}
           <div className="lg:col-span-7">

@@ -22,7 +22,7 @@ export function FeaturedEvents() {
       aria-labelledby="featured-events-heading"
       className="border-b border-hairline bg-canvas py-16 sm:py-24"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="gdg-reveal mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Editorial Section Header */}
         <div className="flex flex-col gap-4 border-b border-hairline pb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>

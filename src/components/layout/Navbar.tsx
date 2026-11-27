@@ -181,6 +181,17 @@ export function Navbar() {
           </nav>
         </div>
       )}
+
+      {/* Compositor-only 2px four-color scroll progress line */}
+      <div
+        aria-hidden="true"
+        className="gdg-scroll-progress pointer-events-none absolute right-0 -bottom-px left-0 grid h-[2px] w-full grid-cols-4"
+      >
+        <span className="bg-[#4285F4]" />
+        <span className="bg-[#EA4335]" />
+        <span className="bg-[#FBBC04]" />
+        <span className="bg-[#34A853]" />
+      </div>
     </header>
   );
 }

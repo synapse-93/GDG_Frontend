@@ -359,7 +359,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                 const styles = getTrackStyles(event.track);
                 const isUpcoming = event.status === "upcoming";
                 return (
-                  <li key={event.slug}>
+                  <li key={event.slug} className="gdg-reveal">
                     <Link
                       href={`/events/${event.slug}`}
                       className="group grid grid-cols-1 gap-3 py-5 transition-colors hover:bg-surface-muted/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:grid-cols-12 md:items-center md:gap-4 md:px-3"

@@ -213,6 +213,69 @@ input[type="search"]::-webkit-search-decoration {
   transform: translate3d(2px, -3px, 0) rotate(3deg);
 }
 
+/* Compositor-only CSS Scroll-Driven Animations (progressive enhancement) */
+.gdg-scroll-progress {
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+}
+
+@keyframes gdg-scroll-progress-scale {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes gdg-scroll-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes gdg-poster-date-parallax {
+  from {
+    transform: translate3d(0, -10px, 0);
+  }
+  to {
+    transform: translate3d(0, 10px, 0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gdg-scroll-progress {
+      opacity: 1;
+      transform-origin: left;
+      animation: gdg-scroll-progress-scale linear both;
+      animation-timeline: scroll(root);
+      will-change: transform;
+    }
+
+    .gdg-reveal {
+      animation: gdg-scroll-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 26%;
+      animation-fill-mode: both;
+      will-change: transform, opacity;
+    }
+
+    .gdg-poster-parallax {
+      animation: gdg-poster-date-parallax linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -235,8 +298,25 @@ input[type="search"]::-webkit-search-decoration {
   .animate-gdg-spin-3d,
   .animate-gdg-spin-reverse-3d,
   .animate-gdg-float-3d,
-  .animate-gdg-drawer-in {
+  .animate-gdg-drawer-in,
+  .gdg-scroll-progress,
+  .gdg-reveal,
+  .gdg-poster-parallax {
     animation: none !important;
     will-change: auto;
+  }
+
+  .gdg-scroll-progress {
+    opacity: 0 !important;
+    transform: scaleX(0) !important;
+  }
+
+  .gdg-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .gdg-poster-parallax {
+    transform: none !important;
   }
 }

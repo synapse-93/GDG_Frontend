@@ -37,7 +37,7 @@ export function CommunityLinks() {
       aria-labelledby="community-links-heading"
       className="bg-canvas py-16 sm:py-24"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="gdg-reveal mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left Editorial Column (4 cols) */}
           <div className="lg:col-span-4">

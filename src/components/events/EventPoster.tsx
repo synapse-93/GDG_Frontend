@@ -225,7 +225,7 @@ export function EventPoster({
               fill={theme.shapeAccent}
               fillOpacity="0.28"
             />
-            <circle cx="420" cy="44" r="18" fill={theme.shapeSecondary} />
+            <circle cx="368" cy="58" r="15" fill={theme.shapeSecondary} />
           </>
         )}
 
@@ -279,8 +279,15 @@ export function EventPoster({
             />
           </>
         )}
+      </svg>
 
-        {/* Oversized Expressive Poster Date Numeral Watermark */}
+      {/* Scroll-Driven Parallax Layer: Oversized Expressive Date Numeral Watermark */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 480 260"
+        preserveAspectRatio="xMidYMid slice"
+        className="gdg-poster-parallax pointer-events-none absolute inset-0 h-full w-full"
+      >
         <text
           x="456"
           y="236"
@@ -324,8 +331,14 @@ export function EventPoster({
         </div>
 
         <span
-          className="font-mono text-xs font-semibold"
-          style={{ color: theme.mutedInk }}
+          className="relative z-10 inline-flex shrink-0 items-center rounded-full px-2.5 py-1 font-mono text-xs font-semibold"
+          style={{
+            backgroundColor:
+              event.track === "Android"
+                ? "rgba(17, 24, 39, 0.12)"
+                : "rgba(17, 24, 39, 0.32)",
+            color: theme.ink,
+          }}
         >
           {event.mode}
         </span>
