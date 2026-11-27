@@ -98,16 +98,16 @@ export const siteConfig = {
       handle: "GDG on Campus RVCE",
       description:
         "Session announcements, engineering recaps, and speaker spotlights.",
-      href: "https://www.linkedin.com/company/gdg-on-campus-rvce-demo",
+      href: "https://www.linkedin.com/company/google-developer-groups-rvce/",
       accentColor: "blue",
     },
     {
       id: "instagram",
       label: "Instagram",
-      handle: "@gdgoc.rvce",
+      handle: "@gdg_rvce",
       description:
         "Behind-the-scenes snapshots from campus build nights and demos.",
-      href: "https://www.instagram.com/gdgoc.rvce.demo",
+      href: "https://www.instagram.com/gdg_rvce/",
       accentColor: "red",
     },
     {
