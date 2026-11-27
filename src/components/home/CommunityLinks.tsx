@@ -6,6 +6,7 @@ import {
   MessageSquare,
   PlayCircle,
 } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { siteConfig, type CommunityLinkItem } from "@/data/site";
 
 function ChannelIcon({ id }: { id: CommunityLinkItem["id"] }) {
@@ -35,9 +36,10 @@ export function CommunityLinks() {
   return (
     <section
       aria-labelledby="community-links-heading"
-      className="bg-canvas py-16 sm:py-24"
+      className="bg-canvas py-16 scroll-mt-16 sm:py-24 lg:snap-start"
     >
-      <div className="gdg-reveal mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <ScrollReveal className="w-full">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left Editorial Column (4 cols) */}
           <div className="lg:col-span-4">
@@ -94,7 +96,8 @@ export function CommunityLinks() {
             </ul>
           </div>
         </div>
-      </div>
+        </div>
+      </ScrollReveal>
     </section>
   );
 }

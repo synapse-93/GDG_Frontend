@@ -14,7 +14,7 @@ export function EventCard({ event }: EventCardProps) {
 
   return (
     <article
-      className={`gdg-reveal group relative flex flex-col overflow-hidden rounded-3xl border border-hairline bg-surface transition-spring hover:-translate-y-1.5 ${trackStyles.borderHover}`}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-hairline bg-surface transition-spring hover:-translate-y-1.5 ${trackStyles.borderHover}`}
     >
       {/* Generative Color-Blocked Campus Event Poster */}
       <EventPoster event={event} size="card" />

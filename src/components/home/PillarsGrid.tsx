@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Terminal } from "lucide-react";
 import { DomainArtwork, type DomainKey } from "@/components/brand/DomainArtwork";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { siteConfig, type CommunityPillar } from "@/data/site";
 
 const TRACK_TO_DOMAIN: Record<CommunityPillar["trackFilter"], DomainKey> = {
@@ -49,34 +50,35 @@ export function PillarsGrid() {
   return (
     <section
       aria-labelledby="disciplines-heading"
-      className="border-b border-hairline bg-[#111827] py-16 text-[#F8FAFC] dark:bg-[#161D2B] sm:py-24"
+      className="border-b border-hairline bg-[#111827] py-16 text-[#F8FAFC] scroll-mt-16 dark:bg-[#161D2B] sm:py-20 lg:flex lg:min-h-[calc(100svh-4rem)] lg:snap-start lg:flex-col lg:justify-center"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <h2
-              id="disciplines-heading"
-              className="text-3xl font-extrabold tracking-[-0.03em] text-white text-balance sm:text-5xl"
-            >
-              Four disciplines. One open engineering studio.
-            </h2>
-            <p className="mt-3 max-w-[54ch] text-base leading-relaxed text-[#CBD5E1] text-pretty">
-              Inspect our RVCE lab focus, core tooling, and live CLI
-              workflows—switch disciplines to explore what ships each semester.
-            </p>
+      <ScrollReveal className="w-full">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <h2
+                id="disciplines-heading"
+                className="text-3xl font-extrabold tracking-[-0.03em] text-white text-balance sm:text-5xl"
+              >
+                Four disciplines. One open engineering studio.
+              </h2>
+              <p className="mt-3 max-w-[54ch] text-base leading-relaxed text-[#CBD5E1] text-pretty">
+                Inspect our RVCE lab focus, core tooling, and live CLI
+                workflows—switch disciplines to explore what ships each semester.
+              </p>
+            </div>
+
+            {/* 4-Color Google Shape Accent Pill Strip */}
+            <div aria-hidden="true" className="flex items-center gap-2">
+              <span className="h-3.5 w-8 rounded-full bg-[#4285F4]" />
+              <span className="h-3.5 w-3.5 rounded-full bg-[#34A853]" />
+              <span className="h-3.5 w-3.5 rounded-sm bg-[#EA4335]" />
+              <span className="h-3.5 w-6 rounded-full bg-[#FBBC04]" />
+            </div>
           </div>
 
-          {/* 4-Color Google Shape Accent Pill Strip */}
-          <div aria-hidden="true" className="flex items-center gap-2">
-            <span className="h-3.5 w-8 rounded-full bg-[#4285F4]" />
-            <span className="h-3.5 w-3.5 rounded-full bg-[#34A853]" />
-            <span className="h-3.5 w-3.5 rounded-sm bg-[#EA4335]" />
-            <span className="h-3.5 w-6 rounded-full bg-[#FBBC04]" />
-          </div>
-        </div>
-
-        {/* High-Contrast Inverted Split Workbench */}
-        <div className="gdg-reveal mt-10 grid grid-cols-1 border-t border-white/15 lg:grid-cols-12">
+          {/* High-Contrast Inverted Split Workbench */}
+          <div className="mt-10 grid grid-cols-1 border-t border-white/15 lg:grid-cols-12">
           {/* Left: 4 Ruled Discipline Selector Rows */}
           <div
             role="tablist"
@@ -224,7 +226,8 @@ export function PillarsGrid() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </ScrollReveal>
     </section>
   );
 }

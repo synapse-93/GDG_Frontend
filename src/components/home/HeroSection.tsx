@@ -9,8 +9,8 @@ export function HeroSection() {
   const nextEvent = getUpcomingEvents()[0];
 
   return (
-    <section className="relative overflow-hidden border-b border-hairline bg-canvas">
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+    <section className="relative overflow-hidden border-b border-hairline bg-canvas scroll-mt-16 lg:flex lg:min-h-[calc(100svh-4rem)] lg:snap-start lg:flex-col lg:justify-center">
+      <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-12">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Oversized Editorial Poster Column */}
           <div className="min-w-0 space-y-6 lg:col-span-6">

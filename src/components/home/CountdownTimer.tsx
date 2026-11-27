@@ -122,7 +122,7 @@ export function CountdownTimer({ event }: CountdownTimerProps) {
         >
           {segments.map((seg) => (
             <div key={seg.label} className="flex items-baseline gap-0.5">
-              <span className="text-xl font-bold text-ink sm:text-2xl">
+              <span className="inline-block min-w-[2ch] text-right text-xl font-bold tabular-nums text-ink sm:text-2xl">
                 {seg.value}
               </span>
               <span className="text-xs font-medium text-ink-muted">

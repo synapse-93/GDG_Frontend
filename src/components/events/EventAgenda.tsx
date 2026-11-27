@@ -73,7 +73,7 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
           const panelId = `agenda-panel-${idx}`;
 
           return (
-            <li key={`${slot.time}-${slot.title}`} className="gdg-reveal">
+            <li key={`${slot.time}-${slot.title}`}>
               <button
                 type="button"
                 aria-expanded={isOpen}

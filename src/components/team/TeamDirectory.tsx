@@ -222,7 +222,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
                     key={member.id}
                     type="button"
                     onClick={() => handleOpenBuilder(member)}
-                    className={`gdg-reveal group flex flex-col gap-5 rounded-3xl border border-hairline bg-surface p-6 text-left transition-spring hover:-translate-y-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:flex-row sm:items-start sm:p-7 ${accent.borderHover}`}
+                    className={`group flex flex-col gap-5 rounded-3xl border border-hairline bg-surface p-6 text-left transition-spring hover:-translate-y-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:flex-row sm:items-start sm:p-7 ${accent.borderHover}`}
                   >
                     <div className="transition-spring group-hover:-rotate-3">
                       <BuilderPortrait
@@ -300,7 +300,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
                     key={member.id}
                     type="button"
                     onClick={() => handleOpenBuilder(member)}
-                    className={`gdg-reveal group flex flex-col rounded-3xl border border-hairline bg-surface p-5 text-left transition-spring hover:-translate-y-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${accent.borderHover}`}
+                    className={`group flex flex-col rounded-3xl border border-hairline bg-surface p-5 text-left transition-spring hover:-translate-y-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${accent.borderHover}`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="transition-spring group-hover:-rotate-3">

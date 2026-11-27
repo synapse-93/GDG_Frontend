@@ -10,6 +10,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { EventPoster } from "@/components/events/EventPoster";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { getEventBySlug } from "@/data/events";
 import { siteConfig } from "@/data/site";
 import { getTrackStyles } from "@/lib/accents";
@@ -29,9 +30,10 @@ export function LatestRecap() {
   return (
     <section
       aria-labelledby="latest-recap-heading"
-      className="border-b border-hairline bg-surface-muted/45 py-16 sm:py-24"
+      className="border-b border-hairline bg-surface-muted/45 py-16 scroll-mt-16 sm:py-20 lg:flex lg:min-h-[calc(100svh-4rem)] lg:snap-start lg:flex-col lg:justify-center"
     >
-      <div className="gdg-reveal mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <ScrollReveal className="w-full">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left: Magazine Editorial Field Note (7 cols) */}
           <div className="lg:col-span-7">
@@ -189,7 +191,8 @@ export function LatestRecap() {
             </dl>
           </div>
         </div>
-      </div>
+        </div>
+      </ScrollReveal>
     </section>
   );
 }
