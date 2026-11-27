@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { CommandPalette } from "@/components/layout/CommandPalette";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
@@ -47,6 +48,7 @@ export default function RootLayout({
             Skip to main content
           </a>
           <Navbar />
+          <CommandPalette />
           <main id="main-content" className="flex-1">
             {children}
           </main>

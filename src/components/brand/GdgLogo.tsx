@@ -63,10 +63,10 @@ export function GdgLogo({
       </svg>
 
       <span className="flex min-w-0 flex-col leading-none">
-        <span className="whitespace-nowrap text-sm font-bold tracking-tight text-ink sm:text-[15px]">
+        <span className="whitespace-nowrap text-sm font-bold tracking-tight text-ink sm:text-base">
           GDG on Campus
         </span>
-        <span className="mt-1 whitespace-nowrap font-mono text-[10px] font-medium tracking-wide text-ink-muted sm:text-[11px]">
+        <span className="mt-1 whitespace-nowrap font-mono text-xs font-medium tracking-wide text-ink-muted">
           {compact ? (
             "RVCE"
           ) : responsive ? (

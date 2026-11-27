@@ -1,5 +1,6 @@
-import type { AccentColor } from "@/components/brand/GeometricScene3D";
 import type { EventTrack } from "@/data/events";
+
+export type AccentColor = "blue" | "red" | "yellow" | "green";
 
 export interface AccentStyleSet {
   badge: string;
@@ -29,7 +30,7 @@ export const ACCENT_STYLES: Record<AccentColor, AccentStyleSet> = {
   },
   yellow: {
     badge:
-      "border-[#D99B00]/50 bg-[#FBBC04] text-[#111827] dark:border-[#FDD663]/60 dark:bg-[#FDD663] dark:text-[#111827]",
+      "border-[#D99B00]/45 bg-[#FBBC04]/22 text-[#111827] dark:border-[#FDD663]/45 dark:bg-[#FDD663]/18 dark:text-[#FDD663]",
     bar: "bg-[#FBBC04] dark:bg-[#FDD663]",
     dot: "bg-[#FBBC04] dark:bg-[#FDD663]",
     borderHover: "hover:border-[#E0A800] dark:hover:border-[#FDD663]/70",
