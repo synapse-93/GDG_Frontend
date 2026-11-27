@@ -152,12 +152,12 @@ export function HeroTrackPlayground() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 lg:space-y-3">
       {/* Asymmetric 2x2 Color-Blocked Material 3 Expressive Shape Playground */}
       <div
         role="tablist"
         aria-label="Interactive Google track selector"
-        className="grid grid-cols-2 gap-3.5 sm:gap-4"
+        className="grid grid-cols-2 gap-3.5 sm:gap-4 lg:gap-3"
       >
         {siteConfig.pillars.map((pillar, idx) => {
           const isActive = idx === activeIndex;
@@ -172,7 +172,7 @@ export function HeroTrackPlayground() {
               aria-selected={isActive}
               onClick={() => setActiveIndex(idx)}
               onKeyDown={(event) => handleKeyDown(event, idx)}
-              className={`group relative flex min-h-[154px] flex-col justify-between overflow-hidden p-4 text-left transition-spring hover:-translate-y-1.5 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[168px] sm:p-5 ${theme.bg} ${theme.shapeClass} ${theme.tiltHover} ${
+              className={`group relative flex min-h-[154px] flex-col justify-between overflow-hidden p-4 text-left transition-spring hover:-translate-y-1.5 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[160px] sm:p-5 lg:min-h-[144px] lg:p-4 ${theme.bg} ${theme.shapeClass} ${theme.tiltHover} ${
                 isActive ? `${theme.ring} scale-[1.01]` : ""
               }`}
             >
@@ -228,7 +228,7 @@ export function HeroTrackPlayground() {
           </span>
         </div>
 
-        <div className="flex items-center gap-3 px-4 py-3.5">
+        <div className="flex items-center gap-3 px-4 py-3.5 lg:py-2.5">
           <div className="hidden shrink-0 sm:block">
             <DomainArtwork domain={activeDomain} size="sm" tone="on-dark" />
           </div>

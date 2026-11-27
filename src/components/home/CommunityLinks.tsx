@@ -36,7 +36,7 @@ export function CommunityLinks() {
   return (
     <section
       aria-labelledby="community-links-heading"
-      className="bg-canvas py-16 scroll-mt-16 sm:py-24 lg:snap-start"
+      className="bg-canvas py-16 sm:py-24"
     >
       <ScrollReveal className="w-full">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">

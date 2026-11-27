@@ -54,7 +54,7 @@ export function PillarsGrid() {
     >
       <ScrollReveal className="w-full">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-3 lg:mb-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-3 lg:mb-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <h2
                 id="disciplines-heading"
@@ -142,7 +142,7 @@ export function PillarsGrid() {
             <div
               role="tabpanel"
               aria-label={`${active.title} details`}
-              className="flex flex-col justify-between pt-6 lg:col-span-7 lg:p-6 lg:pr-0 lg:pl-8"
+              className="flex flex-col justify-between pt-6 lg:col-span-7 lg:p-5 lg:pr-0 lg:pl-8"
             >
               <div className="space-y-4">
                 <div className="flex flex-wrap items-start justify-between gap-4">
