@@ -17,7 +17,7 @@ const SHAPE_THEMES = [
   {
     // Web — Blue M3 Arch
     bg: "bg-[#1765CC] text-white",
-    subInk: "text-[#DCEAFF]",
+    subInk: "text-white",
     shapeClass: "rounded-t-[56px] rounded-b-2xl",
     tiltHover: "hover:-rotate-1",
     ring: "ring-2 ring-offset-2 ring-offset-canvas ring-[#1765CC] dark:ring-[#669DF6]",
@@ -27,7 +27,7 @@ const SHAPE_THEMES = [
   {
     // AI / ML — Green M3 Clover
     bg: "bg-[#137333] text-white",
-    subInk: "text-[#DCF5E3]",
+    subInk: "text-white",
     shapeClass: "rounded-[38px]",
     tiltHover: "hover:rotate-1",
     ring: "ring-2 ring-offset-2 ring-offset-canvas ring-[#137333] dark:ring-[#81C995]",
@@ -37,7 +37,7 @@ const SHAPE_THEMES = [
   {
     // Cloud — Red M3 Stadium Pill
     bg: "bg-[#C5221F] text-white",
-    subInk: "text-[#FDE5E3]",
+    subInk: "text-white",
     shapeClass: "rounded-[48px]",
     tiltHover: "hover:rotate-1",
     ring: "ring-2 ring-offset-2 ring-offset-canvas ring-[#C5221F] dark:ring-[#F28B82]",
@@ -47,7 +47,7 @@ const SHAPE_THEMES = [
   {
     // Android — Yellow M3 Starburst (STRICT #111827 dark ink)
     bg: "bg-[#FBBC04] text-[#111827]",
-    subInk: "text-[#1F2937]",
+    subInk: "text-[#111827]",
     shapeClass: "rounded-[24px]",
     tiltHover: "hover:-rotate-1",
     ring: "ring-2 ring-offset-2 ring-offset-canvas ring-[#111827] dark:ring-[#FDD663]",
@@ -173,7 +173,7 @@ export function HeroTrackPlayground() {
               onClick={() => setActiveIndex(idx)}
               onKeyDown={(event) => handleKeyDown(event, idx)}
               className={`group relative flex min-h-[154px] flex-col justify-between overflow-hidden p-4 text-left transition-spring hover:-translate-y-1.5 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[168px] sm:p-5 ${theme.bg} ${theme.shapeClass} ${theme.tiltHover} ${
-                isActive ? `${theme.ring} scale-[1.01]` : "opacity-92 hover:opacity-100"
+                isActive ? `${theme.ring} scale-[1.01]` : ""
               }`}
             >
               <ExpressiveMotif index={idx} />

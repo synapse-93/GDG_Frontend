@@ -82,7 +82,7 @@ function LinuxArtwork({ p, tone }: { p: ArtPalette; tone: DomainArtworkTone }) {
           width="44"
           height="24"
           rx="10"
-          fill={p.red}
+          fill={p.redDeep}
           stroke={p.paper}
           strokeWidth="2.5"
         />
@@ -282,7 +282,7 @@ function AiArtwork({ p, tone }: { p: ArtPalette; tone: DomainArtworkTone }) {
         width="36"
         height="30"
         rx="12"
-        fill={p.blue}
+        fill={p.blueDeep}
         stroke={strokeCol}
         strokeWidth="3"
       />
@@ -305,7 +305,7 @@ function AiArtwork({ p, tone }: { p: ArtPalette; tone: DomainArtworkTone }) {
         width="34"
         height="28"
         rx="14"
-        fill={p.green}
+        fill={p.greenDeep}
         stroke={strokeCol}
         strokeWidth="3"
       />
@@ -324,7 +324,7 @@ function AiArtwork({ p, tone }: { p: ArtPalette; tone: DomainArtworkTone }) {
         width="36"
         height="30"
         rx="12"
-        fill={p.red}
+        fill={p.redDeep}
         stroke={strokeCol}
         strokeWidth="3"
       />
