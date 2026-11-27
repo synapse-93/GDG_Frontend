@@ -2,7 +2,7 @@
 
 A responsive, accessible community web interface for **GDG on Campus RV College of Engineering (GDG on Campus RVCE)** designed around a **Developer Studio & Blueprint** visual language. Built with Next.js App Router, TypeScript, Tailwind CSS v4, and GPU-composited pure CSS 3D geometry.
 
-> **Live Demo:** [https://gdg-rvce-interface.vercel.app](https://gdg-rvce-interface.vercel.app) *(placeholder — update with your deployed Vercel URL)*
+> **Live Demo:** [https://gdgfrontend-jet.vercel.app](https://gdgfrontend-jet.vercel.app)
 
 ---
 

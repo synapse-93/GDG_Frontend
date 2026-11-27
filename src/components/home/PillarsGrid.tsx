@@ -51,7 +51,7 @@ export function PillarsGrid() {
       aria-labelledby="disciplines-heading"
       className="border-b border-hairline bg-[#111827] py-16 text-[#F8FAFC] dark:bg-[#161D2B] sm:py-24"
     >
-      <div className="gdg-reveal mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <h2
@@ -76,7 +76,7 @@ export function PillarsGrid() {
         </div>
 
         {/* High-Contrast Inverted Split Workbench */}
-        <div className="mt-10 grid grid-cols-1 border-t border-white/15 lg:grid-cols-12">
+        <div className="gdg-reveal mt-10 grid grid-cols-1 border-t border-white/15 lg:grid-cols-12">
           {/* Left: 4 Ruled Discipline Selector Rows */}
           <div
             role="tablist"

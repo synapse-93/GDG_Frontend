@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
@@ -18,6 +25,8 @@ import { EVENT_TRACKS, events } from "@/data/events";
 import { teamMembers } from "@/data/team";
 
 export const COMMAND_PALETTE_EVENT = "gdg-open-command-palette";
+
+const emptySubscribe = () => () => {};
 
 interface CommandItem {
   id: string;
@@ -104,7 +113,12 @@ export function CommandPalette() {
     }
   }, [open]);
 
-  const isDark = resolvedTheme === "dark";
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+  const isDark = mounted && resolvedTheme === "dark";
 
   const allItems = useMemo<CommandItem[]>(() => {
     const pages: CommandItem[] = [

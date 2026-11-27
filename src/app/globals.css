@@ -231,11 +231,9 @@ input[type="search"]::-webkit-search-decoration {
 
 @keyframes gdg-scroll-reveal {
   from {
-    opacity: 0;
-    transform: translate3d(0, 28px, 0) scale(0.985);
+    transform: translate3d(0, 24px, 0) scale(0.985);
   }
   to {
-    opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
   }
 }
@@ -260,11 +258,12 @@ input[type="search"]::-webkit-search-decoration {
     }
 
     .gdg-reveal {
+      opacity: 1;
       animation: gdg-scroll-reveal linear both;
       animation-timeline: view();
       animation-range: entry 0% cover 26%;
       animation-fill-mode: both;
-      will-change: transform, opacity;
+      will-change: transform;
     }
 
     .gdg-poster-parallax {

@@ -9,16 +9,40 @@ interface CountdownTimerProps {
   event: EventItem;
 }
 
+let cachedNowSec: number | null = null;
+let intervalId: number | null = null;
+const listeners = new Set<() => void>();
+
+function emitCurrentSecond() {
+  const nextSec = Math.floor(Date.now() / 1000);
+  if (nextSec !== cachedNowSec) {
+    cachedNowSec = nextSec;
+    listeners.forEach((listener) => listener());
+  }
+}
+
 function subscribeToSeconds(onStoreChange: () => void) {
-  const intervalId = window.setInterval(onStoreChange, 1000);
-  return () => window.clearInterval(intervalId);
+  listeners.add(onStoreChange);
+
+  if (intervalId === null) {
+    intervalId = window.setInterval(emitCurrentSecond, 1000);
+    window.setTimeout(emitCurrentSecond, 0);
+  }
+
+  return () => {
+    listeners.delete(onStoreChange);
+    if (listeners.size === 0 && intervalId !== null) {
+      window.clearInterval(intervalId);
+      intervalId = null;
+    }
+  };
 }
 
-function getClientSecondSnapshot() {
-  return Math.floor(Date.now() / 1000);
+function getClientSecondSnapshot(): number | null {
+  return cachedNowSec;
 }
 
-function getServerSecondSnapshot() {
+function getServerSecondSnapshot(): number | null {
   return null;
 }
 
