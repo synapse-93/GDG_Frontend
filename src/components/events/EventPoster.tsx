@@ -225,7 +225,7 @@ export function EventPoster({
               fill={theme.shapeAccent}
               fillOpacity="0.28"
             />
-            <circle cx="368" cy="58" r="15" fill={theme.shapeSecondary} />
+            <circle cx="288" cy="144" r="14" fill={theme.shapeSecondary} />
           </>
         )}
 
