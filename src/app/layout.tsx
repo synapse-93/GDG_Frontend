@@ -4,6 +4,7 @@ import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { CommandPalette } from "@/components/layout/CommandPalette";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { RouteScrollReset } from "@/components/layout/RouteScrollReset";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
@@ -47,6 +48,7 @@ export default function RootLayout({
           >
             Skip to main content
           </a>
+          <RouteScrollReset />
           <Navbar />
           <CommandPalette />
           <main id="main-content" className="flex-1">

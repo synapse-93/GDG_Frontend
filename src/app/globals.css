@@ -62,7 +62,6 @@
 html {
   background-color: var(--canvas);
   color: var(--ink);
-  scroll-behavior: smooth;
 }
 
 body {
@@ -264,10 +263,6 @@ input[type="search"]::-webkit-search-decoration {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   .transition-spring,
   .transition-snappy,
   .domain-artwork-svg,
