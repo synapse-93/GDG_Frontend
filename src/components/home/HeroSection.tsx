@@ -12,7 +12,7 @@ export function HeroSection() {
   const nextEvent = getUpcomingEvents()[0];
 
   return (
-    <section className="relative border-b border-hairline bg-canvas">
+    <section className="relative border-b border-hairline bg-canvas lg:flex lg:min-h-[calc(100svh-4rem)] lg:items-center">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 lg:py-12">
         <div className="grid grid-cols-1 items-center lg:grid-cols-12 lg:gap-10">
           {/* Hero Copy, CTAs & Next Session Ticker */}

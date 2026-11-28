@@ -23,7 +23,7 @@ export function FeaturedEvents() {
   return (
     <section
       aria-labelledby="featured-events-heading"
-      className="border-b border-hairline bg-canvas py-10 sm:py-16 lg:py-20"
+      className="border-b border-hairline bg-canvas py-10 sm:py-16 lg:flex lg:min-h-[calc(100svh-4rem)] lg:items-center lg:py-14"
     >
       <ScrollStage className="w-full">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
