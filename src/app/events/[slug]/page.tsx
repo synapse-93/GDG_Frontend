@@ -58,7 +58,7 @@ function EventDetailFallback() {
   return (
     <div className="bg-canvas pb-24 lg:pb-20">
       <section className="border-b border-hairline bg-canvas py-10 sm:py-14">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
           <div className="h-6 w-32 rounded bg-surface-muted" />
           <div className="mt-6 h-56 w-full rounded-2xl bg-surface-muted" />
         </div>
@@ -97,7 +97,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
     <div className="bg-canvas pb-28 lg:pb-20">
       {/* Full-Bleed Campus Poster Masthead */}
       <section className="relative border-b border-hairline bg-canvas pt-3 pb-6 sm:pt-8 sm:pb-12">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
           <Link
             href="/events"
             className="-ml-2 inline-flex min-h-[40px] items-center gap-1.5 rounded-lg px-2 py-2 font-mono text-xs font-semibold text-ink-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[44px]"
@@ -196,7 +196,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
       </section>
 
       {/* Main Reading Column + Sticky Action Rail */}
-      <div className="mx-auto mt-8 max-w-[1200px] px-4 sm:px-6 lg:mt-12 lg:px-8">
+      <div className="mx-auto mt-8 max-w-[1400px] px-5 sm:px-8 lg:mt-12 lg:px-10 xl:px-12">
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Calm Reading Column (8 cols) */}
           <div className="space-y-12 lg:col-span-8">

@@ -27,7 +27,7 @@ export function FeaturedEvents() {
       className="relative border-b border-hairline bg-canvas py-10 sm:py-16 lg:flex lg:min-h-[calc(100svh-4rem)] lg:items-center lg:py-14"
     >
       <ScrollStage className="w-full">
-        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
           {/* Swiss Editorial Section Header */}
           <div className="flex flex-col gap-4 border-b border-hairline pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>

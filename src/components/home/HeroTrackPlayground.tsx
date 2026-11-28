@@ -383,7 +383,7 @@ export function HeroTrackPlayground() {
       </div>
 
       {/* DESKTOP (lg: and up): Pixel-Measured Fluid BendingIndicator + Fanned 3D Card Deck */}
-      <div className="hidden w-full items-center gap-5 lg:flex">
+      <div className="hidden w-full items-center gap-6 xl:gap-8 lg:flex">
         <div
           ref={railContainerRef}
           role="tablist"
@@ -443,7 +443,7 @@ export function HeroTrackPlayground() {
           onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
           style={{ perspective: 950 }}
-          className="relative mx-auto h-[348px] w-full max-w-[420px]"
+          className="relative mx-auto h-[364px] w-full shrink-0 lg:w-[430px] xl:h-[388px] xl:w-[490px]"
         >
           {siteConfig.pillars.map((pillar, idx) => {
             const offset = (idx - activeIndex + total) % total;
@@ -488,7 +488,7 @@ export function HeroTrackPlayground() {
                   stiffness: 320,
                   damping: 26,
                 }}
-                className={`absolute inset-0 flex flex-col justify-between overflow-hidden rounded-xl border border-black/10 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_1px_2px_rgba(0,0,0,0.06),0_12px_28px_-12px_rgba(0,0,0,0.2)] ${
+                className={`absolute inset-0 flex flex-col justify-between overflow-hidden rounded-xl border border-black/10 p-6 xl:p-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_1px_2px_rgba(0,0,0,0.06),0_12px_28px_-12px_rgba(0,0,0,0.2)] ${
                   theme.bg
                 } ${theme.ink} ${!isFront ? "cursor-pointer" : ""}`}
               >
@@ -516,13 +516,13 @@ export function HeroTrackPlayground() {
                       size="md"
                       tone={theme.artTone}
                       interactive={isFront}
-                      className="h-[74px] w-[74px] shrink-0"
+                      className="h-[74px] w-[74px] shrink-0 xl:h-[82px] xl:w-[82px]"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <h2 className="text-[1.65rem] font-extrabold tracking-tight leading-tight">
+                <div className="space-y-2.5">
+                  <h2 className="text-[1.65rem] font-extrabold tracking-tight leading-tight xl:text-[1.85rem]">
                     {pillar.title}
                   </h2>
                   <p

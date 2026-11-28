@@ -13,12 +13,12 @@ export function HeroSection() {
   const nextEvent = getUpcomingEvents()[0];
 
   return (
-    <section className="relative border-b border-hairline bg-canvas lg:flex lg:min-h-[calc(100svh-4rem)] lg:items-center">
-      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 lg:py-12">
-        <div className="grid grid-cols-1 items-center lg:grid-cols-12 lg:gap-10">
+    <section className="relative border-b border-hairline bg-canvas lg:flex lg:min-h-[min(820px,calc(100svh-4rem))] lg:items-center lg:py-16 xl:py-20">
+      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
+        <div className="grid grid-cols-1 items-center lg:grid-cols-12 lg:gap-12 xl:gap-16">
           {/* Hero Copy, CTAs & Next Session Ticker */}
-          <div className="flex min-w-0 flex-col gap-3.5 pt-4 pb-4 sm:gap-5 sm:py-8 lg:col-span-6 lg:block lg:space-y-5 lg:py-0">
-            <div className="space-y-2.5 sm:space-y-3.5">
+          <div className="flex min-w-0 flex-col gap-3.5 pt-4 pb-4 sm:gap-5 sm:py-8 lg:col-span-6 lg:block lg:space-y-6 lg:py-0">
+            <div className="space-y-2.5 sm:space-y-4">
               <p className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
                 <span
                   aria-hidden="true"
@@ -27,7 +27,7 @@ export function HeroSection() {
                 <span>GDG on Campus &middot; RVCE Bengaluru</span>
               </p>
 
-              <h1 className="display-expressive text-[2.25rem] font-extrabold tracking-[-0.038em] leading-[1.04] text-ink sm:text-6xl lg:text-[4.25rem] lg:leading-[1.02]">
+              <h1 className="display-expressive text-[2.25rem] font-extrabold tracking-[-0.038em] leading-[1.04] text-ink sm:text-5xl lg:text-[clamp(2.75rem,5vw,4.75rem)] lg:leading-[1.02]">
                 <KineticText
                   text="Build open systems at RVCE."
                   mode="mount"
@@ -44,9 +44,9 @@ export function HeroSection() {
                   damping: 28,
                   delay: 0.12,
                 }}
-                className="space-y-3 sm:space-y-4"
+                className="space-y-3 sm:space-y-5"
               >
-                <p className="max-w-[50ch] text-[14px] leading-relaxed text-ink-muted text-pretty sm:text-lg">
+                <p className="max-w-[52ch] text-[14px] leading-relaxed text-ink-muted text-pretty sm:text-base lg:text-lg xl:text-[1.15rem]">
                   A student-run developer community at RV College of Engineering
                   building across Web, AI/ML, Cloud, and Android&mdash;through
                   hands-on workshops, code labs, and weekend study jams.

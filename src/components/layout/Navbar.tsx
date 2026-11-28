@@ -52,7 +52,7 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-hairline bg-canvas/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-2 px-5 sm:gap-4 sm:px-8 lg:px-10 xl:px-12">
           <Link
             href="/"
             aria-label={`${siteConfig.chapterName} — Home`}

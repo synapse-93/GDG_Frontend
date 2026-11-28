@@ -54,7 +54,7 @@ export default function RootLayout({
             <div aria-hidden="true" className="gdg-paper-grain" />
             <Navbar />
             <CommandPalette />
-            <div className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col xl:border-x xl:border-hairline">
+            <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col xl:border-x xl:border-hairline">
               <main id="main-content" className="flex-1">
                 {children}
               </main>

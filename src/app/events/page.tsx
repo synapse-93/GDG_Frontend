@@ -21,7 +21,7 @@ export default function EventsPage() {
     <div className="bg-canvas">
       {/* Open Editorial Masthead + Compact Next Flagship Strip (hidden on mobile so first poster shows immediately) */}
       <section className="relative border-b border-hairline bg-canvas py-5 sm:py-10 lg:py-10">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
           <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-7">
               <p className="mb-2 inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
@@ -103,7 +103,7 @@ export default function EventsPage() {
 
       {/* Interactive Operational Directory */}
       <section className="py-5 sm:py-10 lg:py-12">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
           <Suspense
             fallback={
               <div className="border-y border-hairline py-8 font-mono text-xs text-ink-muted">

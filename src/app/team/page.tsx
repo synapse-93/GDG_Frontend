@@ -15,7 +15,7 @@ export default function TeamPage() {
     <div className="bg-canvas">
       {/* Compact Editorial Team Masthead — tuned so Leadership lanyard cards sit above the fold on desktop */}
       <section className="relative border-b border-hairline bg-canvas py-5 sm:py-6 lg:py-5">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div className="max-w-3xl">
               <p className="mb-1.5 inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
@@ -48,7 +48,7 @@ export default function TeamPage() {
 
       {/* Hanging Lanyard Badges (Desktop) & Swipeable 3D-Flip Carousels (Mobile) */}
       <section className="py-5 sm:py-6 lg:pt-5 lg:pb-14">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
           <Suspense
             fallback={
               <div className="border-y border-hairline py-8 font-mono text-xs text-ink-muted">

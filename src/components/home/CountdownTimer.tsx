@@ -127,20 +127,18 @@ export function CountdownTimer({ event }: CountdownTimerProps) {
               key={seg.label}
               className="inline-flex items-baseline gap-0.5 rounded-lg border border-hairline bg-surface px-1.5 py-1"
             >
-              <span className="relative inline-flex h-6 w-[2.15ch] items-center justify-center overflow-hidden sm:h-7">
+              <span className="relative inline-flex h-[1.2em] w-[2ch] items-center justify-center overflow-hidden text-lg font-bold leading-none tabular-nums text-ink sm:text-xl">
                 <AnimatePresence initial={false} mode="popLayout">
                   <m.span
                     key={seg.value}
-                    initial={{ y: 12, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -12, opacity: 0 }}
+                    initial={{ y: "100%", opacity: 0 }}
+                    animate={{ y: "0%", opacity: 1 }}
+                    exit={{ y: "-100%", opacity: 0 }}
                     transition={{
-                      type: "spring",
-                      stiffness: 420,
-                      damping: 28,
-                      mass: 0.6,
+                      duration: 0.18,
+                      ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="inline-block text-lg font-bold leading-none tabular-nums text-ink sm:text-xl"
+                    className="absolute inset-0 inline-flex items-center justify-center leading-none tabular-nums"
                   >
                     {seg.value}
                   </m.span>

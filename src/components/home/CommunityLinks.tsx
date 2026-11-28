@@ -43,7 +43,7 @@ export function CommunityLinks() {
       className="bg-canvas py-10 sm:py-16 lg:py-24"
     >
       <ScrollStage className="w-full">
-        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
           <div className="grid grid-cols-1 gap-6 md:gap-10 lg:grid-cols-12 lg:gap-12">
             {/* Left Editorial Column (4 cols) */}
             <div className="lg:col-span-4">

@@ -44,7 +44,7 @@ export function Footer() {
         <div className="bg-[#34A853]" />
       </div>
 
-      <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 md:py-12 lg:px-8">
+      <div className="mx-auto max-w-[1400px] px-5 py-8 sm:px-8 md:py-12 lg:px-10 xl:px-12">
         {/* MOBILE (< md): Compact Zero-Bloat Footer */}
         <div className="space-y-5 md:hidden">
           <div className="space-y-2">
