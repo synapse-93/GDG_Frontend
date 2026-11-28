@@ -13,7 +13,7 @@ export function HeroSection() {
   const nextEvent = getUpcomingEvents()[0];
 
   return (
-    <section className="relative border-b border-hairline bg-canvas lg:flex lg:min-h-[min(820px,calc(100svh-4rem))] lg:items-center lg:py-16 xl:py-20">
+    <section className="relative border-b border-hairline bg-canvas lg:flex lg:min-h-[min(800px,calc(100svh-4rem))] lg:items-center lg:py-16 xl:py-20">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-10 xl:px-12">
         <div className="grid grid-cols-1 items-center lg:grid-cols-12 lg:gap-12 xl:gap-16">
           {/* Hero Copy, CTAs & Next Session Ticker */}
@@ -27,7 +27,7 @@ export function HeroSection() {
                 <span>GDG on Campus &middot; RVCE Bengaluru</span>
               </p>
 
-              <h1 className="display-expressive text-[2.25rem] font-extrabold tracking-[-0.038em] leading-[1.04] text-ink sm:text-5xl lg:text-[clamp(2.75rem,5vw,4.75rem)] lg:leading-[1.02]">
+              <h1 className="display-expressive text-[2.25rem] font-extrabold tracking-[-0.038em] leading-[1.04] text-ink sm:text-5xl lg:text-[clamp(2.75rem,4.8vw,4.6rem)] lg:leading-[1.02]">
                 <KineticText
                   text="Build open systems at RVCE."
                   mode="mount"

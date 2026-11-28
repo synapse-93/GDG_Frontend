@@ -24,16 +24,6 @@ export interface CommunityPillar {
   accentColor: "blue" | "red" | "yellow" | "green";
 }
 
-export interface RecapHighlightTile {
-  id: string;
-  label: string;
-  scene: "teardown" | "flamegraph" | "postmortem" | "starterkit";
-  headline: string;
-  detail: string;
-  artifact: string;
-  accentColor: "blue" | "green" | "red" | "yellow";
-}
-
 export interface LatestRecapContent {
   eventSlug: string;
   title: string;
@@ -42,7 +32,6 @@ export interface LatestRecapContent {
   track: string;
   summary: string;
   highlights: string[];
-  takeawayTabs: RecapHighlightTile[];
   resources: {
     label: string;
     href: string;
@@ -182,48 +171,6 @@ export const siteConfig = {
       "Three live code-along walkthroughs covering edge routing, streaming UI, and container debugging.",
       "Open lightning-demo desk where students shared real bugs they fixed and what they learned.",
       "Published starter repos and annotated slides so anyone who missed the session can catch up.",
-    ],
-    takeawayTabs: [
-      {
-        id: "teardowns",
-        label: "Code Walkthrough",
-        scene: "teardown",
-        headline: "Edge routing, streaming UI, and container debugging live on stage",
-        detail:
-          "Three RVCE track leads opened real student repos in DevTools and terminals—walking through cold-start latency, streaming boundaries, and crash-looping container probes.",
-        artifact: "starter-kit/edge-walkthrough-checklist.md",
-        accentColor: "blue",
-      },
-      {
-        id: "flamegraphs",
-        label: "Perf Clinic",
-        scene: "flamegraph",
-        headline: "Cutting hydration cost and layout shifts in student web apps",
-        detail:
-          "Students audited main-thread bottlenecks side by side in Chrome DevTools, splitting heavy client trees into Server Components and preloading variable fonts.",
-        artifact: "starter-kit/web-perf-notes.md",
-        accentColor: "green",
-      },
-      {
-        id: "postmortems",
-        label: "Postmortems",
-        scene: "postmortem",
-        headline: "Honest debugging stories from shipped campus prototypes",
-        detail:
-          "Student builders shared what actually broke during demo week: hydration mismatches on live clocks, runaway tool loops in agent prototypes, and contrast traps on yellow badges.",
-        artifact: "notes/autumn-postmortem-log.md",
-        accentColor: "red",
-      },
-      {
-        id: "handoff",
-        label: "Starter Kits",
-        scene: "starterkit",
-        headline: "Starter repos & accessibility checklists for self-paced study",
-        detail:
-          "Every demo shipped with a locked dependency list, local setup script, and keyboard-accessibility checklist so students from any branch can run the labs on their own laptop.",
-        artifact: "github.com/gdg-on-campus-rvce-demo/devfest-campus-warmup",
-        accentColor: "yellow",
-      },
     ],
     resources: [
       {

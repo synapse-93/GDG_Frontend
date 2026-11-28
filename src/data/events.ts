@@ -10,6 +10,12 @@ export interface AgendaItem {
   setupTip: string;
 }
 
+export interface RecapImage {
+  src: string;
+  alt: string;
+  credit: string;
+}
+
 export interface EventItem {
   slug: string;
   title: string;
@@ -29,6 +35,7 @@ export interface EventItem {
   agenda: AgendaItem[];
   geometryVariant: "cube" | "rings" | "diamond" | "hex";
   imagePath?: string;
+  recapImage?: RecapImage;
 }
 
 export const EVENT_TRACKS: readonly EventTrack[] = [
@@ -305,6 +312,11 @@ export const events: EventItem[] = [
       },
     ],
     geometryVariant: "rings",
+    recapImage: {
+      src: "/images/events/past-1.jpg",
+      alt: "Students seated in an auditorium listening to live code walkthroughs during DevFest Campus Warmup",
+      credit: "Teemu Paananen / Unsplash",
+    },
   },
   {
     slug: "flutter-and-compose-ui-lab",
@@ -371,6 +383,11 @@ export const events: EventItem[] = [
       },
     ],
     geometryVariant: "cube",
+    recapImage: {
+      src: "/images/events/past-2.jpg",
+      alt: "Two developers pair-programming side by side at a dual-screen workstation during the Flutter and Compose UI Lab",
+      credit: "NESA by Makers / Unsplash",
+    },
   },
   {
     slug: "cloud-study-jam-kubernetes-on-gcp",
@@ -437,6 +454,11 @@ export const events: EventItem[] = [
       },
     ],
     geometryVariant: "hex",
+    recapImage: {
+      src: "/images/events/past-3.jpg",
+      alt: "Group of student developers collaborating with laptops around a table during the Cloud Study Jam on Kubernetes",
+      credit: "Annie Spratt / Unsplash",
+    },
   },
 ];
 

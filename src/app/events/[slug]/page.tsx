@@ -106,8 +106,8 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
             <span>Back to Events</span>
           </Link>
 
-          {/* Expressive Generative SVG Poster Banner — capped to 175px on mobile */}
-          <div className="gdg-card-bevel mt-2 overflow-hidden rounded-xl border border-hairline sm:mt-3">
+          {/* Expressive Generative SVG Poster Banner / Past Recap Photograph */}
+          <div className="gdg-card-bevel group mt-2 overflow-hidden rounded-xl border border-hairline sm:mt-3">
             <EventPoster
               event={event}
               size="hero"

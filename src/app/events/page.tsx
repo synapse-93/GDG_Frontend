@@ -40,11 +40,11 @@ export default function EventsPage() {
               </p>
             </div>
 
-            {/* Compact Next Flagship Feature Strip (hidden on < md to avoid duplicating first poster) */}
+            {/* De-boxed Next Flagship Strip directly on canvas with vertical 1px hairline divider */}
             {flagship && flagshipStyles && (
               <Link
                 href={`/events/${flagship.slug}`}
-                className="gdg-card-bevel group hidden rounded-xl border border-hairline bg-surface p-4 transition-colors hover:border-gdg-blue/50 hover:bg-surface-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:block sm:p-5 lg:col-span-5"
+                className="group hidden border-t border-hairline pt-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:block lg:col-span-5 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
                   <span className="inline-flex items-center gap-1.5 font-semibold text-[#166534] dark:text-[#A8DAB5]">

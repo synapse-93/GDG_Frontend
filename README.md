@@ -105,7 +105,8 @@ After `npm run dev`, open [http://localhost:3000](http://localhost:3000).
 
 ## Credits & Disclaimer
 
-- **Open-Source Credits:** Next.js, React, Tailwind CSS, Motion, `next-themes`, Lucide Icons (ISC License), and Google Fonts (`Plus Jakarta Sans` and `JetBrains Mono`). All domain illustrations and team mascot portraits are original inline SVGs.
+- **Open-Source Credits:** Next.js, React, Tailwind CSS, Motion, `next-themes`, Lucide Icons (ISC License), and Google Fonts (`Plus Jakarta Sans` and `JetBrains Mono`). All domain illustrations and Chapter Pass credential badges are original inline SVGs.
+- **Photo Credits:** Past event and Home recap photographs via Unsplash (Unsplash License) by [Teemu Paananen](https://unsplash.com/photos/bzdhc5b3Bxs) (`past-1.jpg`), [NESA by Makers](https://unsplash.com/photos/IgUR1iX0mqM) (`past-2.jpg`), and [Annie Spratt](https://unsplash.com/photos/QckxruozjRg) (`past-3.jpg`).
 - **Additional Docs:** [DESIGN_NOTE.md](./DESIGN_NOTE.md) &middot; [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 > *This is an independent student community chapter website and is not an official Google product. All organizer profiles, speaker names, and event schedules are fictional demo data.*

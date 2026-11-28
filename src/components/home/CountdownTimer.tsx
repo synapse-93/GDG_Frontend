@@ -116,16 +116,16 @@ export function CountdownTimer({ event }: CountdownTimerProps) {
           </div>
         </div>
 
-        {/* Mechanical Split-Flap Countdown Cells (Zero-CLS fixed tabular-nums width) */}
+        {/* De-boxed Mechanical Countdown directly on canvas with vertical 1px hairline dividers */}
         <div
           role="timer"
           aria-label={`Countdown to ${event.title}`}
-          className="flex shrink-0 items-center gap-1.5 border-t border-hairline pt-3 font-mono tabular-nums sm:border-t-0 sm:border-l sm:pt-0 sm:pl-4"
+          className="flex shrink-0 items-center divide-x divide-hairline border-t border-hairline pt-3 font-mono tabular-nums sm:border-t-0 sm:border-l sm:pt-0 sm:pl-4"
         >
           {segments.map((seg) => (
             <div
               key={seg.label}
-              className="inline-flex items-baseline gap-0.5 rounded-lg border border-hairline bg-surface px-1.5 py-1"
+              className="inline-flex items-baseline gap-0.5 px-2.5 first:pl-0 last:pr-0"
             >
               <span className="relative inline-flex h-[1.2em] w-[2ch] items-center justify-center overflow-hidden text-lg font-bold leading-none tabular-nums text-ink sm:text-xl">
                 <AnimatePresence initial={false} mode="popLayout">

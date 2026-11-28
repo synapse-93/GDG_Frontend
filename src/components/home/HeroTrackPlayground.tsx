@@ -443,7 +443,7 @@ export function HeroTrackPlayground() {
           onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
           style={{ perspective: 950 }}
-          className="relative mx-auto h-[364px] w-full shrink-0 lg:w-[430px] xl:h-[388px] xl:w-[490px]"
+          className="relative mx-auto h-[364px] w-full shrink-0 lg:w-[440px] xl:h-[388px] xl:w-[490px]"
         >
           {siteConfig.pillars.map((pillar, idx) => {
             const offset = (idx - activeIndex + total) % total;

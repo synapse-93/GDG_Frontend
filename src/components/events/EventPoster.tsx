@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import * as m from "motion/react-m";
 import { DomainArtwork, type DomainKey } from "@/components/brand/DomainArtwork";
 import type { EventItem, EventTrack } from "@/data/events";
@@ -141,6 +142,114 @@ export function EventPoster({
   const scrimPillClass = isYellow
     ? "border-[#111827]/35 bg-[#111827]/12 text-[#111827]"
     : "border-white/25 bg-black/30 text-white backdrop-blur-[2px]";
+
+  // Past Events with real workshop photography: full-bleed next/image + WCAG AA bottom dark scrim
+  if (!isUpcoming && event.recapImage) {
+    const trackChipStyle = isYellow
+      ? { backgroundColor: "#FBBC04", color: "#111827" }
+      : { backgroundColor: theme.bg, color: "#FFFFFF" };
+
+    return (
+      <div
+        className={`relative flex w-full flex-col justify-between overflow-hidden bg-[#151513] text-white select-none ${heightClass} ${className}`.trim()}
+      >
+        <Image
+          src={event.recapImage.src}
+          alt={event.recapImage.alt}
+          fill
+          sizes={
+            size === "hero"
+              ? "(max-width: 768px) 100vw, 1300px"
+              : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 440px"
+          }
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
+        />
+
+        {/* Clean dark gradient scrim keeping date, track pill, and Past Recap WCAG AA legible */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/25"
+        />
+
+        {/* Top Row: Track Badge + Past Recap & Mode Pills */}
+        <div
+          className={`relative z-10 flex items-center justify-between gap-2 ${topPad}`}
+        >
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            {badgeLayoutId ? (
+              <m.span
+                layoutId={badgeLayoutId}
+                layout="position"
+                transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                className="inline-flex items-center rounded-md px-2.5 py-0.5 font-mono text-xs font-bold tracking-tight"
+                style={trackChipStyle}
+              >
+                {event.track}
+              </m.span>
+            ) : (
+              <span
+                className="inline-flex items-center rounded-md px-2.5 py-0.5 font-mono text-xs font-bold tracking-tight"
+                style={trackChipStyle}
+              >
+                {event.track}
+              </span>
+            )}
+
+            <span className="inline-flex items-center gap-1.5 rounded-md border border-white/25 bg-black/50 px-2 py-0.5 font-mono text-xs font-semibold text-white backdrop-blur-[2px]">
+              <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 rounded-full bg-white/85"
+              />
+              Past Recap
+            </span>
+          </div>
+
+          <span className="relative z-10 inline-flex shrink-0 items-center rounded-md border border-white/25 bg-black/50 px-2 py-0.5 font-mono text-xs font-semibold text-white backdrop-blur-[2px]">
+            {event.mode}
+          </span>
+        </div>
+
+        {/* Bottom Row: High-Contrast Date Lockup & Photo Attribution */}
+        <div
+          className={`relative z-10 flex items-end justify-between gap-4 ${bottomPad}`}
+        >
+          <div className="min-w-0">
+            <div className="flex items-baseline gap-1.5 sm:gap-2">
+              <span
+                className={`font-sans font-extrabold tracking-[-0.04em] leading-none text-white tabular-nums ${
+                  size === "card" ? "text-3xl sm:text-4xl" : "text-4xl sm:text-5xl"
+                }`}
+              >
+                {day}
+              </span>
+              <span
+                className={`font-mono font-bold tracking-tight text-white ${
+                  size === "card" ? "text-base sm:text-lg" : "text-lg sm:text-xl"
+                }`}
+              >
+                {month}
+              </span>
+              <span className="font-mono text-xs font-semibold text-white/85 tabular-nums">
+                {year}
+              </span>
+            </div>
+
+            {size !== "card" && (
+              <p className="mt-2 max-w-[36ch] text-sm font-semibold leading-snug text-white/90">
+                {event.venue} &middot; {event.timeDisplay}
+              </p>
+            )}
+          </div>
+
+          {size !== "card" && (
+            <span className="hidden shrink-0 rounded-md bg-black/45 px-2 py-1 font-mono text-[10.5px] font-medium text-white/90 backdrop-blur-[2px] sm:inline-flex">
+              Photo: {event.recapImage.credit}
+            </span>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
