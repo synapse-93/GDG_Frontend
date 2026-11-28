@@ -39,9 +39,10 @@ export function Footer() {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
+        <div className="grid grid-cols-1 border-y border-hairline md:grid-cols-12 md:divide-x md:divide-hairline">
           {/* Chapter Identity */}
-          <div className="space-y-4 md:col-span-5">
+          <div className="space-y-4 py-8 md:col-span-5 md:pr-8">
+            <p className="swiss-index text-ink-muted">RVCE &middot; MYSURU ROAD</p>
             <div className="-ml-2">
               <GdgLogo />
             </div>
@@ -57,9 +58,9 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Site Navigation — clean unnumbered list */}
-          <div className="md:col-span-3">
-            <h2 className="text-sm font-bold text-ink">Directory</h2>
+          {/* Site Navigation */}
+          <div className="border-t border-hairline py-8 md:col-span-3 md:border-t-0 md:px-8">
+            <h2 className="swiss-index text-ink-muted">01 // Directory</h2>
             <ul className="mt-4 divide-y divide-hairline border-y border-hairline">
               {siteConfig.navLinks.map((item) => (
                 <li key={item.href}>
@@ -79,8 +80,8 @@ export function Footer() {
           </div>
 
           {/* Community Channels */}
-          <div className="md:col-span-4">
-            <h2 className="text-sm font-bold text-ink">Community Channels</h2>
+          <div className="border-t border-hairline py-8 md:col-span-4 md:border-t-0 md:pl-8">
+            <h2 className="swiss-index text-ink-muted">02 // Channels</h2>
             <ul className="mt-4 divide-y divide-hairline border-y border-hairline">
               {siteConfig.communityLinks.map((link) => (
                 <li key={link.id}>

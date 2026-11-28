@@ -136,11 +136,11 @@ export function Navbar() {
             type="button"
             onClick={triggerCommandPalette}
             aria-label="Open command navigation (Ctrl+K or Command+K)"
-            className="inline-flex h-10 items-center gap-2 rounded-lg border border-hairline bg-surface px-2.5 text-xs font-medium text-ink-muted transition-colors hover:border-gdg-blue/60 hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:px-3"
+            className="inline-flex h-10 items-center gap-2 border border-hairline bg-surface px-2.5 text-xs font-medium text-ink-muted transition-colors hover:border-ink hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:px-3"
           >
             <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
             <span className="hidden sm:inline">Search...</span>
-            <kbd className="hidden rounded border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-xs text-ink sm:inline">
+            <kbd className="hidden border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-xs text-ink sm:inline">
               {shortcutHint}
             </kbd>
           </button>
@@ -156,7 +156,7 @@ export function Navbar() {
             aria-label={
               mobileOpen ? "Close navigation menu" : "Open navigation menu"
             }
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-hairline bg-surface text-ink transition-transform duration-150 hover:bg-surface-muted active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center border border-hairline bg-surface text-ink transition-transform duration-150 hover:bg-surface-muted active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:hidden"
           >
             {mobileOpen ? (
               <X className="h-4 w-4" aria-hidden="true" />

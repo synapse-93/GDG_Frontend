@@ -99,7 +99,7 @@ export const teamMembers: TeamMember[] = [
     askMeAbout: "Next.js perf profiling & a11y",
     techStack: ["Next.js", "React 19", "TypeScript", "Web Performance"],
     campusFocus:
-      "Running Web Vitals flamegraph clinics and maintaining open-source campus frontend starter architectures.",
+      "Running Web Vitals performance clinics and maintaining open-source campus frontend starter templates.",
     portraitMask: "circle",
     portraitMotif: "prism",
     links: {

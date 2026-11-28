@@ -112,7 +112,7 @@ export function ThemeToggle() {
             : "Switch to dark mode"
           : "Toggle color theme"
       }
-      className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-hairline bg-surface text-ink transition-transform duration-150 hover:bg-surface-muted active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+      className="inline-flex h-10 w-10 items-center justify-center border border-hairline bg-surface text-ink transition-transform duration-150 hover:border-ink hover:bg-surface-muted active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
     >
       {mounted ? (
         isDark ? (
