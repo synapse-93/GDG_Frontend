@@ -13,7 +13,7 @@ interface BuilderPortraitProps {
   motif: PortraitMotif;
   isCoreLead?: boolean;
   imagePath?: string;
-  size?: "compact" | "spotlight" | "card" | "sheet";
+  size?: "compact" | "spotlight" | "card" | "lanyard" | "sheet";
   /** Controlled hover state from parent card so hovering anywhere on the card animates the mascot */
   hovered?: boolean;
 }
@@ -165,6 +165,7 @@ const SIZE_CLASSES: Record<
   compact: "h-14 w-14",
   spotlight: "h-[68px] w-[68px]",
   card: "h-[72px] w-[72px]",
+  lanyard: "h-[88px] w-[88px]",
   sheet: "h-20 w-20",
 };
 

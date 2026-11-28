@@ -209,15 +209,6 @@ input[type="search"]::-webkit-search-decoration {
   }
 }
 
-@keyframes gdg-marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
 @keyframes gdg-deck-progress {
   from {
     transform: scaleX(0);
@@ -264,13 +255,22 @@ input[type="search"]::-webkit-search-decoration {
   animation: gdg-mascot-blink 5.6s ease-in-out infinite;
 }
 
-.gdg-marquee-track {
-  animation: gdg-marquee 30s linear infinite;
-  will-change: transform;
+/* 3D Lanyard Profile Card Flip Helpers */
+.gdg-card-perspective {
+  perspective: 1200px;
 }
 
-.gdg-marquee:hover .gdg-marquee-track {
-  animation-play-state: paused;
+.gdg-card-3d {
+  transform-style: preserve-3d;
+}
+
+.gdg-card-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.gdg-card-back {
+  transform: rotateY(180deg);
 }
 
 .gdg-deck-progress {
@@ -320,7 +320,6 @@ input[type="search"]::-webkit-search-decoration {
   .gdg-scroll-progress,
   .gdg-poster-parallax,
   .gdg-idle-float,
-  .gdg-marquee-track,
   .gdg-deck-progress,
   .gdg-mascot-bob,
   .gdg-mascot-blink {
@@ -339,7 +338,6 @@ input[type="search"]::-webkit-search-decoration {
 
   .gdg-poster-parallax,
   .gdg-idle-float,
-  .gdg-marquee-track,
   .gdg-mascot-bob,
   .gdg-mascot-blink {
     transform: none !important;
