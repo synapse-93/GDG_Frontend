@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import Link from "next/link";
 import * as m from "motion/react-m";
 import { AnimatePresence } from "motion/react";
@@ -33,7 +33,45 @@ function renderFormattedTip(tip: string) {
 export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
   const [openIndices, setOpenIndices] = useState<number[]>([0]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [pointerY, setPointerY] = useState<number | null>(null);
+  const [railMetrics, setRailMetrics] = useState<{
+    height: number;
+    centers: number[];
+  }>({
+    height: Math.max(180, agenda.length * 64),
+    centers: agenda.map((_, idx) => idx * 64 + 32),
+  });
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const headerButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const measureRail = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const containerRect = container.getBoundingClientRect();
+    const height = container.offsetHeight;
+    if (height <= 0) return;
+
+    const centers = agenda.map((_, idx) => {
+      const btn = headerButtonRefs.current[idx];
+      if (!btn) return (idx + 0.5) * (height / Math.max(1, agenda.length));
+      const rect = btn.getBoundingClientRect();
+      return rect.top - containerRect.top + rect.height / 2;
+    });
+    setRailMetrics({ height, centers });
+  }, [agenda]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const raf = requestAnimationFrame(measureRail);
+    const ro = new ResizeObserver(measureRail);
+    ro.observe(container);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [measureRail, openIndices]);
 
   const allExpanded = openIndices.length === agenda.length;
 
@@ -50,6 +88,44 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
     } else {
       setOpenIndices(agenda.map((_, idx) => idx));
     }
+  };
+
+  const findNearestIndex = (y: number, centers: number[]) => {
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    centers.forEach((cy, idx) => {
+      const d = Math.abs(cy - y);
+      if (d < bestDist) {
+        bestDist = d;
+        bestIdx = idx;
+      }
+    });
+    return bestIdx;
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+    if (!container || railMetrics.centers.length === 0) return;
+    const rect = container.getBoundingClientRect();
+    const rawY = event.clientY - rect.top;
+    const minY = railMetrics.centers[0] ?? 24;
+    const maxY =
+      railMetrics.centers[railMetrics.centers.length - 1] ??
+      railMetrics.height - 24;
+    setPointerY(Math.min(Math.max(rawY, minY), maxY));
+  };
+
+  const handlePointerLeave = () => {
+    setPointerY(null);
+  };
+
+  const handleRailClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest("button, a")) return;
+    const container = containerRef.current;
+    if (!container || railMetrics.centers.length === 0) return;
+    const rect = container.getBoundingClientRect();
+    const y = event.clientY - rect.top;
+    toggleIndex(findNearestIndex(y, railMetrics.centers));
   };
 
   return (
@@ -71,20 +147,27 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
         </button>
       </div>
 
-      {/* Agenda Timeline with Hover-Tracking Bending SVG Active Bracket */}
+      {/* Agenda Timeline with Pixel-Measured Fluid Hover-Tracking BendingIndicator */}
       <div
-        onMouseLeave={() => setHoveredIndex(null)}
-        className="relative mt-5 flex items-stretch gap-3 border-y border-hairline"
+        ref={containerRef}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        onClick={handleRailClick}
+        className="relative mt-5 border-y border-hairline sm:pl-7"
       >
-        <div className="hidden py-3 sm:flex">
+        <div className="hidden sm:block">
           <BendingIndicator
-            activeIndex={activeIndex}
-            hoveredIndex={hoveredIndex}
-            itemCount={agenda.length}
+            height={railMetrics.height}
+            targetY={
+              pointerY ??
+              railMetrics.centers[activeIndex] ??
+              railMetrics.height / 2
+            }
+            halfSpan={28}
           />
         </div>
 
-        <ol className="min-w-0 flex-1 divide-y divide-hairline">
+        <ol className="min-w-0 divide-y divide-hairline">
           {agenda.map((slot, idx) => {
             const isOpen = openIndices.includes(idx);
             const panelId = `agenda-panel-${idx}`;
@@ -92,12 +175,13 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
             return (
               <li key={`${slot.time}-${slot.title}`}>
                 <button
+                  ref={(el) => {
+                    headerButtonRefs.current[idx] = el;
+                  }}
                   type="button"
                   aria-expanded={isOpen}
                   aria-controls={panelId}
-                  onMouseEnter={() => setHoveredIndex(idx)}
-                  onFocus={() => setHoveredIndex(idx)}
-                  onBlur={() => setHoveredIndex(null)}
+                  onFocus={() => setActiveIndex(idx)}
                   onClick={() => toggleIndex(idx)}
                   className="group flex w-full flex-col gap-2 py-4 text-left transition-colors hover:bg-surface-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:flex-row sm:items-center sm:gap-5 sm:px-2"
                 >

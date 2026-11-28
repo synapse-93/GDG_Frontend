@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type PointerEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import Link from "next/link";
 import * as m from "motion/react-m";
 import {
@@ -86,7 +86,82 @@ const DECK_THEMES: DeckCardTheme[] = [
 export function HeroTrackPlayground() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [pointerY, setPointerY] = useState<number | null>(null);
+  const [railMetrics, setRailMetrics] = useState<{
+    height: number;
+    centers: number[];
+  }>({ height: 180, centers: [22, 66, 110, 154] });
   const prefersReducedMotion = useReducedMotion();
+
+  const railContainerRef = useRef<HTMLDivElement>(null);
+  const trackItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const measureRail = useCallback(() => {
+    const container = railContainerRef.current;
+    if (!container) return;
+    const height = container.offsetHeight;
+    if (height <= 0) return;
+    const centers = siteConfig.pillars.map((_, idx) => {
+      const el = trackItemRefs.current[idx];
+      if (!el) return (idx + 0.5) * (height / siteConfig.pillars.length);
+      return el.offsetTop + el.offsetHeight / 2;
+    });
+    setRailMetrics({ height, centers });
+  }, []);
+
+  useEffect(() => {
+    const container = railContainerRef.current;
+    if (!container) return;
+    const raf = requestAnimationFrame(measureRail);
+    const ro = new ResizeObserver(measureRail);
+    ro.observe(container);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [measureRail]);
+
+  const findNearestIndex = (y: number, centers: number[]) => {
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    centers.forEach((cy, idx) => {
+      const d = Math.abs(cy - y);
+      if (d < bestDist) {
+        bestDist = d;
+        bestIdx = idx;
+      }
+    });
+    return bestIdx;
+  };
+
+  const handleRailPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const container = railContainerRef.current;
+    if (!container || railMetrics.centers.length === 0) return;
+    const rect = container.getBoundingClientRect();
+    const rawY = event.clientY - rect.top;
+    const minY = railMetrics.centers[0] ?? 18;
+    const maxY =
+      railMetrics.centers[railMetrics.centers.length - 1] ??
+      railMetrics.height - 18;
+    const clampedY = Math.min(Math.max(rawY, minY), maxY);
+    setPointerY(clampedY);
+    setHoveredIndex(findNearestIndex(clampedY, railMetrics.centers));
+  };
+
+  const handleRailPointerLeave = () => {
+    setPointerY(null);
+    setHoveredIndex(null);
+  };
+
+  const handleRailClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    // If user clicked directly on the SVG rail or gap (outside a tab button), select the nearest track
+    if ((event.target as HTMLElement).closest("button")) return;
+    const container = railContainerRef.current;
+    if (!container || railMetrics.centers.length === 0) return;
+    const rect = container.getBoundingClientRect();
+    const y = event.clientY - rect.top;
+    setActiveIndex(findNearestIndex(y, railMetrics.centers));
+  };
 
   // Subtle ±5deg 3D tilt driven by pointer position over the active desktop deck
   const rawRotateX = useMotionValue(0);
@@ -268,55 +343,61 @@ export function HeroTrackPlayground() {
         </AnimatePresence>
       </div>
 
-      {/* DESKTOP (lg: and up): Vertical Hover-Tracking BendingIndicator + Fanned 3D Card Deck */}
+      {/* DESKTOP (lg: and up): Pixel-Measured Fluid BendingIndicator + Fanned 3D Card Deck */}
       <div className="hidden w-full items-center gap-5 lg:flex">
         <div
+          ref={railContainerRef}
           role="tablist"
           aria-label="Chapter tracks"
-          onMouseLeave={() => setHoveredIndex(null)}
-          className="flex shrink-0 items-stretch gap-2.5"
+          onPointerMove={handleRailPointerMove}
+          onPointerLeave={handleRailPointerLeave}
+          onClick={handleRailClick}
+          className="relative flex shrink-0 cursor-pointer flex-col justify-between gap-2 pl-7"
         >
           <BendingIndicator
-            activeIndex={activeIndex}
-            hoveredIndex={hoveredIndex}
-            itemCount={total}
+            height={railMetrics.height}
+            targetY={
+              pointerY ??
+              railMetrics.centers[activeIndex] ??
+              railMetrics.height / 2
+            }
             accentColor={visualTheme.hex}
-            className="py-1"
+            halfSpan={24}
           />
 
-          <div className="flex flex-col justify-between gap-1.5 py-1">
-            {siteConfig.pillars.map((pillar, idx) => {
-              const isActive = idx === activeIndex;
-              const isHovered = idx === hoveredIndex;
-              const theme = DECK_THEMES[idx];
-              return (
-                <button
-                  key={pillar.trackFilter}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  onMouseEnter={() => setHoveredIndex(idx)}
-                  onFocus={() => setHoveredIndex(idx)}
-                  onBlur={() => setHoveredIndex(null)}
-                  onClick={() => setActiveIndex(idx)}
-                  onKeyDown={(e) => handleKeyDown(e, idx)}
-                  className={`inline-flex min-h-[36px] items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left font-mono text-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
-                    isActive || isHovered
-                      ? "font-bold text-ink"
-                      : "font-medium text-ink-muted hover:text-ink"
-                  }`}
-                >
-                  <span
-                    aria-hidden="true"
-                    className={`h-2 w-2 rounded-full transition-transform ${
-                      theme.dot
-                    } ${isActive || isHovered ? "scale-125" : "opacity-55"}`}
-                  />
-                  <span>{pillar.shortLabel}</span>
-                </button>
-              );
-            })}
-          </div>
+          {siteConfig.pillars.map((pillar, idx) => {
+            const isActive = idx === activeIndex;
+            const isHovered = idx === hoveredIndex;
+            const theme = DECK_THEMES[idx];
+            return (
+              <button
+                key={pillar.trackFilter}
+                ref={(el) => {
+                  trackItemRefs.current[idx] = el;
+                }}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onFocus={() => setHoveredIndex(idx)}
+                onBlur={() => setHoveredIndex(null)}
+                onClick={() => setActiveIndex(idx)}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
+                className={`inline-flex min-h-[36px] items-center gap-2.5 rounded-lg px-2 py-1.5 text-left font-mono text-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                  isActive || isHovered
+                    ? "font-bold text-ink"
+                    : "font-medium text-ink-muted hover:text-ink"
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`h-2 w-2 rounded-full transition-transform ${
+                    theme.dot
+                  } ${isActive || isHovered ? "scale-125" : "opacity-55"}`}
+                />
+                <span>{pillar.shortLabel}</span>
+              </button>
+            );
+          })}
         </div>
 
         <div

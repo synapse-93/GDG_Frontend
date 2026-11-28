@@ -10,66 +10,66 @@ import {
 } from "motion/react";
 
 interface BendingIndicatorProps {
-  /** Zero-based index of the currently active item */
-  activeIndex: number;
-  /** Optional zero-based index of the currently hovered item; springs back to activeIndex when null */
-  hoveredIndex?: number | null;
-  /** Total number of items along the vertical rail */
-  itemCount: number;
+  /** Exact measured pixel height of the list wrapper */
+  height: number;
+  /** Exact target pixel Y coordinate for the wave crest */
+  targetY: number;
   /** Accent stroke color blooming along the curved crest (defaults to Google Blue) */
   accentColor?: string;
+  /** Wave half-span in pixels (default 26) */
+  halfSpan?: number;
   className?: string;
 }
 
-const VIEW_HEIGHT = 200;
 const BASE_X = 4;
 const BEND_X = 14.5;
 
-function buildContinuousWavePath(centerY: number, halfSpan: number): string {
-  const topY = Math.max(4, centerY - halfSpan);
-  const bottomY = Math.min(VIEW_HEIGHT - 4, centerY + halfSpan);
-  const segTop = centerY - topY;
-  const segBot = bottomY - centerY;
+function buildContinuousWavePath(
+  centerY: number,
+  height: number,
+  halfSpan: number
+): string {
+  const clampedY = Math.min(Math.max(4, centerY), Math.max(4, height - 4));
+  const topY = Math.max(2, clampedY - halfSpan);
+  const bottomY = Math.min(height - 2, clampedY + halfSpan);
+  const segTop = clampedY - topY;
+  const segBot = bottomY - clampedY;
   const cTop = segTop * 0.55;
   const cBot = segBot * 0.55;
 
-  // Single continuous organic cubic-Bezier curve with smooth vertical tangents
-  // at topY, centerY, and bottomY (zero kinks or disconnected overlays).
   return [
     `M ${BASE_X} 2`,
     `L ${BASE_X} ${topY.toFixed(2)}`,
-    `C ${BASE_X} ${(topY + cTop).toFixed(2)} ${BEND_X} ${(centerY - cTop).toFixed(2)} ${BEND_X} ${centerY.toFixed(2)}`,
-    `C ${BEND_X} ${(centerY + cBot).toFixed(2)} ${BASE_X} ${(bottomY - cBot).toFixed(2)} ${BASE_X} ${bottomY.toFixed(2)}`,
-    `L ${BASE_X} ${VIEW_HEIGHT - 2}`,
+    `C ${BASE_X} ${(topY + cTop).toFixed(2)} ${BEND_X} ${(clampedY - cTop).toFixed(2)} ${BEND_X} ${clampedY.toFixed(2)}`,
+    `C ${BEND_X} ${(clampedY + cBot).toFixed(2)} ${BASE_X} ${(bottomY - cBot).toFixed(2)} ${BASE_X} ${bottomY.toFixed(2)}`,
+    `L ${BASE_X} ${(height - 2).toFixed(2)}`,
   ].join(" ");
 }
 
 /**
- * Single fluid continuous cubic-Bezier SVG rail whose wave center glides at 60fps
- * via useMotionValue + useSpring + useTransform (zero React re-renders per frame)
- * with a synced vertical linearGradient blooming the active Google accent color
- * along the crest.
+ * Single fluid continuous cubic-Bezier SVG rail sized 1:1 in CSS pixels to its
+ * list wrapper. Drives the wave crest at 60fps via useMotionValue + useSpring +
+ * useTransform with a synced vertical accent gradient.
  */
 export function BendingIndicator({
-  activeIndex,
-  hoveredIndex = null,
-  itemCount,
+  height,
+  targetY,
   accentColor = "#4285F4",
+  halfSpan = 26,
   className = "",
 }: BendingIndicatorProps) {
   const reactId = useId();
   const prefersReducedMotion = useReducedMotion();
   const gradId = `gdg-bend-grad-${reactId.replace(/:/g, "")}`;
 
-  const safeCount = Math.max(1, itemCount);
-  const targetIndex = hoveredIndex ?? activeIndex;
-  const clampedIdx = Math.min(Math.max(0, targetIndex), safeCount - 1);
+  const safeHeight = Math.max(40, Math.round(height));
+  const effectiveHalfSpan = Math.min(halfSpan, safeHeight * 0.4);
+  const clampedTarget = Math.min(
+    Math.max(4, targetY),
+    Math.max(4, safeHeight - 4)
+  );
 
-  const step = VIEW_HEIGHT / safeCount;
-  const halfSpan = Math.min(step * 0.56, 30);
-  const targetY = clampedIdx * step + step / 2;
-
-  const rawY = useMotionValue(targetY);
+  const rawY = useMotionValue(clampedTarget);
   const springY = useSpring(rawY, {
     stiffness: 320,
     damping: 28,
@@ -78,25 +78,25 @@ export function BendingIndicator({
 
   useEffect(() => {
     if (prefersReducedMotion) {
-      rawY.jump(targetY);
-      springY.jump(targetY);
+      rawY.jump(clampedTarget);
+      springY.jump(clampedTarget);
     } else {
-      rawY.set(targetY);
+      rawY.set(clampedTarget);
     }
-  }, [targetY, prefersReducedMotion, rawY, springY]);
+  }, [clampedTarget, prefersReducedMotion, rawY, springY]);
 
   const wavePath = useTransform(springY, (y) =>
-    buildContinuousWavePath(y, halfSpan)
+    buildContinuousWavePath(y, safeHeight, effectiveHalfSpan)
   );
-  const gradY1 = useTransform(springY, (y) => y - halfSpan * 1.15);
-  const gradY2 = useTransform(springY, (y) => y + halfSpan * 1.15);
+  const gradY1 = useTransform(springY, (y) => y - effectiveHalfSpan * 1.15);
+  const gradY2 = useTransform(springY, (y) => y + effectiveHalfSpan * 1.15);
 
   return (
     <svg
       aria-hidden="true"
-      viewBox={`0 0 18 ${VIEW_HEIGHT}`}
+      viewBox={`0 0 18 ${safeHeight}`}
       preserveAspectRatio="none"
-      className={`pointer-events-none h-full w-[18px] shrink-0 overflow-visible ${className}`.trim()}
+      className={`pointer-events-none absolute inset-y-0 left-0 h-full w-[18px] overflow-visible ${className}`.trim()}
     >
       <defs>
         <m.linearGradient
