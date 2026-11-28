@@ -10,7 +10,7 @@ export function HeroSection() {
 
   return (
     <section className="relative border-b border-hairline bg-canvas">
-      <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-14">
+      <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-10">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
           {/* Oversized Editorial Poster Column */}
           <div className="min-w-0 space-y-6 lg:col-span-6 lg:space-y-5">

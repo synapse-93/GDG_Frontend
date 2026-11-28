@@ -186,7 +186,7 @@ export const siteConfig = {
     takeawayTabs: [
       {
         id: "teardowns",
-        label: "01 // Teardown",
+        label: "Teardown",
         scene: "teardown",
         headline: "Edge routing, streaming UI, and container debugging live on stage",
         detail:
@@ -196,7 +196,7 @@ export const siteConfig = {
       },
       {
         id: "flamegraphs",
-        label: "02 // Perf Clinic",
+        label: "Perf Clinic",
         scene: "flamegraph",
         headline: "Trimming hydration cost and layout shifts in student web apps",
         detail:
@@ -206,7 +206,7 @@ export const siteConfig = {
       },
       {
         id: "postmortems",
-        label: "03 // Postmortems",
+        label: "Postmortems",
         scene: "postmortem",
         headline: "Honest debugging stories from shipped campus prototypes",
         detail:
@@ -216,7 +216,7 @@ export const siteConfig = {
       },
       {
         id: "handoff",
-        label: "04 // Starter Kits",
+        label: "Starter Kits",
         scene: "starterkit",
         headline: "Reproducible repositories & accessibility checklists for self-paced study",
         detail:
