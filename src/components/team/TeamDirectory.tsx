@@ -173,7 +173,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
                       mode="mount"
                     />
                   </h2>
-                  <span className="font-mono text-xs text-ink-muted">
+                  <span className="shrink-0 whitespace-nowrap font-mono text-xs text-ink-muted">
                     {`${coreLeads.length} organizers`}
                   </span>
                 </div>
@@ -203,7 +203,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
                   >
                     <KineticText text="Technical Vertical Leads & Maintainers" />
                   </h2>
-                  <span className="font-mono text-xs text-ink-muted">
+                  <span className="shrink-0 whitespace-nowrap font-mono text-xs text-ink-muted">
                     {`${verticalLeads.length} leads`}
                   </span>
                 </div>

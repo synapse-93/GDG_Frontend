@@ -13,7 +13,9 @@ interface BuilderPortraitProps {
   motif: PortraitMotif;
   isCoreLead?: boolean;
   imagePath?: string;
-  size?: "compact" | "card" | "sheet";
+  size?: "compact" | "spotlight" | "card" | "sheet";
+  /** Controlled hover state from parent card so hovering anywhere on the card animates the mascot */
+  hovered?: boolean;
 }
 
 const MASCOT_PALETTE: Record<
@@ -57,21 +59,21 @@ const MASCOT_PALETTE: Record<
   },
 };
 
-/** Subtle eye offset personality per member motif so every mascot feels distinct */
+/** Subtle eye personality + deterministic idle animation stagger per mascot (100% SSR-safe) */
 const EYE_PERSONALITY: Record<
   PortraitMotif,
-  { dx: number; dy: number; tilt: number; eyeHeight: number }
+  { dx: number; dy: number; tilt: number; eyeHeight: number; stagger: string }
 > = {
-  orbit: { dx: -5, dy: -2, tilt: 4, eyeHeight: 16 },
-  grid: { dx: 4, dy: -3, tilt: -3, eyeHeight: 15 },
-  prism: { dx: 0, dy: -1, tilt: 0, eyeHeight: 16 },
-  stack: { dx: 5, dy: 1, tilt: -5, eyeHeight: 14 },
-  nodes: { dx: -4, dy: 2, tilt: 5, eyeHeight: 15 },
-  wave: { dx: 3, dy: -2, tilt: -2, eyeHeight: 17 },
-  terminal: { dx: -6, dy: 0, tilt: 3, eyeHeight: 15 },
-  mesh: { dx: 2, dy: 2, tilt: -4, eyeHeight: 14 },
-  compass: { dx: -3, dy: -2, tilt: 4, eyeHeight: 16 },
-  kinetic: { dx: 4, dy: 0, tilt: -3, eyeHeight: 15 },
+  orbit: { dx: -5, dy: -2, tilt: 4, eyeHeight: 16, stagger: "0s" },
+  grid: { dx: 4, dy: -3, tilt: -3, eyeHeight: 15, stagger: "0.7s" },
+  prism: { dx: 0, dy: -1, tilt: 0, eyeHeight: 16, stagger: "1.3s" },
+  stack: { dx: 5, dy: 1, tilt: -5, eyeHeight: 14, stagger: "1.9s" },
+  nodes: { dx: -4, dy: 2, tilt: 5, eyeHeight: 15, stagger: "2.5s" },
+  wave: { dx: 3, dy: -2, tilt: -2, eyeHeight: 17, stagger: "3.1s" },
+  terminal: { dx: -6, dy: 0, tilt: 3, eyeHeight: 15, stagger: "3.7s" },
+  mesh: { dx: 2, dy: 2, tilt: -4, eyeHeight: 14, stagger: "4.2s" },
+  compass: { dx: -3, dy: -2, tilt: 4, eyeHeight: 16, stagger: "4.8s" },
+  kinetic: { dx: 4, dy: 0, tilt: -3, eyeHeight: 15, stagger: "5.3s" },
 };
 
 function MascotBody({
@@ -141,7 +143,6 @@ function MascotBody({
       />
     );
   }
-  // Squircle
   return (
     <rect
       x="12"
@@ -157,10 +158,20 @@ function MascotBody({
   );
 }
 
+const SIZE_CLASSES: Record<
+  NonNullable<BuilderPortraitProps["size"]>,
+  string
+> = {
+  compact: "h-14 w-14",
+  spotlight: "h-[68px] w-[68px]",
+  card: "h-[72px] w-[72px]",
+  sheet: "h-20 w-20",
+};
+
 /**
  * Expressive Material 3 Geometric Mascot Portrait.
- * Bold Google-colored hexagon, arch, clover, scalloped circle, and squircle shapes
- * with minimal expressive pill eyes that subtly track pointer tilt and blink playfully on hover.
+ * Pure-CSS staggered idle micro-bob and periodic blink keep mascots alive on
+ * touch devices without requiring hover, paired with playful tilt on desktop hover.
  */
 export function BuilderPortrait({
   name,
@@ -170,21 +181,18 @@ export function BuilderPortrait({
   isCoreLead = false,
   imagePath,
   size = "card",
+  hovered: cardHovered = false,
 }: BuilderPortraitProps) {
   const reactId = useId();
   const prefersReducedMotion = useReducedMotion();
-  const [hovered, setHovered] = useState(false);
+  const [selfHovered, setSelfHovered] = useState(false);
   const [gaze, setGaze] = useState({ x: 0, y: 0 });
 
+  const isExcited = Boolean(cardHovered || selfHovered);
   const gradId = `gdg-mascot-grad-${reactId.replace(/:/g, "")}`;
   const colors = MASCOT_PALETTE[accentColor];
   const personality = EYE_PERSONALITY[motif];
-  const boxSize =
-    size === "sheet"
-      ? "h-20 w-20"
-      : size === "compact"
-      ? "h-14 w-14"
-      : "h-[72px] w-[72px]";
+  const boxSize = SIZE_CLASSES[size];
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (prefersReducedMotion) return;
@@ -195,7 +203,7 @@ export function BuilderPortrait({
   };
 
   const handlePointerLeave = () => {
-    setHovered(false);
+    setSelfHovered(false);
     setGaze({ x: 0, y: 0 });
   };
 
@@ -211,98 +219,115 @@ export function BuilderPortrait({
   }
 
   return (
-    <m.div
+    <div
       aria-hidden="true"
-      onPointerEnter={() => setHovered(true)}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-      whileHover={
-        prefersReducedMotion ? undefined : { scale: 1.07, rotate: -4 }
-      }
-      transition={{ type: "spring", stiffness: 380, damping: 22 }}
-      className={`${boxSize} relative shrink-0 select-none`}
+      className={`${boxSize} gdg-mascot-bob relative shrink-0 select-none`}
+      style={{ animationDelay: personality.stagger }}
     >
-      <svg
-        viewBox="0 0 120 120"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-full w-full drop-shadow-[0_6px_14px_rgba(12,15,20,0.14)]"
+      <m.div
+        onPointerEnter={() => setSelfHovered(true)}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        animate={
+          isExcited && !prefersReducedMotion
+            ? { scale: 1.08, rotate: [-6, 4] }
+            : { scale: 1, rotate: 0 }
+        }
+        transition={
+          isExcited && !prefersReducedMotion
+            ? {
+                scale: { type: "spring", stiffness: 400, damping: 22 },
+                rotate: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+              }
+            : { type: "spring", stiffness: 360, damping: 24 }
+        }
+        className="h-full w-full will-change-transform"
       >
-        <defs>
-          <linearGradient id={gradId} x1="16" y1="10" x2="104" y2="112" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor={colors.top} />
-            <stop offset="100%" stopColor={colors.bottom} />
-          </linearGradient>
-        </defs>
-
-        <MascotBody mask={mask} gradId={gradId} rimColor={colors.rim} />
-
-        {/* Subtle glossy upper highlight arc */}
-        <ellipse
-          cx="48"
-          cy="30"
-          rx="20"
-          ry="7"
-          fill="#FFFFFF"
-          fillOpacity="0.18"
-        />
-
-        {/* Expressive Minimal Pill Eyes (subtle gaze tracking + playful hover blink) */}
-        <m.g
-          animate={
-            prefersReducedMotion
-              ? undefined
-              : {
-                  x: personality.dx + gaze.x,
-                  y: personality.dy + gaze.y,
-                  rotate: hovered ? personality.tilt : 0,
-                }
-          }
-          transition={{ type: "spring", stiffness: 360, damping: 24 }}
-          style={{ transformOrigin: "60px 58px" }}
+        <svg
+          viewBox="0 0 120 120"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-full w-full drop-shadow-[0_6px_14px_rgba(12,15,20,0.14)]"
         >
-          <m.rect
-            x="43"
-            y={58 - personality.eyeHeight / 2}
-            width="8.5"
-            height={personality.eyeHeight}
-            rx="4.25"
-            fill={colors.eye}
-            animate={
-              hovered && !prefersReducedMotion
-                ? { scaleY: [1, 0.14, 1] }
-                : { scaleY: 1 }
-            }
-            transition={{ duration: 0.28, ease: "easeInOut" }}
-            style={{ transformOrigin: "47.25px 58px" }}
-          />
-          <m.rect
-            x="64.5"
-            y={58 - personality.eyeHeight / 2}
-            width="8.5"
-            height={personality.eyeHeight}
-            rx="4.25"
-            fill={colors.eye}
-            animate={
-              hovered && !prefersReducedMotion
-                ? { scaleY: [1, 0.14, 1] }
-                : { scaleY: 1 }
-            }
-            transition={{ duration: 0.28, delay: 0.04, ease: "easeInOut" }}
-            style={{ transformOrigin: "68.75px 58px" }}
-          />
-        </m.g>
+          <defs>
+            <linearGradient
+              id={gradId}
+              x1="16"
+              y1="10"
+              x2="104"
+              y2="112"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor={colors.top} />
+              <stop offset="100%" stopColor={colors.bottom} />
+            </linearGradient>
+          </defs>
 
-        {/* Core-Lead 4-Color Google Signature Dots */}
-        {isCoreLead && (
-          <g>
-            <circle cx="45" cy="90" r="3" fill="#A8C7FA" />
-            <circle cx="55" cy="90" r="3" fill="#F28B82" />
-            <circle cx="65" cy="90" r="3" fill="#FBBC04" />
-            <circle cx="75" cy="90" r="3" fill="#81C995" />
-          </g>
-        )}
-      </svg>
-    </m.div>
+          <MascotBody mask={mask} gradId={gradId} rimColor={colors.rim} />
+
+          {/* Subtle glossy upper highlight arc */}
+          <ellipse
+            cx="48"
+            cy="30"
+            rx="20"
+            ry="7"
+            fill="#FFFFFF"
+            fillOpacity="0.18"
+          />
+
+          {/* Expressive Minimal Pill Eyes (idle CSS blink + desktop hover shift/blink) */}
+          <m.g
+            animate={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    x:
+                      personality.dx +
+                      gaze.x +
+                      (isExcited && gaze.x === 0 ? 3.5 : 0),
+                    y:
+                      personality.dy +
+                      gaze.y +
+                      (isExcited && gaze.y === 0 ? -1.5 : 0),
+                    rotate: isExcited ? personality.tilt : 0,
+                  }
+            }
+            transition={{ type: "spring", stiffness: 360, damping: 24 }}
+            style={{ transformOrigin: "60px 58px" }}
+          >
+            <rect
+              x="43"
+              y={58 - personality.eyeHeight / 2}
+              width="8.5"
+              height={personality.eyeHeight}
+              rx="4.25"
+              fill={colors.eye}
+              className="gdg-mascot-blink"
+              style={{ animationDelay: personality.stagger }}
+            />
+            <rect
+              x="64.5"
+              y={58 - personality.eyeHeight / 2}
+              width="8.5"
+              height={personality.eyeHeight}
+              rx="4.25"
+              fill={colors.eye}
+              className="gdg-mascot-blink"
+              style={{ animationDelay: personality.stagger }}
+            />
+          </m.g>
+
+          {/* Core-Lead 4-Color Google Signature Dots */}
+          {isCoreLead && (
+            <g>
+              <circle cx="45" cy="90" r="3" fill="#A8C7FA" />
+              <circle cx="55" cy="90" r="3" fill="#F28B82" />
+              <circle cx="65" cy="90" r="3" fill="#FBBC04" />
+              <circle cx="75" cy="90" r="3" fill="#81C995" />
+            </g>
+          )}
+        </svg>
+      </m.div>
+    </div>
   );
 }

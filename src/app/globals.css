@@ -199,6 +199,90 @@ input[type="search"]::-webkit-search-decoration {
   }
 }
 
+@keyframes gdg-idle-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes gdg-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes gdg-deck-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes gdg-mascot-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+@keyframes gdg-mascot-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.14);
+  }
+}
+
+.gdg-idle-float {
+  animation: gdg-idle-float 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.gdg-mascot-bob {
+  animation: gdg-mascot-bob 4.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.gdg-mascot-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gdg-mascot-blink 5.6s ease-in-out infinite;
+}
+
+.gdg-marquee-track {
+  animation: gdg-marquee 30s linear infinite;
+  will-change: transform;
+}
+
+.gdg-marquee:hover .gdg-marquee-track {
+  animation-play-state: paused;
+}
+
+.gdg-deck-progress {
+  transform-origin: left;
+  animation: gdg-deck-progress 4.5s linear forwards;
+  will-change: transform;
+}
+
+.gdg-deck-progress[data-paused="true"] {
+  animation-play-state: paused;
+}
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .gdg-scroll-progress {
@@ -234,7 +318,12 @@ input[type="search"]::-webkit-search-decoration {
   }
 
   .gdg-scroll-progress,
-  .gdg-poster-parallax {
+  .gdg-poster-parallax,
+  .gdg-idle-float,
+  .gdg-marquee-track,
+  .gdg-deck-progress,
+  .gdg-mascot-bob,
+  .gdg-mascot-blink {
     animation: none !important;
     will-change: auto;
   }
@@ -244,7 +333,15 @@ input[type="search"]::-webkit-search-decoration {
     transform: scaleX(0) !important;
   }
 
-  .gdg-poster-parallax {
+  .gdg-deck-progress {
+    transform: scaleX(1) !important;
+  }
+
+  .gdg-poster-parallax,
+  .gdg-idle-float,
+  .gdg-marquee-track,
+  .gdg-mascot-bob,
+  .gdg-mascot-blink {
     transform: none !important;
   }
 }

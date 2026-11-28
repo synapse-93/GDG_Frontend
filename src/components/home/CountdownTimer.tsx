@@ -84,8 +84,11 @@ export function CountdownTimer({ event }: CountdownTimerProps) {
           <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-ink-muted">
             <span
               aria-hidden="true"
-              className="h-2 w-2 rounded-full bg-gdg-green"
-            />
+              className="relative inline-flex h-2.5 w-2.5 items-center justify-center"
+            >
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gdg-green opacity-65 motion-reduce:animate-none" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-gdg-green" />
+            </span>
             <span className="font-semibold text-ink">
               {hasStarted ? "Session underway" : "Next campus session"}
             </span>

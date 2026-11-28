@@ -87,6 +87,7 @@ export function HeroTrackPlayground() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [pointerY, setPointerY] = useState<number | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
   const [railMetrics, setRailMetrics] = useState<{
     height: number;
     centers: number[];
@@ -95,6 +96,21 @@ export function HeroTrackPlayground() {
 
   const railContainerRef = useRef<HTMLDivElement>(null);
   const trackItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Auto-cycle fanned track deck every 4.5s; pause on hover, pointer, or focus
+  useEffect(() => {
+    if (isPaused || prefersReducedMotion) return;
+    const timer = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % siteConfig.pillars.length);
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [isPaused, prefersReducedMotion]);
+
+  const handleContainerBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      setIsPaused(false);
+    }
+  };
 
   const measureRail = useCallback(() => {
     const container = railContainerRef.current;
@@ -229,7 +245,16 @@ export function HeroTrackPlayground() {
     ) ?? events.find((ev) => ev.track === activePillar.trackFilter);
 
   return (
-    <>
+    <div
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onPointerDown={() => setIsPaused(true)}
+      onTouchStart={() => setIsPaused(true)}
+      onTouchEnd={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={handleContainerBlur}
+      className="w-full"
+    >
       {/* MOBILE (< lg): Compact Horizontal Scrollable Pill Bar + Full-Width Swipeable Track Card */}
       <div className="space-y-4 lg:hidden">
         <div
@@ -274,7 +299,7 @@ export function HeroTrackPlayground() {
             animate={{ opacity: 1, x: 0 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: -18 }}
             transition={{ type: "spring", stiffness: 360, damping: 30 }}
-            className={`flex min-h-[296px] w-full flex-col justify-between overflow-hidden rounded-[26px] border border-white/15 p-5 shadow-[0_14px_34px_rgba(12,15,20,0.14)] ${activeTheme.bg} ${activeTheme.ink}`}
+            className={`relative flex min-h-[296px] w-full flex-col justify-between overflow-hidden rounded-[26px] border border-white/15 p-5 shadow-[0_14px_34px_rgba(12,15,20,0.14)] ${activeTheme.bg} ${activeTheme.ink}`}
           >
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 space-y-2">
@@ -291,13 +316,15 @@ export function HeroTrackPlayground() {
                 </p>
               </div>
 
-              <DomainArtwork
-                domain={activeDomain}
-                size="md"
-                tone={activeTheme.artTone}
-                interactive
-                className="h-16 w-16 shrink-0"
-              />
+              <div className="gdg-idle-float shrink-0">
+                <DomainArtwork
+                  domain={activeDomain}
+                  size="md"
+                  tone={activeTheme.artTone}
+                  interactive
+                  className="h-16 w-16 shrink-0"
+                />
+              </div>
             </div>
 
             <div className="my-4 space-y-2">
@@ -346,6 +373,22 @@ export function HeroTrackPlayground() {
                 <span>Sessions</span>
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
+            </div>
+
+            {/* 4.5s Cycle Progress Hairline */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-black/15"
+            >
+              <span
+                key={`mob-progress-${activeIndex}`}
+                data-paused={isPaused ? "true" : "false"}
+                className={`gdg-deck-progress block h-full w-full ${
+                  activeTheme.artTone === "on-yellow"
+                    ? "bg-[#111827]/75"
+                    : "bg-white/85"
+                }`}
+              />
             </div>
           </m.div>
         </AnimatePresence>
@@ -479,13 +522,15 @@ export function HeroTrackPlayground() {
                     </p>
                   </div>
 
-                  <DomainArtwork
-                    domain={domain}
-                    size="md"
-                    tone={theme.artTone}
-                    interactive={isFront}
-                    className="h-[74px] w-[74px] shrink-0"
-                  />
+                  <div className={isFront ? "gdg-idle-float shrink-0" : "shrink-0"}>
+                    <DomainArtwork
+                      domain={domain}
+                      size="md"
+                      tone={theme.artTone}
+                      interactive={isFront}
+                      className="h-[74px] w-[74px] shrink-0"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -537,11 +582,29 @@ export function HeroTrackPlayground() {
                     <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </Link>
                 </div>
+
+                {/* Synced 4.5s Cycle Progress Hairline on Active Front Card */}
+                {isFront && (
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-black/15"
+                  >
+                    <span
+                      key={`deck-progress-${activeIndex}`}
+                      data-paused={isPaused ? "true" : "false"}
+                      className={`gdg-deck-progress block h-full w-full ${
+                        theme.artTone === "on-yellow"
+                          ? "bg-[#111827]/75"
+                          : "bg-white/85"
+                      }`}
+                    />
+                  </div>
+                )}
               </m.div>
             );
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 }
