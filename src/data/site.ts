@@ -54,7 +54,7 @@ export const siteConfig = {
   shortName: "GDG on Campus RVCE",
   tagline:
     "A student-run developer community at RV College of Engineering building together across Web, AI/ML, Cloud, and Android.",
-  location: "RV College of Engineering, Mysuru Road, Bengaluru",
+  location: "RV College of Engineering, Bengaluru",
   academicCycle: "2026–27 Academic Year",
   disclaimer:
     "GDG on Campus RV College of Engineering is an independent student developer community chapter. It is not an official Google product, and views or projects shared here do not represent Google LLC.",

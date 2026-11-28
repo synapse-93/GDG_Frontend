@@ -41,7 +41,7 @@ const DECK_THEMES: DeckCardTheme[] = [
     ink: "text-white",
     subInk: "text-[#DCEAFF]",
     pill: "bg-white text-[#111827]",
-    chip: "bg-white/15 text-white border-white/25",
+    chip: "bg-black/30 text-white border-white/25",
     cta: "bg-white text-[#111827] hover:bg-[#F1F5F9]",
     dot: "bg-[#4285F4]",
     hex: "#4285F4",
@@ -52,7 +52,7 @@ const DECK_THEMES: DeckCardTheme[] = [
     ink: "text-white",
     subInk: "text-[#DCF5E3]",
     pill: "bg-white text-[#111827]",
-    chip: "bg-white/15 text-white border-white/25",
+    chip: "bg-black/30 text-white border-white/25",
     cta: "bg-white text-[#111827] hover:bg-[#F1F5F9]",
     dot: "bg-[#34A853]",
     hex: "#34A853",
@@ -63,7 +63,7 @@ const DECK_THEMES: DeckCardTheme[] = [
     ink: "text-white",
     subInk: "text-[#FDE5E3]",
     pill: "bg-white text-[#111827]",
-    chip: "bg-white/15 text-white border-white/25",
+    chip: "bg-black/30 text-white border-white/25",
     cta: "bg-white text-[#111827] hover:bg-[#F1F5F9]",
     dot: "bg-[#EA4335]",
     hex: "#EA4335",
@@ -75,7 +75,7 @@ const DECK_THEMES: DeckCardTheme[] = [
     ink: "text-[#111827]",
     subInk: "text-[#1F2937]",
     pill: "bg-[#111827] text-[#FAF9F6]",
-    chip: "bg-[#111827]/12 text-[#111827] border-[#111827]/25",
+    chip: "bg-black/15 text-[#111827] border-black/20",
     cta: "bg-[#111827] text-[#FAF9F6] hover:bg-[#1F2937]",
     dot: "bg-[#FBBC04]",
     hex: "#D99B00",
@@ -112,11 +112,19 @@ export function HeroTrackPlayground() {
   useEffect(() => {
     const container = railContainerRef.current;
     if (!container) return;
-    const raf = requestAnimationFrame(measureRail);
-    const ro = new ResizeObserver(measureRail);
+    let rafId = 0;
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(measureRail);
+    };
+    // Defer initial DOM measurement after paint to avoid synchronous forced reflow
+    rafId = requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(measureRail);
+    });
+    const ro = new ResizeObserver(scheduleMeasure);
     ro.observe(container);
     return () => {
-      cancelAnimationFrame(raf);
+      cancelAnimationFrame(rafId);
       ro.disconnect();
     };
   }, [measureRail]);

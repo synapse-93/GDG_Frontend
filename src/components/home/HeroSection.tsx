@@ -4,7 +4,6 @@ import { CountdownTimer } from "@/components/home/CountdownTimer";
 import { HeroTrackPlayground } from "@/components/home/HeroTrackPlayground";
 import { KineticText } from "@/components/ui/KineticText";
 import { getUpcomingEvents } from "@/data/events";
-import { siteConfig } from "@/data/site";
 
 export function HeroSection() {
   const nextEvent = getUpcomingEvents()[0];
@@ -13,10 +12,10 @@ export function HeroSection() {
     <section className="relative border-b border-hairline bg-canvas">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 lg:py-12">
         <div className="grid grid-cols-1 items-center lg:grid-cols-12 lg:gap-10">
-          {/* Screen 1 on Mobile (< lg): Clean full-screen hero with countdown pinned at bottom */}
-          <div className="flex min-h-[calc(100svh-4rem)] min-w-0 flex-col justify-between gap-6 py-6 lg:col-span-6 lg:block lg:min-h-0 lg:space-y-5 lg:py-0">
+          {/* Screen 1 on Mobile (< lg): Natural compact stack with zero middle gap */}
+          <div className="flex min-w-0 flex-col gap-7 py-8 lg:col-span-6 lg:block lg:space-y-5 lg:py-0">
             <div className="space-y-4 sm:space-y-5">
-              <h1 className="display-expressive text-[2.6rem] font-extrabold tracking-tight leading-[0.98] text-ink sm:text-6xl lg:text-[4.25rem]">
+              <h1 className="display-expressive text-[2.6rem] font-extrabold tracking-tight leading-[1.06] text-ink sm:text-6xl lg:text-[4.25rem]">
                 <KineticText
                   text="Build open systems at RVCE."
                   highlightWord="open"
@@ -27,8 +26,9 @@ export function HeroSection() {
               </h1>
 
               <p className="max-w-[50ch] text-[15px] leading-relaxed text-ink-muted text-pretty sm:text-lg">
-                {siteConfig.tagline} Hands-on workshops, code labs, and weekend
-                study jams on Mysuru Road.
+                A student-run developer community at RV College of Engineering
+                building across Web, AI/ML, Cloud, and Android&mdash;through
+                hands-on workshops, code labs, and weekend study jams.
               </p>
 
               {/* Primary & Companion Actions — side-by-side 2-col grid on mobile */}

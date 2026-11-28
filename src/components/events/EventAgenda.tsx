@@ -64,11 +64,18 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const raf = requestAnimationFrame(measureRail);
-    const ro = new ResizeObserver(measureRail);
+    let rafId = 0;
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(measureRail);
+    };
+    rafId = requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(measureRail);
+    });
+    const ro = new ResizeObserver(scheduleMeasure);
     ro.observe(container);
     return () => {
-      cancelAnimationFrame(raf);
+      cancelAnimationFrame(rafId);
       ro.disconnect();
     };
   }, [measureRail, openIndices]);

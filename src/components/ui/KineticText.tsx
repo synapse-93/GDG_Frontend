@@ -60,7 +60,7 @@ export function KineticText({
         return (
           <span
             key={`${word}-${idx}`}
-            className="inline-block overflow-hidden align-bottom"
+            className="inline-block overflow-hidden pb-1.5 -mb-1.5 align-bottom"
           >
             <m.span
               initial={{ y: "110%", opacity: 0 }}
