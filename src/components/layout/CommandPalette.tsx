@@ -9,6 +9,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import { useRouter } from "next/navigation";
+import * as m from "motion/react-m";
 import { useTheme } from "next-themes";
 import {
   ArrowRight,
@@ -26,11 +27,26 @@ import { teamMembers } from "@/data/team";
 
 export const COMMAND_PALETTE_EVENT = "gdg-open-command-palette";
 
-const emptySubscribe = () => () => {};
+function subscribeToRootThemeClass(onStoreChange: () => void) {
+  const observer = new MutationObserver(onStoreChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  return () => observer.disconnect();
+}
+
+function getClientIsDark(): boolean {
+  return document.documentElement.classList.contains("dark");
+}
+
+function getServerIsDark(): boolean {
+  return false;
+}
 
 interface CommandItem {
   id: string;
-  group: "Pages" | "Track Filters" | "Sessions" | "Team Builders" | "Theme";
+  group: "Pages" | "Tracks" | "Events" | "Team Members" | "Theme";
   title: string;
   subtitle: string;
   keywords: string;
@@ -46,18 +62,77 @@ const TRACK_DOT: Record<string, string> = {
   Android: "bg-[#FBBC04] dark:bg-[#FDD663]",
 };
 
+/**
+ * Lightweight fuzzy scorer returning > 0 for matches (higher = better) or -1 for no match.
+ * Rewards exact prefix, contiguous substring, word-boundary hits, and ordered subsequences.
+ */
+function fuzzyScore(haystack: string, rawQuery: string): number {
+  const text = haystack.toLowerCase();
+  const query = rawQuery.trim().toLowerCase();
+  if (!query) return 1;
+
+  const directIndex = text.indexOf(query);
+  if (directIndex !== -1) {
+    const boundaryBonus =
+      directIndex === 0 || /[\s/·-]/.test(text[directIndex - 1] ?? "")
+        ? 40
+        : 0;
+    return 120 + boundaryBonus - Math.min(directIndex, 60);
+  }
+
+  let score = 0;
+  let qIdx = 0;
+  let consecutive = 0;
+
+  for (let i = 0; i < text.length && qIdx < query.length; i++) {
+    if (text[i] === query[qIdx]) {
+      consecutive += 1;
+      const isBoundary = i === 0 || /[\s/·-]/.test(text[i - 1] ?? "");
+      score += 10 + consecutive * 6 + (isBoundary ? 14 : 0);
+      qIdx += 1;
+    } else {
+      consecutive = 0;
+    }
+  }
+
+  return qIdx === query.length ? score : -1;
+}
+
+function scoreCommandItem(item: CommandItem, query: string): number {
+  const titleScore = fuzzyScore(item.title, query);
+  const subtitleScore = fuzzyScore(item.subtitle, query);
+  const keywordScore = fuzzyScore(item.keywords, query);
+  const groupScore = fuzzyScore(item.group, query);
+
+  const best = Math.max(
+    titleScore > 0 ? titleScore * 1.5 : -1,
+    subtitleScore > 0 ? subtitleScore * 1.1 : -1,
+    keywordScore,
+    groupScore
+  );
+
+  return best;
+}
+
 export function CommandPalette() {
   const router = useRouter();
-  const { resolvedTheme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const wasOpenRef = useRef(false);
+
+  const isDark = useSyncExternalStore(
+    subscribeToRootThemeClass,
+    getClientIsDark,
+    getServerIsDark
+  );
 
   const closePalette = useCallback(() => {
     setOpen(false);
@@ -113,21 +188,14 @@ export function CommandPalette() {
     }
   }, [open]);
 
-  const mounted = useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
-  const isDark = mounted && resolvedTheme === "dark";
-
   const allItems = useMemo<CommandItem[]>(() => {
     const pages: CommandItem[] = [
       {
         id: "page-home",
         group: "Pages",
         title: "Home",
-        subtitle: "Kinetic Campus Almanac overview & 3D track playground",
-        keywords: "home almanac start landing overview",
+        subtitle: "GDG on Campus RVCE overview & interactive tracks",
+        keywords: "home start landing overview rvce gdg",
         dotColor: "bg-[#4285F4] dark:bg-[#669DF6]",
         href: "/",
       },
@@ -135,17 +203,17 @@ export function CommandPalette() {
         id: "page-events",
         group: "Pages",
         title: "Events Directory",
-        subtitle: "Browse workshops, labs & toggle Compact Ledger view",
-        keywords: "events workshops calendar schedule ledger grid",
+        subtitle: "Browse workshops, study jams & Poster Grid or List View",
+        keywords: "events workshops calendar schedule posters list",
         dotColor: "bg-[#34A853] dark:bg-[#81C995]",
         href: "/events",
       },
       {
         id: "page-team",
         group: "Pages",
-        title: "Team Roster",
-        subtitle: "Meet RVCE chapter organizers & open Builder Dossiers",
-        keywords: "team builders organizers leads roster dossier",
+        title: "Team Directory",
+        subtitle: "Meet RVCE chapter organizers & view member profiles",
+        keywords: "team organizers leads members profiles directory",
         dotColor: "bg-[#EA4335] dark:bg-[#F28B82]",
         href: "/team",
       },
@@ -153,9 +221,9 @@ export function CommandPalette() {
 
     const tracks: CommandItem[] = EVENT_TRACKS.map((track) => ({
       id: `track-${track}`,
-      group: "Track Filters",
-      title: `Filter Events: ${track}`,
-      subtitle: `Open /events filtered to ${track} sessions`,
+      group: "Tracks",
+      title: `Track: ${track}`,
+      subtitle: `Filter /events by ${track} sessions`,
       keywords: `track filter ${track.toLowerCase()}`,
       dotColor: TRACK_DOT[track],
       href: `/events?track=${encodeURIComponent(track)}`,
@@ -163,18 +231,18 @@ export function CommandPalette() {
 
     const sessionItems: CommandItem[] = events.map((ev) => ({
       id: `event-${ev.slug}`,
-      group: "Sessions",
+      group: "Events",
       title: ev.title,
       subtitle: `${ev.dateDisplay} · ${ev.venue} · ${ev.track}`,
       keywords:
-        `${ev.title} ${ev.track} ${ev.venue} ${ev.status} ${ev.tagline}`.toLowerCase(),
+        `${ev.title} ${ev.track} ${ev.venue} ${ev.status} ${ev.tagline} ${ev.slug.replace(/-/g, " ")}`.toLowerCase(),
       dotColor: TRACK_DOT[ev.track],
       href: `/events/${ev.slug}`,
     }));
 
-    const builderItems: CommandItem[] = teamMembers.map((member) => ({
+    const memberItems: CommandItem[] = teamMembers.map((member) => ({
       id: `team-${member.id}`,
-      group: "Team Builders",
+      group: "Team Members",
       title: member.name,
       subtitle: `${member.role} · ${member.vertical}`,
       keywords:
@@ -183,41 +251,38 @@ export function CommandPalette() {
         member.accentColor === "blue"
           ? "bg-[#4285F4] dark:bg-[#669DF6]"
           : member.accentColor === "green"
-          ? "bg-[#34A853] dark:bg-[#81C995]"
-          : member.accentColor === "red"
-          ? "bg-[#EA4335] dark:bg-[#F28B82]"
-          : "bg-[#FBBC04] dark:bg-[#FDD663]",
-      href: `/team?builder=${encodeURIComponent(member.id)}`,
+            ? "bg-[#34A853] dark:bg-[#81C995]"
+            : member.accentColor === "red"
+              ? "bg-[#EA4335] dark:bg-[#F28B82]"
+              : "bg-[#FBBC04] dark:bg-[#FDD663]",
+      href: `/team?member=${encodeURIComponent(member.slug)}`,
     }));
 
     const themeItems: CommandItem[] = [
       {
         id: "theme-toggle",
         group: "Theme",
-        title: isDark
-          ? "Switch to Light Mode (Studio Paper)"
-          : "Switch to Dark Mode (Carbon Slate)",
-        subtitle: "Toggle almanac color theme immediately",
-        keywords: "theme dark light mode appearance toggle",
+        title: isDark ? "Switch to Light Mode" : "Switch to Dark Mode",
+        subtitle: "Toggle Light / Dark appearance immediately",
+        keywords: "theme dark light mode appearance toggle sun moon",
         toggleTheme: true,
       },
     ];
 
-    return [...pages, ...tracks, ...sessionItems, ...builderItems, ...themeItems];
+    return [...pages, ...tracks, ...sessionItems, ...memberItems, ...themeItems];
   }, [isDark]);
 
   const filteredItems = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = query.trim();
     if (!q) {
       return allItems;
     }
-    return allItems.filter(
-      (item) =>
-        item.title.toLowerCase().includes(q) ||
-        item.subtitle.toLowerCase().includes(q) ||
-        item.keywords.includes(q) ||
-        item.group.toLowerCase().includes(q)
-    );
+
+    return allItems
+      .map((item) => ({ item, score: scoreCommandItem(item, q) }))
+      .filter((entry) => entry.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map((entry) => entry.item);
   }, [allItems, query]);
 
   const clampedIndex =
@@ -269,15 +334,35 @@ export function CommandPalette() {
       closePalette();
       return;
     }
+
     if (event.key === "Tab") {
+      const container = dialogRef.current;
+      if (!container) return;
+      const focusable = Array.from(
+        container.querySelectorAll<HTMLElement>(
+          'input:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+      if (focusable.length === 0) return;
+
+      const currentIdx = focusable.indexOf(
+        document.activeElement as HTMLElement
+      );
       event.preventDefault();
-      if (document.activeElement === inputRef.current) {
-        closeButtonRef.current?.focus();
+      if (event.shiftKey) {
+        const prevIdx =
+          currentIdx <= 0 ? focusable.length - 1 : currentIdx - 1;
+        focusable[prevIdx]?.focus();
       } else {
-        inputRef.current?.focus();
+        const nextIdx =
+          currentIdx === -1 || currentIdx >= focusable.length - 1
+            ? 0
+            : currentIdx + 1;
+        focusable[nextIdx]?.focus();
       }
       return;
     }
+
     if (filteredItems.length === 0) return;
 
     if (event.key === "ArrowDown") {
@@ -289,6 +374,7 @@ export function CommandPalette() {
         (prev) => (prev - 1 + filteredItems.length) % filteredItems.length
       );
     } else if (event.key === "Enter") {
+      if (document.activeElement === closeButtonRef.current) return;
       event.preventDefault();
       runCommand(filteredItems[clampedIndex]);
     }
@@ -303,11 +389,11 @@ export function CommandPalette() {
     switch (group) {
       case "Pages":
         return <Compass className="h-3.5 w-3.5" aria-hidden="true" />;
-      case "Track Filters":
+      case "Tracks":
         return <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />;
-      case "Sessions":
+      case "Events":
         return <Calendar className="h-3.5 w-3.5" aria-hidden="true" />;
-      case "Team Builders":
+      case "Team Members":
         return <Users className="h-3.5 w-3.5" aria-hidden="true" />;
       case "Theme":
         return isDark ? (
@@ -327,11 +413,15 @@ export function CommandPalette() {
         }
       }}
     >
-      <div
+      <m.div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label="Quick command navigation"
         onKeyDown={handleDialogKeyDown}
+        initial={{ opacity: 0, y: -10, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ type: "spring", stiffness: 460, damping: 34 }}
         className="w-full max-w-xl overflow-hidden rounded-xl border border-hairline bg-surface shadow-[0_24px_64px_rgba(12,15,20,0.24)]"
       >
         {/* Search Input Header */}
@@ -341,7 +431,7 @@ export function CommandPalette() {
             aria-hidden="true"
           />
           <label htmlFor="gdg-command-input" className="sr-only">
-            Jump to pages, sessions, tracks, builders, or theme
+            Search events, tracks, team members, or switch theme
           </label>
           <input
             ref={inputRef}
@@ -356,7 +446,7 @@ export function CommandPalette() {
               setQuery(event.target.value);
               setActiveIndex(0);
             }}
-            placeholder="Jump to a session, track, builder, or switch theme..."
+            placeholder="Search events, team members, tracks, or switch theme..."
             className="w-full bg-transparent text-sm text-ink placeholder:text-ink-muted focus:outline-none"
           />
           <button
@@ -381,7 +471,7 @@ export function CommandPalette() {
           {groupedItems.length === 0 ? (
             <div className="px-4 py-10 text-center">
               <p className="text-sm font-semibold text-ink">
-                No matching destinations
+                No matching results
               </p>
               <p className="mt-1 text-xs text-ink-muted">
                 Try searching for &ldquo;Linux&rdquo;, &ldquo;AI&rdquo;,
@@ -406,13 +496,13 @@ export function CommandPalette() {
                         type="button"
                         role="option"
                         aria-selected={isActive}
+                        tabIndex={-1}
                         onMouseEnter={() => setActiveIndex(flatIdx)}
                         onClick={() => runCommand(item)}
-                        className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
-                          isActive
+                        className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${isActive
                             ? "bg-surface-muted text-ink"
                             : "text-ink-muted hover:bg-surface-muted/70 hover:text-ink"
-                        }`}
+                          }`}
                       >
                         <div className="flex min-w-0 items-center gap-2.5">
                           {item.dotColor ? (
@@ -436,11 +526,10 @@ export function CommandPalette() {
                           </div>
                         </div>
                         <ArrowRight
-                          className={`h-3.5 w-3.5 shrink-0 transition-transform ${
-                            isActive
+                          className={`h-3.5 w-3.5 shrink-0 transition-transform ${isActive
                               ? "translate-x-0.5 text-gdg-blue-ink"
                               : "text-ink-muted/60"
-                          }`}
+                            }`}
                           aria-hidden="true"
                         />
                       </button>
@@ -461,7 +550,7 @@ export function CommandPalette() {
           </div>
           <span>GDG on Campus RVCE</span>
         </div>
-      </div>
+      </m.div>
     </div>
   );
 }

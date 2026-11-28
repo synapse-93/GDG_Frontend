@@ -28,8 +28,8 @@ export default function EventsPage() {
               </h1>
               <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted text-pretty">
                 Filter upcoming RVCE campus sessions and past technical
-                teardowns by track, schedule status, or speaker—in visual Grid
-                mode or a high-scanability Compact Ledger.
+                teardowns by track, schedule status, or speaker—switching
+                between Posters and a high-scanability Schedule view.
               </p>
             </div>
 

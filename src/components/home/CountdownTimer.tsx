@@ -2,6 +2,8 @@
 
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
+import * as m from "motion/react-m";
+import { AnimatePresence } from "motion/react";
 import { ArrowRight, Clock, MapPin } from "lucide-react";
 import type { EventItem } from "@/data/events";
 
@@ -114,18 +116,37 @@ export function CountdownTimer({ event }: CountdownTimerProps) {
           </div>
         </div>
 
-        {/* Inline Tabular Countdown Readout (unboxed, hairline-separated) */}
+        {/* Mechanical Split-Flap Countdown Cells (Zero-CLS fixed tabular-nums width) */}
         <div
           role="timer"
           aria-label={`Countdown to ${event.title}`}
-          className="flex shrink-0 items-baseline gap-2.5 border-t border-hairline pt-3 font-mono tabular-nums sm:border-t-0 sm:border-l sm:pt-0 sm:pl-5"
+          className="flex shrink-0 items-center gap-1.5 border-t border-hairline pt-3 font-mono tabular-nums sm:border-t-0 sm:border-l sm:pt-0 sm:pl-4"
         >
           {segments.map((seg) => (
-            <div key={seg.label} className="flex items-baseline gap-0.5">
-              <span className="inline-block min-w-[2ch] text-right text-xl font-bold tabular-nums text-ink sm:text-2xl">
-                {seg.value}
+            <div
+              key={seg.label}
+              className="inline-flex items-baseline gap-0.5 rounded-lg border border-hairline bg-surface px-1.5 py-1"
+            >
+              <span className="relative inline-flex h-6 w-[2.15ch] items-center justify-center overflow-hidden sm:h-7">
+                <AnimatePresence initial={false} mode="popLayout">
+                  <m.span
+                    key={seg.value}
+                    initial={{ y: 12, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -12, opacity: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 420,
+                      damping: 28,
+                      mass: 0.6,
+                    }}
+                    className="inline-block text-lg font-bold leading-none tabular-nums text-ink sm:text-xl"
+                  >
+                    {seg.value}
+                  </m.span>
+                </AnimatePresence>
               </span>
-              <span className="text-xs font-medium text-ink-muted">
+              <span className="text-xs font-semibold text-ink-muted">
                 {seg.label}
               </span>
             </div>

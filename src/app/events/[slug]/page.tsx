@@ -13,6 +13,7 @@ import {
   MapPin,
   Monitor,
   Terminal,
+  User,
 } from "lucide-react";
 import { EventAgenda } from "@/components/events/EventAgenda";
 import { EventPoster } from "@/components/events/EventPoster";
@@ -50,7 +51,7 @@ export async function generateMetadata({
 
 function EventDetailFallback() {
   return (
-    <div className="bg-canvas pb-20">
+    <div className="bg-canvas pb-24 lg:pb-20">
       <section className="border-b border-hairline bg-canvas py-10 sm:py-14">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="h-6 w-32 rounded bg-surface-muted" />
@@ -72,6 +73,15 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
   const trackStyles = getTrackStyles(event.track);
   const isUpcoming = event.status === "upcoming";
 
+  const uniqueSpeakers = Array.from(
+    new Map(
+      event.agenda.map((slot) => [
+        slot.memberSlug,
+        { name: slot.speaker, memberSlug: slot.memberSlug },
+      ])
+    ).values()
+  );
+
   const otherUpcoming = getUpcomingEvents().filter(
     (item) => item.slug !== event.slug
   );
@@ -79,7 +89,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
     otherUpcoming[0] ?? events.find((item) => item.slug !== event.slug);
 
   return (
-    <div className="bg-canvas pb-20">
+    <div className="bg-canvas pb-28 lg:pb-20">
       {/* Full-Bleed Campus Poster Masthead */}
       <section className="border-b border-hairline bg-canvas pt-6 pb-10 sm:pt-8 sm:pb-12">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -96,13 +106,41 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
             <EventPoster event={event} size="hero" />
           </div>
 
-          <div className="mt-7 max-w-4xl space-y-3">
+          <div className="mt-7 max-w-4xl space-y-4">
             <h1 className="display-expressive text-4xl font-extrabold tracking-tight text-ink sm:text-5xl lg:text-6xl">
               {event.title}
             </h1>
             <p className="max-w-[54ch] text-base leading-relaxed text-ink-muted text-pretty sm:text-lg">
               {event.tagline}
             </p>
+
+            {/* Clickable Speaker Chips -> /team?member=<memberSlug> */}
+            {uniqueSpeakers.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="font-mono text-xs font-semibold text-ink-muted">
+                  Speakers:
+                </span>
+                {uniqueSpeakers.map((speaker) => (
+                  <Link
+                    key={speaker.memberSlug}
+                    href={`/team?member=${encodeURIComponent(
+                      speaker.memberSlug
+                    )}`}
+                    className="group inline-flex min-h-[34px] items-center gap-1.5 rounded-full border border-hairline bg-surface px-3 py-1 font-mono text-xs font-semibold text-ink transition-colors hover:border-gdg-blue/60 hover:text-gdg-blue-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                  >
+                    <User
+                      className="h-3.5 w-3.5 text-gdg-blue"
+                      aria-hidden="true"
+                    />
+                    <span>{speaker.name}</span>
+                    <ArrowRight
+                      className="h-3 w-3 text-ink-muted transition-transform group-hover:translate-x-0.5 group-hover:text-gdg-blue-ink"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -215,18 +253,31 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
             </nav>
           </div>
 
-          {/* Sticky Utility Rail (top on mobile) */}
+          {/* Sticky Utility Rail (Prominent Register CTA at very top) */}
           <aside
             aria-label="Session logistics and calendar export"
             className="order-first lg:order-none lg:sticky lg:top-24 lg:col-span-4"
           >
             <div className="rounded-3xl border border-hairline bg-surface p-6">
-              <h2 className="text-base font-extrabold text-ink">
+              {/* Primary Register CTA at Top */}
+              <a
+                href={event.registrationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#1A73E8] px-5 py-3 text-sm font-bold text-white transition-spring hover:-translate-y-0.5 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
+              >
+                <span>
+                  {isUpcoming ? "Register for Session" : "View Recap & Slides"}
+                </span>
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              </a>
+
+              <h2 className="mt-5 text-base font-extrabold text-ink">
                 Session Logistics
               </h2>
 
-              <dl className="mt-4 divide-y divide-hairline border-y border-hairline text-sm sm:mt-5">
-                <div className="flex items-start gap-3 py-2.5 sm:py-3.5">
+              <dl className="mt-3 divide-y divide-hairline border-y border-hairline text-sm">
+                <div className="flex items-start gap-3 py-2.5 sm:py-3">
                   <Calendar
                     className="mt-0.5 h-4 w-4 shrink-0 text-gdg-blue"
                     aria-hidden="true"
@@ -239,7 +290,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 py-2.5 sm:py-3.5">
+                <div className="flex items-start gap-3 py-2.5 sm:py-3">
                   <Clock
                     className="mt-0.5 h-4 w-4 shrink-0 text-gdg-green"
                     aria-hidden="true"
@@ -252,7 +303,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 py-2.5 sm:py-3.5">
+                <div className="flex items-start gap-3 py-2.5 sm:py-3">
                   <MapPin
                     className="mt-0.5 h-4 w-4 shrink-0 text-gdg-red"
                     aria-hidden="true"
@@ -267,7 +318,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 py-2.5 sm:py-3.5">
+                <div className="flex items-start gap-3 py-2.5 sm:py-3">
                   <Monitor
                     className="mt-0.5 h-4 w-4 shrink-0 text-ink-muted"
                     aria-hidden="true"
@@ -280,7 +331,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 py-2.5 sm:py-3.5">
+                <div className="flex items-start gap-3 py-2.5 sm:py-3">
                   <Layers
                     className="mt-0.5 h-4 w-4 shrink-0 text-ink-muted"
                     aria-hidden="true"
@@ -289,7 +340,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
                     <dt className="font-mono text-xs text-ink-muted">Track</dt>
                     <dd className="mt-1">
                       <span
-                        className={`inline-flex items-center rounded-md border px-2 py-0.5 font-mono text-xs font-semibold ${trackStyles.badge}`}
+                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold ${trackStyles.badge}`}
                       >
                         {event.track}
                       </span>
@@ -298,30 +349,42 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
                 </div>
               </dl>
 
-              {/* Primary CTA + .ics Invite + Copy Link Utilities */}
-              <div className="mt-6">
-                <a
-                  href={event.registrationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-full bg-[#1A73E8] px-5 py-3 text-sm font-bold text-white transition-spring hover:-translate-y-0.5 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
-                >
-                  <span>
-                    {isUpcoming ? "Register Now" : "View Recap & Slides"}
-                  </span>
-                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                </a>
+              {/* Zero-Backend Calendar & Copy Link Utilities */}
+              <EventUtilities event={event} />
 
-                <EventUtilities event={event} />
-
-                <p className="mt-4 text-center text-balance font-mono text-xs leading-relaxed text-ink-muted">
-                  {isUpcoming
-                    ? "Free & open to all RVCE branches · Opens GDG chapter page in a new tab."
-                    : "Opens GDG chapter archive in a new tab."}
-                </p>
-              </div>
+              <p className="mt-4 text-center text-balance font-mono text-xs leading-relaxed text-ink-muted">
+                {isUpcoming
+                  ? "Free & open to all RVCE branches · Opens GDG chapter page in a new tab."
+                  : "Opens GDG chapter archive in a new tab."}
+              </p>
             </div>
           </aside>
+        </div>
+      </div>
+
+      {/* Sticky Bottom Register Bar on Mobile */}
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-hairline bg-surface/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+          <div className="min-w-0 font-mono text-xs">
+            <p className="truncate font-bold tabular-nums text-ink">
+              {event.dateDisplay}
+            </p>
+            <p className="truncate text-ink-muted">
+              {event.venue} &middot; {event.mode}
+            </p>
+          </div>
+
+          <a
+            href={event.registrationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#1A73E8] px-5 py-2.5 text-sm font-bold text-white transition-transform active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14]"
+          >
+            <span>
+              {isUpcoming ? "Register for Session" : "View Recap"}
+            </span>
+            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
         </div>
       </div>
     </div>

@@ -23,8 +23,8 @@ export default function TeamPage() {
               <p className="mt-3 max-w-[54ch] text-base leading-relaxed text-ink-muted text-pretty">
                 Student engineers, researchers, and designers across RVCE
                 coordinating open technical workshops, study jams, and shared
-                campus tooling. Select any portrait to open their Builder
-                Dossier.
+                campus tooling. Select any portrait to open their Member
+                Profile.
               </p>
             </div>
 

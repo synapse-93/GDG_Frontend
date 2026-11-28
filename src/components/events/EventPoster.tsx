@@ -1,9 +1,13 @@
+"use client";
+
+import * as m from "motion/react-m";
 import { DomainArtwork, type DomainKey } from "@/components/brand/DomainArtwork";
 import type { EventItem, EventTrack } from "@/data/events";
 
 interface EventPosterProps {
   event: EventItem;
   size?: "card" | "hero" | "recap";
+  badgeLayoutId?: string;
   className?: string;
 }
 
@@ -114,21 +118,29 @@ function parseDateTokens(dateDisplay: string): {
 export function EventPoster({
   event,
   size = "card",
+  badgeLayoutId,
   className = "",
 }: EventPosterProps) {
   const theme = POSTER_THEMES[event.track];
   const domain = resolveEventDomain(event);
   const { day, month, year } = parseDateTokens(event.dateDisplay);
   const isUpcoming = event.status === "upcoming";
+  const isYellow = event.track === "Android";
 
   const heightClass =
     size === "hero"
-      ? "min-h-[230px] sm:min-h-[268px]"
+      ? "min-h-[224px] sm:min-h-[256px]"
       : size === "recap"
-      ? "min-h-[240px] sm:min-h-[280px]"
-      : "min-h-[200px]";
+      ? "min-h-[220px] sm:min-h-[250px]"
+      : "min-h-[160px] lg:min-h-0 lg:h-[148px]";
 
-  const artworkSize = size === "hero" ? "lg" : size === "recap" ? "lg" : "md";
+  const topPad = size === "card" ? "p-3.5 sm:p-4" : "p-5";
+  const bottomPad =
+    size === "card" ? "px-3.5 pb-3.5 pt-1 sm:px-4 sm:pb-4" : "px-5 pb-5 pt-2";
+
+  const scrimPillClass = isYellow
+    ? "border-[#111827]/35 bg-[#111827]/12 text-[#111827]"
+    : "border-white/25 bg-black/30 text-white backdrop-blur-[2px]";
 
   return (
     <div
@@ -144,7 +156,6 @@ export function EventPoster({
       >
         {event.track === "Web" && (
           <>
-            {/* Oversized M3 Arch */}
             <path
               d="M270 260V125C270 67.01 317.01 20 375 20C432.99 20 480 67.01 480 125V260H270Z"
               fill={theme.shapePrimary}
@@ -171,7 +182,6 @@ export function EventPoster({
 
         {event.track === "AI / ML" && (
           <>
-            {/* M3 Four-Leaf Clover */}
             <g transform="translate(362 132)">
               <circle cx="-46" cy="-42" r="56" fill={theme.shapePrimary} />
               <circle cx="46" cy="-42" r="56" fill={theme.shapePrimary} />
@@ -201,7 +211,6 @@ export function EventPoster({
 
         {event.track === "Cloud" && (
           <>
-            {/* Stacked M3 Stadium Pills */}
             <rect
               x="246"
               y="-18"
@@ -231,7 +240,6 @@ export function EventPoster({
 
         {event.track === "Android" && (
           <>
-            {/* M3 Scalloped Starburst */}
             <g transform="translate(368 134)">
               <rect
                 x="-82"
@@ -302,24 +310,32 @@ export function EventPoster({
         </text>
       </svg>
 
-      {/* Top Row: Track Badge + Status Pill + Mode */}
-      <div className="relative z-10 flex items-center justify-between gap-2 p-5">
-        <div className="flex flex-wrap items-center gap-2">
+      {/* Top Row: Track Badge + High-Contrast Scrim Status & Mode Pills */}
+      <div
+        className={`relative z-10 flex items-center justify-between gap-2 ${topPad}`}
+      >
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          {badgeLayoutId ? (
+            <m.span
+              layoutId={badgeLayoutId}
+              layout="position"
+              transition={{ type: "spring", stiffness: 380, damping: 32 }}
+              className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-xs font-bold tracking-tight"
+              style={{ backgroundColor: theme.pillBg, color: theme.pillInk }}
+            >
+              {event.track}
+            </m.span>
+          ) : (
+            <span
+              className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-xs font-bold tracking-tight"
+              style={{ backgroundColor: theme.pillBg, color: theme.pillInk }}
+            >
+              {event.track}
+            </span>
+          )}
+
           <span
-            className="inline-flex items-center rounded-full px-3 py-1 font-mono text-xs font-bold tracking-tight"
-            style={{ backgroundColor: theme.pillBg, color: theme.pillInk }}
-          >
-            {event.track}
-          </span>
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs font-semibold"
-            style={{
-              borderColor:
-                event.track === "Android"
-                  ? "rgba(17, 24, 39, 0.35)"
-                  : "rgba(255, 255, 255, 0.4)",
-              color: theme.ink,
-            }}
+            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold ${scrimPillClass}`}
           >
             <span
               aria-hidden="true"
@@ -331,36 +347,40 @@ export function EventPoster({
         </div>
 
         <span
-          className="relative z-10 inline-flex shrink-0 items-center rounded-full px-2.5 py-1 font-mono text-xs font-semibold"
-          style={{
-            backgroundColor:
-              event.track === "Android"
-                ? "rgba(17, 24, 39, 0.12)"
-                : "rgba(17, 24, 39, 0.32)",
-            color: theme.ink,
-          }}
+          className={`relative z-10 inline-flex shrink-0 items-center rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold ${scrimPillClass}`}
         >
           {event.mode}
         </span>
       </div>
 
       {/* Bottom Row: Oversized Poster Date Lockup + Original DomainArtwork Illustration */}
-      <div className="relative z-10 flex items-end justify-between gap-4 px-5 pb-5 pt-2">
+      <div
+        className={`relative z-10 flex items-end justify-between gap-4 ${bottomPad}`}
+      >
         <div className="min-w-0">
-          <div className="flex items-baseline gap-2">
-            <span className="font-sans text-4xl font-extrabold tracking-[-0.04em] leading-none sm:text-5xl">
+          <div className="flex items-baseline gap-1.5 sm:gap-2">
+            <span
+              className={`font-sans font-extrabold tracking-[-0.04em] leading-none tabular-nums ${
+                size === "card" ? "text-3xl sm:text-4xl" : "text-4xl sm:text-5xl"
+              }`}
+            >
               {day}
             </span>
-            <span className="font-mono text-lg font-bold tracking-tight sm:text-xl">
+            <span
+              className={`font-mono font-bold tracking-tight ${
+                size === "card" ? "text-base sm:text-lg" : "text-lg sm:text-xl"
+              }`}
+            >
               {month}
             </span>
             <span
-              className="font-mono text-xs font-semibold"
+              className="font-mono text-xs font-semibold tabular-nums"
               style={{ color: theme.mutedInk }}
             >
               {year}
             </span>
           </div>
+
           {size !== "card" && (
             <p
               className="mt-2 max-w-[34ch] text-sm font-semibold leading-snug"
@@ -369,9 +389,10 @@ export function EventPoster({
               {event.venue} &middot; {event.timeDisplay}
             </p>
           )}
+
           {size === "hero" && (
             <span
-              className="mt-3 hidden rounded-full px-3 py-1 font-mono text-xs font-bold sm:inline-flex"
+              className="mt-3 hidden rounded-full px-3 py-1 font-sans text-xs font-bold tracking-normal sm:inline-flex"
               style={{ backgroundColor: theme.pillBg, color: theme.pillInk }}
             >
               GDG on Campus RVCE
@@ -379,12 +400,15 @@ export function EventPoster({
           )}
         </div>
 
-        {/* Custom Inline SVG Domain Artwork */}
         <div className="shrink-0">
           <DomainArtwork
             domain={domain}
-            size={artworkSize}
-            tone={event.track === "Android" ? "on-yellow" : "auto"}
+            size={size === "card" ? "md" : "lg"}
+            tone={isYellow ? "on-yellow" : "auto"}
+            interactive
+            className={
+              size === "card" ? "h-16 w-16 lg:h-[68px] lg:w-[68px]" : undefined
+            }
           />
         </div>
       </div>

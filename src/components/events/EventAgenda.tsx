@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import * as m from "motion/react-m";
+import { AnimatePresence } from "motion/react";
 import { ChevronDown, Terminal, User } from "lucide-react";
 import type { AgendaItem } from "@/data/events";
-import { getMemberByName } from "@/data/team";
 
 interface EventAgendaProps {
   agenda: AgendaItem[];
@@ -69,7 +70,6 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
       <ol className="mt-5 divide-y divide-hairline border-y border-hairline">
         {agenda.map((slot, idx) => {
           const isOpen = openIndices.includes(idx);
-          const matchedMember = getMemberByName(slot.speaker);
           const panelId = `agenda-panel-${idx}`;
 
           return (
@@ -102,52 +102,58 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
 
                 <span className="inline-flex items-center gap-1 self-start font-mono text-xs text-ink-muted sm:self-center">
                   <span>{isOpen ? "Hide notes" : "Notes"}</span>
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform duration-200 ${
-                      isOpen ? "rotate-180 text-gdg-blue-ink" : ""
-                    }`}
-                    aria-hidden="true"
-                  />
+                  <m.span
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ type: "spring", stiffness: 420, damping: 30 }}
+                    className="inline-flex"
+                  >
+                    <ChevronDown
+                      className={`h-4 w-4 ${isOpen ? "text-gdg-blue-ink" : ""}`}
+                      aria-hidden="true"
+                    />
+                  </m.span>
                 </span>
               </button>
 
-              {isOpen && (
-                <div
-                  id={panelId}
-                  className="space-y-3 pb-5 pl-4 sm:pl-[140px] sm:pr-4"
-                >
-                  <p className="max-w-[60ch] text-sm leading-relaxed text-ink-muted text-pretty">
-                    {slot.notes}
-                  </p>
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <m.div
+                    id={panelId}
+                    key={panelId}
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    className="space-y-3 pb-5 pl-4 sm:pl-[140px] sm:pr-4"
+                  >
+                    <p className="max-w-[60ch] text-sm leading-relaxed text-ink-muted text-pretty">
+                      {slot.notes}
+                    </p>
 
-                  <div className="flex items-start gap-2.5 rounded-lg border border-hairline bg-surface px-3.5 py-2.5 font-mono text-xs leading-relaxed text-ink-muted">
-                    <Terminal
-                      className="mt-1 h-3.5 w-3.5 shrink-0 text-gdg-blue"
-                      aria-hidden="true"
-                    />
-                    <span className="break-words">
-                      {renderFormattedTip(slot.setupTip)}
-                    </span>
-                  </div>
+                    <div className="flex items-start gap-2.5 rounded-lg border border-hairline bg-surface px-3.5 py-2.5 font-mono text-xs leading-relaxed text-ink-muted">
+                      <Terminal
+                        className="mt-1 h-3.5 w-3.5 shrink-0 text-gdg-blue"
+                        aria-hidden="true"
+                      />
+                      <span className="break-words">
+                        {renderFormattedTip(slot.setupTip)}
+                      </span>
+                    </div>
 
-                  {matchedMember && (
                     <div>
                       <Link
-                        href={`/team?builder=${encodeURIComponent(
-                          matchedMember.id
+                        href={`/team?member=${encodeURIComponent(
+                          slot.memberSlug
                         )}`}
-                        className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-gdg-blue-ink transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-3 py-1 font-mono text-xs font-semibold text-gdg-blue-ink transition-colors hover:border-gdg-blue/50 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                       >
                         <User className="h-3.5 w-3.5" aria-hidden="true" />
-                        <span>
-                          Inspect {matchedMember.name}&apos;s Builder Dossier
-                          &rarr;
-                        </span>
+                        <span>View {slot.speaker}&apos;s profile &rarr;</span>
                       </Link>
                     </div>
-                  )}
-                </div>
-              )}
+                  </m.div>
+                )}
+              </AnimatePresence>
             </li>
           );
         })}

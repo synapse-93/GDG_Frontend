@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-27T16:38:00+05:30",
-  "title": "Design System: GDG on Campus RVCE — Kinetic Campus Almanac",
+  "generatedAt": "2026-11-28T08:10:00+05:30",
+  "title": "Design System: GDG on Campus RVCE — Swiss Editorial Grid × Material 3 Expressive",
   "extensions": {
     "colorMeta": {
       "almanac-paper": {
         "role": "neutral",
-        "displayName": "Almanac Paper",
+        "displayName": "Studio Paper",
         "canonical": "#FAF9F6",
         "tonalRamp": ["#1C1B18", "#36342F", "#57544D", "#7E7A71", "#ABA69C", "#D4D0C7", "#ECE9E2", "#FAF9F6"]
       },
@@ -24,7 +24,7 @@
       },
       "gdg-blue-ink": {
         "role": "primary",
-        "displayName": "Blueprint Blue Ink",
+        "displayName": "Editorial Blue Ink",
         "canonical": "#1765CC",
         "tonalRamp": ["#0B244D", "#123C7D", "#1765CC", "#2B7DE0", "#559AEF", "#8AB4F8", "#C2D9FC", "#EDF4FF"]
       },
@@ -48,39 +48,34 @@
       }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Home hero editorial thesis statement." },
-      "headline": { "displayName": "Headline", "purpose": "Route titles and major spread headings." },
-      "title": { "displayName": "Title", "purpose": "Ledger session rows, agenda items, and builder names." },
-      "body": { "displayName": "Body", "purpose": "Calm reading columns, session overviews, and bios." },
-      "data": { "displayName": "Functional Data / Code", "purpose": "Code snippets, tabular schedules, countdowns, and ⌘K shortcuts." }
+      "display": { "displayName": "Display", "purpose": "Home hero editorial headline." },
+      "headline": { "displayName": "Headline", "purpose": "Route titles and major section headings." },
+      "title": { "displayName": "Title", "purpose": "Event cards, list rows, agenda items, and team member names." },
+      "body": { "displayName": "Body", "purpose": "Reading columns, event descriptions, and bios." },
+      "data": { "displayName": "Functional Data", "purpose": "Tabular schedules, countdowns, venues, and ⌘K shortcuts." }
     },
     "shadows": [
       {
         "name": "overlay-sheet",
         "value": "0 24px 64px rgba(12, 15, 20, 0.24)",
-        "purpose": "Transient fixed overlays only (CommandPalette and BuilderDossier drawer); page surfaces remain flat with 1px hairlines."
+        "purpose": "Transient fixed overlays only (CommandPalette and Member Profile drawer); page surfaces remain flat with 1px hairlines."
       }
     ],
     "motion": [
       {
-        "name": "gdg-spin-3d",
-        "value": "18s linear infinite (transform only)",
-        "purpose": "GPU-composited pure CSS 3D wireframe polyhedra rotation."
+        "name": "lazy-motion-spring",
+        "value": "motion/react LazyMotion (async domMax) + motion/react-m",
+        "purpose": "Physics-driven layoutId nav indicators, filter pills, and tactile micro-interactions with minimal initial bundle."
       },
       {
-        "name": "gdg-spin-reverse-3d",
-        "value": "14s linear infinite (transform only)",
-        "purpose": "Counter-rotating outer orbital ring in pure CSS 3D stages."
+        "name": "theme-view-transition",
+        "value": "document.startViewTransition clip-path circle reveal (450ms)",
+        "purpose": "Circular radial Light/Dark theme transition originating from the ThemeToggle button center."
       },
       {
-        "name": "gdg-float-3d",
-        "value": "6s ease-in-out infinite (transform, opacity)",
-        "purpose": "Subtle vertical buoyancy on 3D geometry."
-      },
-      {
-        "name": "utility-snap",
-        "value": "180ms cubic-bezier(0.2, 0.8, 0.2, 1)",
-        "purpose": "Drawer entry, agenda expansion, and state switches."
+        "name": "scroll-progress-hairline",
+        "value": "CSS animation-timeline: scroll(root) scaleX(0→1)",
+        "purpose": "2px four-color Google reading progress hairline along Navbar bottom edge."
       }
     ],
     "breakpoints": [
@@ -91,107 +86,47 @@
       { "name": "desktop", "value": "1440px" }
     ]
   },
-  "components": [
-    {
-      "name": "Primary Action Button",
-      "kind": "button",
-      "refersTo": "button-primary",
-      "description": "High-contrast Action Cobalt CTA for primary campus actions (Explore Events, Register Now).",
-      "html": "<button class=\"ds-btn-primary\">Explore Events <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; border: none; border-radius: 8px; background: #1A73E8; color: #FFFFFF; padding: 12px 22px; font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif); font-size: 14px; font-weight: 600; cursor: pointer; transition: background-color 150ms ease, transform 150ms ease; } .ds-btn-primary:hover { background: #1557B0; } .ds-btn-primary:active { transform: scale(0.98); } .ds-btn-primary:focus-visible { outline: 2px solid #4285F4; outline-offset: 2px; }"
-    },
-    {
-      "name": "Command Palette Trigger",
-      "kind": "button",
-      "refersTo": "command-trigger",
-      "description": "Compact navbar button revealing the global ⌘K command navigation palette.",
-      "html": "<button class=\"ds-cmd-trigger\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><span>Jump to...</span><kbd class=\"ds-kbd\">⌘K</kbd></button>",
-      "css": ".ds-cmd-trigger { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--hairline, #E5E2DC); border-radius: 8px; background: var(--surface-muted, #F2EFE9); color: var(--ink-muted, #4B5563); padding: 6px 10px; font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif); font-size: 13px; font-weight: 500; cursor: pointer; transition: color 150ms ease, border-color 150ms ease; } .ds-cmd-trigger:hover { color: var(--ink, #111827); border-color: #4285F4; } .ds-cmd-trigger:focus-visible { outline: 2px solid #4285F4; outline-offset: 2px; } .ds-kbd { border: 1px solid var(--hairline, #E5E2DC); border-radius: 4px; background: var(--surface, #FFFFFF); padding: 1px 5px; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--ink, #111827); }"
-    },
-    {
-      "name": "Ruled Event Ledger Row",
-      "kind": "custom",
-      "refersTo": "ledger-row",
-      "description": "Unboxed full-width timetable row separated by 1px hairlines for high-speed session scanning.",
-      "html": "<a class=\"ds-ledger-row\" href=\"#\"><span class=\"ds-ledger-date\">12 Dec 2026</span><span class=\"ds-ledger-main\"><span class=\"ds-ledger-title\">Linux &amp; Systems Night</span><span class=\"ds-ledger-sub\">IEM Auditorium, RVCE · In-Person</span></span><span class=\"ds-ledger-badge\">Cloud</span></a>",
-      "css": ".ds-ledger-row { display: grid; grid-template-columns: 120px 1fr auto; align-items: center; gap: 16px; border-top: 1px solid var(--hairline, #E5E2DC); border-bottom: 1px solid var(--hairline, #E5E2DC); padding: 18px 12px; text-decoration: none; color: var(--ink, #111827); transition: background-color 150ms ease; } .ds-ledger-row:hover { background: var(--surface-muted, #F2EFE9); } .ds-ledger-row:focus-visible { outline: 2px solid #4285F4; outline-offset: 2px; } .ds-ledger-date { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 12px; color: var(--ink-muted, #4B5563); font-variant-numeric: tabular-nums; } .ds-ledger-main { display: flex; flex-direction: column; gap: 2px; } .ds-ledger-title { font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif); font-size: 16px; font-weight: 700; } .ds-ledger-sub { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 12px; color: var(--ink-muted, #4B5563); } .ds-ledger-badge { border: 1px solid rgba(234, 67, 53, 0.35); border-radius: 6px; background: rgba(234, 67, 53, 0.12); color: #B91C1C; padding: 2px 10px; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 12px; font-weight: 600; }"
-    },
-    {
-      "name": "Track Filter Pill",
-      "kind": "chip",
-      "refersTo": "filter-pill-active",
-      "description": "Capsule toggle for track and vertical filtering with WCAG AA yellow-on-dark-ink compliance.",
-      "html": "<div class=\"ds-pill-row\"><button class=\"ds-pill ds-pill-active\">All Tracks</button><button class=\"ds-pill ds-pill-yellow\"><span class=\"ds-dot-ink\"></span>Android</button></div>",
-      "css": ".ds-pill-row { display: flex; gap: 8px; } .ds-pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--hairline, #E5E2DC); border-radius: 9999px; background: var(--canvas, #FAF9F6); color: var(--ink-muted, #4B5563); padding: 8px 14px; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 12px; font-weight: 600; cursor: pointer; } .ds-pill:focus-visible { outline: 2px solid #4285F4; outline-offset: 2px; } .ds-pill-active { border-color: var(--ink, #111827); background: var(--ink, #111827); color: var(--canvas, #FAF9F6); } .ds-pill-yellow { border-color: rgba(217, 155, 0, 0.45); background: rgba(251, 188, 4, 0.22); color: #111827; } .ds-dot-ink { width: 6px; height: 6px; border-radius: 9999px; background: #111827; }"
-    },
-    {
-      "name": "Unnumbered Editorial Navigation",
-      "kind": "nav",
-      "refersTo": "button-outline",
-      "description": "Clean unboxed route links with a 2px GDG Blue underline on the active route—zero index numbers.",
-      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-nav-active\" href=\"#\">Home</a><a class=\"ds-nav-link\" href=\"#\">Events</a><a class=\"ds-nav-link\" href=\"#\">Team</a></nav>",
-      "css": ".ds-nav { display: inline-flex; align-items: center; gap: 20px; } .ds-nav-link { position: relative; padding: 8px 2px; font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif); font-size: 14px; font-weight: 600; text-decoration: none; color: var(--ink-muted, #4B5563); transition: color 150ms ease; } .ds-nav-link:hover { color: var(--ink, #111827); } .ds-nav-link:focus-visible { outline: 2px solid #4285F4; outline-offset: 2px; } .ds-nav-active { color: var(--ink, #111827); } .ds-nav-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--gdg-blue, #4285F4); }"
-    }
-  ],
   "narrative": {
-    "northStar": "Kinetic Campus Almanac",
-    "overview": "The GDG on Campus RV College of Engineering web interface is designed like an open-spine, interactive engineering almanac rather than a boxed SaaS template. Full-bleed studio paper in Light mode (#FAF9F6) and deep carbon-slate in Dark mode (#0C0F14) stay open and breathable, partitioned by crisp 1px full-width architectural hairlines (--hairline), asymmetric two-column splits, and dramatic Plus Jakarta Sans typographic hierarchy—never repetitive grids of rounded cards. Every interaction earns its existence through genuine developer utility: a global ⌘K command palette for instant cross-route navigation, an interactive Google-track architecture and pure CSS 3D geometry playground on /, a Grid-versus-Compact-Ledger view switcher on /events, client-side .ics calendar export and expandable speaker syllabi on /events/[slug], and expressive custom SVG builder portraits with a slide-over Builder Dossier on /team.",
+    "northStar": "Swiss Editorial Grid × Material 3 Expressive",
+    "overview": "GDG on Campus RV College of Engineering pairs a Swiss editorial hairline grid with saturated Material 3 Expressive geometry, original inline SVG domain artwork (DomainArtwork.tsx), and async LazyMotion spring physics. Zero Fake UI: no fabricated Lighthouse scores, fake curl logs, or corporate jargon.",
     "keyCharacteristics": [
-      "Unboxed editorial spreads separated by full-width 1px --hairline rules across #FAF9F6 (Light) and #0C0F14 (Dark) toggled via Tailwind CSS v4 @custom-variant dark.",
-      "Dramatic Plus Jakarta Sans display scale paired with strictly functional JetBrains Mono for code/architecture snippets, tabular-nums schedules and countdowns, keyboard shortcuts (⌘K), and technical prerequisites.",
-      "Disciplined Google four-color wayfinding (Blue for Web & primary action, Green for AI/ML & Live status, Red for Cloud & campus venues, Yellow with #111827 dark ink for Android/Design).",
-      "Pure CSS 3D geometry (perspective, transform-style: preserve-3d) and hand-authored SVG developer portraits animating strictly GPU-composited transform and opacity with full prefers-reduced-motion: reduce halts."
+      "Swiss editorial grids on warm paper (#FAF9F6) and carbon-slate (#0C0F14) toggled via Tailwind CSS v4 @custom-variant dark and View Transitions API.",
+      "Standardized motion/react + LazyMotion (async domMax) + motion/react-m (* as m) wrapped in MotionConfig reducedMotion='user'.",
+      "Disciplined Google four-color wayfinding with WCAG AA --gdg-blue-ink and strict #111827 dark ink on Google Yellow.",
+      "Zero Fake UI: authentic schedules, prerequisites, fuzzy ⌘K navigation, and one-click .ics exports."
     ],
     "rules": [
       {
         "name": "The Dark-Ink-On-Yellow Rule",
-        "body": "Never place white text on Google Yellow (#FBBC04 or #FDD663). Every yellow badge or highlight surface pairs strictly with #111827 dark ink in Light mode (>= 10.3:1) and translucent #FDD663/18 with #FDD663 ink on dark carbon in Dark mode.",
+        "body": "Never place white text on Google Yellow (#FBBC04 or #FDD663). Always pair yellow surfaces with #111827 dark ink.",
         "section": "colors"
       },
       {
         "name": "The Split-Blue Contrast Rule",
-        "body": "Reserve pure #4285F4 for brand marks, focus outlines, borders, and 3D wireframes; always use --gdg-blue-ink (#1765CC Light / #669DF6 Dark) for small interactive blue copy and #1A73E8 for white-text primary buttons.",
+        "body": "Reserve #4285F4 for marks, borders, and focus rings; use --gdg-blue-ink (#1765CC Light / #669DF6 Dark) for small interactive blue text.",
         "section": "colors"
       },
       {
-        "name": "The Unboxed Field Rule",
-        "body": "Use color as leading dots, crisp taxonomy badges, interactive state indicators, and wireframe/portrait geometry—never colored top-stripe bars or decorative background gradients.",
-        "section": "colors"
-      },
-      {
-        "name": "The Zero-Eyebrow Rule",
-        "body": "Never place uppercase monospace kickers or 01 //, 02 //, 03 // index numbers above headings. Let generous whitespace (>= 48px above a heading vs. 12px–16px below) and clear typographic scale establish hierarchy on their own.",
+        "name": "The Zero Fake UI Rule",
+        "body": "Never display hardcoded Lighthouse scores, fake curl outputs, or corporate jargon like Compact Ledger or Builder Dossier.",
         "section": "typography"
       },
       {
-        "name": "The Earned-Monospace Rule",
-        "body": "Restrict JetBrains Mono to genuine data, dates, code snippets, handles, shortcuts, and tabular counters—never as decorative styling for headings or editorial paragraphs.",
-        "section": "typography"
-      },
-      {
-        "name": "The Zero-Nesting Rule",
-        "body": "Never place a bordered rounded card inside another bordered rounded card. Use hairline dividers (border-t border-hairline) or direct open placement on --canvas.",
-        "section": "elevation"
-      },
-      {
-        "name": "The GPU-Only Motion Rule",
-        "body": "Every continuous animation and interactive transition animates only transform, opacity, or instant color/border shifts—never width, height, top, left, box-shadow, or blur.",
+        "name": "The LazyMotion Strict Rule",
+        "body": "Load domMax asynchronously via LazyMotion strict and import * as m from motion/react-m so the initial bundle stays minimal.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do structure sections with open --canvas, generous whitespace, asymmetric two-column splits, and full-width 1px --hairline dividers.",
-      "Do pair Google Yellow (#FBBC04 / #FDD663) light-mode surfaces strictly with #111827 dark ink and use --gdg-blue-ink (#1765CC Light / #669DF6 Dark) for small blue interactive text.",
-      "Do keep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] on every interactive control and guard client-dependent UI (ThemeToggle, CountdownTimer) with useSyncExternalStore for zero hydration warnings.",
-      "Do preserve p-2 clear space and exact aspect ratio around <GdgLogo />, open-source credits, and the non-Google-product footer disclaimer.",
-      "Do keep every 3D animation strictly GPU-composited (transform, opacity) and cleanly disabled under @media (prefers-reduced-motion: reduce)."
+      "Do use motion/react-m inside LazyMotion strict + MotionConfig reducedMotion='user'.",
+      "Do pair Google Yellow strictly with #111827 dark ink and use --gdg-blue-ink for small blue text.",
+      "Do guard client-dependent UI (ThemeToggle, CountdownTimer) via useSyncExternalStore for zero hydration warnings.",
+      "Do preserve p-2 clear space around <GdgLogo />, open-source credits, and the independent student chapter disclaimer."
     ],
     "donts": [
-      "Don't build stacked uniform grids of icon + heading + paragraph cards (PillarsGrid boxes, 10 identical MemberCard boxes, or 5 identical social cards).",
-      "Don't place uppercase monospace eyebrow labels or section numbers (01 //, 02 //, 03 //) above headings.",
-      "Don't add colored top-stripe borders (border-t-2 / h-1 color bars) on cards or nest cards inside cards.",
-      "Don't place white text on Google Yellow (#FBBC04 / #FDD663) anywhere.",
-      "Don't import heavy 3D/animation libraries (three, @react-three/fiber, spline, lottie-web, framer-motion), or add analytics, RSVP/interest counters, attendee lists, comments, live chat, real student PII, or forbidden routes (/about, /resources, /faq, /join, /contact, /api/*)."
+      "Don't include fake Lighthouse scores, fake curl outputs, or corporate jargon (Compact Ledger, Builder Dossier).",
+      "Don't place white text on Google Yellow anywhere.",
+      "Don't import heavy WebGL/Lottie libraries (three, @react-three/fiber, spline, lottie-web), or add analytics, RSVP counters, attendee lists, comments, live chat, real student PII, or forbidden routes."
     ]
   }
 }

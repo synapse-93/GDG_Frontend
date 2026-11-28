@@ -20,18 +20,18 @@ export interface CommunityPillar {
   engineeringFocus: string;
   campusLab: string;
   stackTags: string[];
-  cliSnippet: string;
   trackFilter: "Web" | "AI / ML" | "Cloud" | "Android";
   accentColor: "blue" | "red" | "yellow" | "green";
-  geometryVariant: "cube" | "rings" | "diamond" | "hex";
 }
 
-export interface RecapTakeawayTab {
+export interface RecapHighlightTile {
   id: string;
   label: string;
+  scene: "teardown" | "flamegraph" | "postmortem" | "starterkit";
   headline: string;
   detail: string;
   artifact: string;
+  accentColor: "blue" | "green" | "red" | "yellow";
 }
 
 export interface LatestRecapContent {
@@ -42,7 +42,7 @@ export interface LatestRecapContent {
   track: string;
   summary: string;
   highlights: string[];
-  takeawayTabs: RecapTakeawayTab[];
+  takeawayTabs: RecapHighlightTile[];
   resources: {
     label: string;
     href: string;
@@ -127,13 +127,11 @@ export const siteConfig = {
       description:
         "Modern web standards, accessible interfaces, performance profiling, and resilient full-stack engineering.",
       engineeringFocus:
-        "Flamegraph profiling, streaming Server Components, WCAG AA color systems, and zero-jank GPU-composited motion.",
+        "Flamegraph profiling, streaming Server Components, WCAG AA color systems, and GPU-composited motion.",
       campusLab: "EC Seminar Hall · Perf & Edge Lab",
       stackTags: ["Next.js 16", "TypeScript", "Tailwind v4", "Web Vitals"],
-      cliSnippet: `$ npx lighthouse http://localhost:3000 --preset=desktop\n  LCP 0.8s · INP 24ms · CLS 0.00 · A11y 100\n$ curl -sI https://edge.rvce.dev | grep cache-status\n  cache-status: HIT; ttl=3600`,
       trackFilter: "Web",
       accentColor: "blue",
-      geometryVariant: "hex",
     },
     {
       title: "Applied AI & Agents",
@@ -141,13 +139,11 @@ export const siteConfig = {
       description:
         "Hands-on model tooling, retrieval pipelines, evaluation harnesses, and responsible agent workflows.",
       engineeringFocus:
-        "Schema-enforced tool calling, deterministic guardrails, local model quantization, and golden-set regression evals.",
+        "Schema-enforced tool calling, deterministic guardrails, local model quantization, and golden-set evals.",
       campusLab: "CS Seminar Hall · Agent Eval Studio",
       stackTags: ["Python", "Structured Tools", "Eval Harnesses", "Local LLM"],
-      cliSnippet: `$ uv run eval-harness --suite golden-campus.json\n  [pass] tool_schema_strict  (24/24)\n  [pass] retry_budget_bound  (24/24)\n  median_latency=412ms · regressions=0`,
       trackFilter: "AI / ML",
       accentColor: "green",
-      geometryVariant: "diamond",
     },
     {
       title: "Cloud & Infrastructure",
@@ -155,13 +151,11 @@ export const siteConfig = {
       description:
         "Linux foundations, Kubernetes orchestration, reproducible deployments, and production observability.",
       engineeringFocus:
-        "Kernel namespaces & cgroups v2 from scratch, GKE Autopilot manifests, readiness probes, and OpenTelemetry traces.",
+        "Kernel namespaces & cgroups v2 from scratch, GKE Autopilot manifests, readiness probes, and OpenTelemetry.",
       campusLab: "IEM Auditorium · Systems Clinic",
       stackTags: ["Linux Kernel", "Go / Rust", "Kubernetes", "Google Cloud"],
-      cliSnippet: `$ unshare --pid --mount --uts --fork /bin/sh\n$ echo "+cpu +memory" > /sys/fs/cgroup/rvce-box/cgroup.subtree_control\n$ kubectl rollout status deploy/campus-api\n  deployment "campus-api" successfully rolled out`,
       trackFilter: "Cloud",
       accentColor: "red",
-      geometryVariant: "cube",
     },
     {
       title: "Android & Design Craft",
@@ -169,13 +163,11 @@ export const siteConfig = {
       description:
         "Jetpack Compose, Flutter UI architecture, motion ergonomics, and cohesive developer design systems.",
       engineeringFocus:
-        "Unidirectional state hoisting, adaptive phone-to-tablet layouts, semantic touch ergonomics, and 60fps choreography.",
+        "Unidirectional state hoisting, adaptive phone-to-tablet layouts, semantic touch ergonomics, and 60fps UI.",
       campusLab: "EC Seminar Hall · Declarative UI Studio",
       stackTags: ["Jetpack Compose", "Kotlin", "Flutter", "Design Tokens"],
-      cliSnippet: `$ ./gradlew :app:connectedCheck --info\n  AdaptiveRailTest > compactToExpanded PASSED\n  ContrastAuditTest > darkInkOnYellow  PASSED\n$ flutter run --profile --trace-skia`,
       trackFilter: "Android",
       accentColor: "yellow",
-      geometryVariant: "rings",
     },
   ] satisfies CommunityPillar[],
   latestRecap: {
@@ -194,27 +186,43 @@ export const siteConfig = {
     takeawayTabs: [
       {
         id: "teardowns",
-        label: "Architecture Teardowns",
+        label: "Architecture Teardown",
+        scene: "teardown",
         headline: "Edge routing, streaming UI, and container debugging live on stage",
         detail:
           "Three RVCE track leads opened real student repositories in DevTools and POSIX terminals—walking through cold-start latency, partial prerendering boundaries, and crash-looping container probes without slideware.",
         artifact: "starter-kit/edge-teardown-checklist.md",
+        accentColor: "blue",
+      },
+      {
+        id: "flamegraphs",
+        label: "Flamegraph Clinic",
+        scene: "flamegraph",
+        headline: "Trimming hydration cost and layout shifts in live student apps",
+        detail:
+          "Builders profiled main-thread long tasks side by side in Chrome Performance Insights, splitting heavy client trees into Server Components and preloaded variable fonts.",
+        artifact: "starter-kit/perf-flamegraph-notes.md",
+        accentColor: "green",
       },
       {
         id: "postmortems",
         label: "Lightning Postmortems",
+        scene: "postmortem",
         headline: "Honest debugging stories from shipped campus prototypes",
         detail:
           "Student builders shared what actually broke during demo week: hydration mismatches on live clocks, runaway token loops in agent prototypes, and WCAG contrast traps on yellow surfaces.",
         artifact: "notes/autumn-postmortem-log.md",
+        accentColor: "red",
       },
       {
         id: "handoff",
         label: "Open Starter Kits",
+        scene: "starterkit",
         headline: "Reproducible repositories & accessibility checklists for self-paced study",
         detail:
           "Every demo shipped with a locked dependency manifest, local setup script, and keyboard-accessibility audit list so students from any branch can reproduce the workshops asynchronously.",
         artifact: "github.com/gdg-on-campus-rvce-demo/devfest-campus-warmup",
+        accentColor: "yellow",
       },
     ],
     resources: [

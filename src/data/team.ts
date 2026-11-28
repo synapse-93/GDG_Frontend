@@ -5,6 +5,8 @@ export type TeamVertical =
   | "Cloud"
   | "Design";
 
+export type PortraitMask = "circle" | "arch" | "clover" | "scallop";
+
 export type PortraitMotif =
   | "orbit"
   | "grid"
@@ -19,14 +21,16 @@ export type PortraitMotif =
 
 export interface TeamMember {
   id: string;
+  slug: string;
   name: string;
   role: string;
   vertical: TeamVertical;
   accentColor: "blue" | "red" | "yellow" | "green";
   bio: string;
+  askMeAbout: string;
   techStack: string[];
   campusFocus: string;
-  avatarShape: "cube" | "rings" | "diamond" | "hex";
+  portraitMask: PortraitMask;
   portraitMotif: PortraitMotif;
   imagePath?: string;
   links: {
@@ -47,15 +51,17 @@ export const TEAM_VERTICALS: readonly TeamVertical[] = [
 export const teamMembers: TeamMember[] = [
   {
     id: "aarav-krishnamurthy",
+    slug: "aarav-krishnamurthy",
     name: "Aarav Krishnamurthy",
     role: "GDG on Campus Organizer",
     vertical: "Lead & Core",
     accentColor: "blue",
     bio: "Coordinates technical tracks, workshop curricula, and open-source campus sprints with a focus on peer-led engineering craft.",
+    askMeAbout: "Linux systems & campus sprints",
     techStack: ["TypeScript", "Go", "Linux", "Systems Architecture"],
     campusFocus:
       "Leading the 2026–27 Build Cycle roadmap, multi-branch mentorship circles, and reproducible workshop starter kits across RVCE.",
-    avatarShape: "rings",
+    portraitMask: "scallop",
     portraitMotif: "orbit",
     links: {
       github: "https://github.com/gdg-rvce-demo-aarav",
@@ -65,15 +71,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "kavya-ramachandran",
+    slug: "kavya-ramachandran",
     name: "Kavya Ramachandran",
     role: "Technical Operations Lead",
     vertical: "Lead & Core",
     accentColor: "blue",
     bio: "Designs reproducible workshop setups, speaker runbooks, and inclusive onboarding paths for first-time campus builders.",
+    askMeAbout: "Workshop runbooks & GitHub Actions",
     techStack: ["Python", "GitHub Actions", "Docs-as-Code", "DevEx"],
     campusFocus:
       "Standardizing lab pre-flight checklists and beginner-friendly onboarding tracks so non-CS students ship on day one.",
-    avatarShape: "cube",
+    portraitMask: "arch",
     portraitMotif: "grid",
     links: {
       github: "https://github.com/gdg-rvce-demo-kavya",
@@ -82,15 +90,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "ananya-venkataraman",
+    slug: "ananya-venkataraman",
     name: "Ananya Venkataraman",
     role: "Web Architecture Lead",
     vertical: "Dev Vertical",
     accentColor: "blue",
     bio: "Obsessed with TypeScript ergonomics, rendering pipelines, and building accessible web tools that feel instantaneous.",
+    askMeAbout: "Next.js perf profiling & a11y",
     techStack: ["Next.js", "React 19", "TypeScript", "Web Performance"],
     campusFocus:
       "Running Web Vitals flamegraph clinics and maintaining open-source campus frontend starter architectures.",
-    avatarShape: "hex",
+    portraitMask: "circle",
     portraitMotif: "prism",
     links: {
       github: "https://github.com/gdg-rvce-demo-ananya",
@@ -100,15 +110,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "pranav-hegde",
+    slug: "pranav-hegde",
     name: "Pranav Hegde",
     role: "Android & Mobile Maintainer",
     vertical: "Dev Vertical",
     accentColor: "blue",
     bio: "Builds offline-first Kotlin and Flutter applications and runs hands-on labs on declarative state architecture.",
+    askMeAbout: "Jetpack Compose animations",
     techStack: ["Kotlin", "Jetpack Compose", "Flutter", "SQLite"],
     campusFocus:
       "Curating side-by-side Compose & Flutter UI labs focused on adaptive tablet layouts and 60fps frame budgets.",
-    avatarShape: "cube",
+    portraitMask: "arch",
     portraitMotif: "stack",
     links: {
       github: "https://github.com/gdg-rvce-demo-pranav",
@@ -117,15 +129,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "meera-balasubramanian",
+    slug: "meera-balasubramanian",
     name: "Meera Balasubramanian",
     role: "Applied AI Lead",
     vertical: "AI / ML",
     accentColor: "green",
     bio: "Explores structured tool-calling agents, evaluation harnesses, and transparent retrieval systems for developer workflows.",
+    askMeAbout: "Tool-calling agents & eval suites",
     techStack: ["Python", "Structured Tools", "Eval Harnesses", "RAG"],
     campusFocus:
       "Teaching schema-enforced agent architectures and deterministic regression testing in the Winter AI Studio.",
-    avatarShape: "diamond",
+    portraitMask: "clover",
     portraitMotif: "nodes",
     links: {
       github: "https://github.com/gdg-rvce-demo-meera",
@@ -135,15 +149,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "devansh-iyer",
+    slug: "devansh-iyer",
     name: "Devansh Iyer",
     role: "ML Systems Engineer",
     vertical: "AI / ML",
     accentColor: "green",
     bio: "Focuses on model quantization, local inference benchmarks, and reproducible Python notebooks for campus study jams.",
+    askMeAbout: "Local LLM quantization & ONNX",
     techStack: ["PyTorch", "ONNX", "Quantization", "FastAPI"],
     campusFocus:
       "Benchmarking small open-weights models on student laptops so AI workshops run offline without cloud bottlenecks.",
-    avatarShape: "rings",
+    portraitMask: "scallop",
     portraitMotif: "wave",
     links: {
       github: "https://github.com/gdg-rvce-demo-devansh",
@@ -152,15 +168,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "rohan-subramanian",
+    slug: "rohan-subramanian",
     name: "Rohan Subramanian",
     role: "Cloud & Infrastructure Lead",
     vertical: "Cloud",
     accentColor: "red",
     bio: "Spends evenings poking at Linux namespaces, Kubernetes schedulers, and automated CI pipelines for student projects.",
+    askMeAbout: "Linux eBPF & terminal setups",
     techStack: ["Linux Kernel", "Kubernetes", "Rust", "Google Cloud"],
     campusFocus:
       "Leading Linux & Systems Night and mentoring student teams on declarative GKE Autopilot deployments.",
-    avatarShape: "cube",
+    portraitMask: "arch",
     portraitMotif: "terminal",
     links: {
       github: "https://github.com/gdg-rvce-demo-rohan",
@@ -170,15 +188,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "niharika-kulkarni",
+    slug: "niharika-kulkarni",
     name: "Niharika Kulkarni",
     role: "DevOps & Observability Core",
     vertical: "Cloud",
     accentColor: "red",
     bio: "Maintains container starter templates, OpenTelemetry labs, and zero-downtime deployment guides on Google Cloud.",
+    askMeAbout: "Cloud Run, Docker & OpenTelemetry",
     techStack: ["Docker", "OpenTelemetry", "Terraform", "Cloud Run"],
     campusFocus:
       "Building resilient container runbooks, readiness-probe drills, and observability sandboxes for campus hackathons.",
-    avatarShape: "hex",
+    portraitMask: "clover",
     portraitMotif: "mesh",
     links: {
       github: "https://github.com/gdg-rvce-demo-niharika",
@@ -187,15 +207,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "tara-narayanan",
+    slug: "tara-narayanan",
     name: "Tara Narayanan",
     role: "Design Systems Lead",
     vertical: "Design",
     accentColor: "yellow",
-    bio: "Crafts typographic scales, blueprint grids, and high-contrast Light/Dark interfaces rooted in developer clarity.",
+    bio: "Crafts typographic scales, editorial grids, and high-contrast Light/Dark interfaces rooted in developer clarity.",
+    askMeAbout: "WCAG AA palettes & design tokens",
     techStack: ["Design Tokens", "Tailwind CSS v4", "Figma", "WCAG AA"],
     campusFocus:
-      "Stewarding the Kinetic Campus Almanac token system and running live accessibility & contrast critiques.",
-    avatarShape: "diamond",
+      "Stewarding the chapter design token system and running live accessibility & contrast critiques.",
+    portraitMask: "scallop",
     portraitMotif: "compass",
     links: {
       github: "https://github.com/gdg-rvce-demo-tara",
@@ -205,15 +227,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "siddharth-menon",
+    slug: "siddharth-menon",
     name: "Siddharth Menon",
     role: "Interaction & Motion Designer",
     vertical: "Design",
     accentColor: "yellow",
-    bio: "Pairs CSS 3D geometry with reduced-motion ergonomics so technical web interfaces feel tactile without heavy runtime cost.",
-    techStack: ["CSS 3D", "SVG Geometry", "Accessibility", "React"],
+    bio: "Pairs spring physics with reduced-motion ergonomics so technical web interfaces feel tactile without heavy runtime cost.",
+    askMeAbout: "Spring physics & micro-interactions",
+    techStack: ["Motion Springs", "SVG Geometry", "Accessibility", "React"],
     campusFocus:
-      "Designing pure CSS 3D interactive playgrounds and keyboard-first navigation utilities with zero WebGL bloat.",
-    avatarShape: "rings",
+      "Designing interactive playgrounds, view transitions, and keyboard-first navigation utilities with zero WebGL bloat.",
+    portraitMask: "circle",
     portraitMotif: "kinetic",
     links: {
       github: "https://github.com/gdg-rvce-demo-siddharth",
@@ -225,5 +249,13 @@ export const teamMembers: TeamMember[] = [
 export function getMemberByName(name: string): TeamMember | undefined {
   return teamMembers.find(
     (member) => member.name.toLowerCase() === name.toLowerCase()
+  );
+}
+
+export function getMemberBySlug(slug: string): TeamMember | undefined {
+  return teamMembers.find(
+    (member) =>
+      member.slug.toLowerCase() === slug.toLowerCase() ||
+      member.id.toLowerCase() === slug.toLowerCase()
   );
 }

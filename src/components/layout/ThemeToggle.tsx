@@ -1,23 +1,97 @@
 "use client";
 
+import type { MouseEvent } from "react";
 import { useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 
-const emptySubscribe = () => () => {};
+type DocumentWithViewTransition = Document & {
+  startViewTransition?: (updateCallback: () => void) => {
+    ready: Promise<void>;
+    finished: Promise<void>;
+  };
+};
+
+type ResolvedMode = "light" | "dark" | null;
+
+function subscribeToRootThemeClass(onStoreChange: () => void) {
+  const observer = new MutationObserver(onStoreChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  return () => observer.disconnect();
+}
+
+function getClientThemeSnapshot(): ResolvedMode {
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
+
+function getServerThemeSnapshot(): ResolvedMode {
+  return null;
+}
 
 export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const mounted = useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
+  const { setTheme } = useTheme();
+  const activeTheme = useSyncExternalStore(
+    subscribeToRootThemeClass,
+    getClientThemeSnapshot,
+    getServerThemeSnapshot
   );
 
-  const isDark = mounted && resolvedTheme === "dark";
+  const mounted = activeTheme !== null;
+  const isDark = activeTheme === "dark";
 
-  const handleToggle = () => {
-    setTheme(isDark ? "light" : "dark");
+  const handleToggle = (event: MouseEvent<HTMLButtonElement>) => {
+    const nextTheme = isDark ? "light" : "dark";
+    const doc = document as DocumentWithViewTransition;
+    const prefersReducedMotion =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || typeof doc.startViewTransition !== "function") {
+      setTheme(nextTheme);
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = doc.startViewTransition(() => {
+      flushSync(() => {
+        setTheme(nextTheme);
+      });
+      const root = document.documentElement;
+      root.classList.remove("light", "dark");
+      root.classList.add(nextTheme);
+      root.style.colorScheme = nextTheme;
+    });
+
+    transition.ready
+      .then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 450,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          }
+        );
+      })
+      .catch(() => {
+        // Gracefully ignore interrupted or aborted transitions.
+      });
   };
 
   return (

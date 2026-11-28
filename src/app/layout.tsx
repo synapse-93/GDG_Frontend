@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { CommandPalette } from "@/components/layout/CommandPalette";
 import { Footer } from "@/components/layout/Footer";
+import { MotionProvider } from "@/components/layout/MotionProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { RouteScrollReset } from "@/components/layout/RouteScrollReset";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
@@ -42,19 +43,21 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-canvas font-sans text-ink">
         <ThemeProvider>
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-canvas focus:outline-2 focus:outline-offset-2 focus:outline-[#4285F4]"
-          >
-            Skip to main content
-          </a>
-          <RouteScrollReset />
-          <Navbar />
-          <CommandPalette />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <MotionProvider>
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-canvas focus:outline-2 focus:outline-offset-2 focus:outline-[#4285F4]"
+            >
+              Skip to main content
+            </a>
+            <RouteScrollReset />
+            <Navbar />
+            <CommandPalette />
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

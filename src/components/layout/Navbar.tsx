@@ -1,19 +1,38 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import * as m from "motion/react-m";
 import { Menu, Search, X } from "lucide-react";
 import { GdgLogo } from "@/components/brand/GdgLogo";
 import { COMMAND_PALETTE_EVENT } from "@/components/layout/CommandPalette";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { siteConfig } from "@/data/site";
 
+const emptySubscribe = () => () => {};
+
+function getShortcutHint(): string {
+  if (typeof navigator === "undefined") return "⌘K";
+  const platform = navigator.platform || navigator.userAgent || "";
+  return /mac|iphone|ipad|ipod/i.test(platform) ? "⌘K" : "Ctrl K";
+}
+
+function getServerShortcutHint(): string {
+  return "⌘K";
+}
+
 export function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  const shortcutHint = useSyncExternalStore(
+    emptySubscribe,
+    getShortcutHint,
+    getServerShortcutHint
+  );
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -70,7 +89,7 @@ export function Navbar() {
           <GdgLogo responsive />
         </Link>
 
-        {/* Desktop editorial navigation — clean unnumbered links with Google indicator dots */}
+        {/* Desktop editorial navigation with spring-animated layoutId indicator */}
         <nav
           aria-label="Primary navigation"
           className="hidden items-center gap-6 md:flex"
@@ -94,9 +113,16 @@ export function Navbar() {
                 />
                 <span>{item.label}</span>
                 {active && (
-                  <span
+                  <m.span
+                    layoutId="nav-indicator"
                     aria-hidden="true"
-                    className="absolute right-0 bottom-0 left-0 h-[2px] bg-gdg-blue"
+                    transition={{
+                      type: "spring",
+                      stiffness: 420,
+                      damping: 32,
+                      mass: 0.8,
+                    }}
+                    className="absolute right-0 bottom-0 left-0 h-[2.5px] rounded-full bg-gdg-blue"
                   />
                 )}
               </Link>
@@ -113,9 +139,9 @@ export function Navbar() {
             className="inline-flex h-10 items-center gap-2 rounded-lg border border-hairline bg-surface px-2.5 text-xs font-medium text-ink-muted transition-colors hover:border-gdg-blue/60 hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:px-3"
           >
             <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
-            <span className="hidden sm:inline">Jump to...</span>
+            <span className="hidden sm:inline">Search...</span>
             <kbd className="hidden rounded border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-xs text-ink sm:inline">
-              ⌘K
+              {shortcutHint}
             </kbd>
           </button>
 
