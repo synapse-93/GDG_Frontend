@@ -35,7 +35,7 @@ export function Footer() {
   const isHome = pathname === "/";
 
   return (
-    <footer className="border-t border-hairline bg-canvas pb-24 md:pb-0">
+    <footer className="border-t border-hairline bg-canvas pb-28 lg:pb-0">
       {/* 4-color Google hairline top rule */}
       <div aria-hidden="true" className="grid h-[3px] w-full grid-cols-4">
         <div className="bg-[#4285F4]" />
@@ -44,7 +44,7 @@ export function Footer() {
         <div className="bg-[#34A853]" />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:py-12 lg:px-8">
+      <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 md:py-12 lg:px-8">
         {/* MOBILE (< md): Compact Zero-Bloat Footer */}
         <div className="space-y-5 md:hidden">
           <div className="space-y-2">
@@ -93,7 +93,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   aria-label={`${link.label} — ${link.handle}`}
                   title={link.label}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface text-ink transition-colors hover:border-gdg-blue/60 hover:text-gdg-blue-ink active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-hairline bg-surface text-ink transition-colors hover:border-gdg-blue/60 hover:text-gdg-blue-ink active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                 >
                   <CommunityIcon id={link.id} />
                 </a>

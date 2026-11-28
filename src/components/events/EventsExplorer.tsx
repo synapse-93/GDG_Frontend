@@ -254,7 +254,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
       <div className="space-y-3 border-b border-hairline pb-4 sm:space-y-4 sm:pb-5">
         {/* Row 1: Search Input + Compact Posters/Schedule Toggle on same line on mobile */}
         <div className="flex items-center gap-2 lg:justify-between lg:gap-3">
-          <div className="group relative min-w-0 flex-1 rounded-xl border border-hairline bg-surface transition-[border-color,box-shadow] duration-200 focus-within:border-gdg-blue/70 focus-within:ring-2 focus-within:ring-[#4285F4]/20 lg:max-w-md">
+          <div className="group relative min-w-0 flex-1 rounded-lg border border-hairline bg-surface transition-[border-color,box-shadow] duration-200 focus-within:border-gdg-blue/70 focus-within:ring-2 focus-within:ring-[#4285F4]/20 lg:max-w-md">
             <label htmlFor="events-search-input" className="sr-only">
               Search events by title, topic, or speaker
             </label>
@@ -269,7 +269,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
               value={query}
               onChange={(e) => updateQuery(e.target.value)}
               placeholder="Search sessions..."
-              className="w-full rounded-xl bg-transparent py-2 pr-10 pl-9 text-sm text-ink placeholder:text-ink-muted focus:outline-none sm:py-2.5 sm:pr-12 sm:pl-10"
+              className="w-full rounded-lg bg-transparent py-2 pr-10 pl-9 text-sm text-ink placeholder:text-ink-muted focus:outline-none sm:py-2.5 sm:pr-12 sm:pl-10"
             />
             <AnimatePresence mode="wait" initial={false}>
               {query.length > 0 ? (
@@ -406,7 +406,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                       type="button"
                       aria-pressed={active}
                       onClick={() => updateStatus(option.value)}
-                      className={`inline-flex min-h-[34px] shrink-0 items-center rounded-full border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                      className={`inline-flex min-h-[34px] shrink-0 items-center rounded-lg border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
                         active
                           ? "border-ink bg-ink text-canvas"
                           : "border-hairline bg-surface text-ink-muted"
@@ -429,7 +429,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                 onFocus={() => setHoveredTrack("All")}
                 onBlur={() => setHoveredTrack(null)}
                 onClick={() => updateTrack("All")}
-                className={`relative inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[38px] sm:px-3.5 sm:py-1.5 ${
+                className={`relative inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[36px] sm:px-3.5 sm:py-1.5 ${
                   trackFilter === "All"
                     ? "border-ink bg-ink text-canvas"
                     : "border-hairline bg-canvas text-ink-muted hover:text-ink"
@@ -440,7 +440,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                     layoutId="events-track-hover"
                     aria-hidden="true"
                     transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                    className="pointer-events-none absolute inset-0 rounded-full bg-surface-muted/90"
+                    className="pointer-events-none absolute inset-0 rounded-lg bg-surface-muted/90"
                   />
                 )}
                 <span className="relative z-10">All Tracks</span>
@@ -465,7 +465,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                     onFocus={() => setHoveredTrack(track)}
                     onBlur={() => setHoveredTrack(null)}
                     onClick={() => updateTrack(track)}
-                    className={`relative inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[38px] sm:px-3.5 sm:py-1.5 ${
+                    className={`relative inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[36px] sm:px-3.5 sm:py-1.5 ${
                       active
                         ? styles.badge
                         : "border-hairline bg-canvas text-ink-muted hover:text-ink"
@@ -480,7 +480,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                           stiffness: 420,
                           damping: 32,
                         }}
-                        className="pointer-events-none absolute inset-0 rounded-full bg-surface-muted/90"
+                        className="pointer-events-none absolute inset-0 rounded-lg bg-surface-muted/90"
                       />
                     )}
                     <span
@@ -585,7 +585,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                                 stiffness: 380,
                                 damping: 32,
                               }}
-                              className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold ${styles.badge}`}
+                              className={`inline-flex items-center rounded-md border px-2 py-0.5 font-mono text-xs font-semibold ${styles.badge}`}
                             >
                               {event.track}
                             </m.span>
@@ -682,7 +682,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                 <button
                   type="button"
                   onClick={() => updateStatus("all")}
-                  className="inline-flex min-h-[42px] items-center gap-2 rounded-full bg-[#1A73E8] px-5 py-2.5 text-sm font-semibold text-white transition-transform duration-150 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
+                  className="inline-flex min-h-[42px] items-center gap-2 rounded-lg bg-[#1A73E8] px-5 py-2.5 text-sm font-semibold text-white transition-transform duration-150 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
                 >
                   <span>Show all dates</span>
                 </button>
@@ -690,7 +690,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
               <button
                 type="button"
                 onClick={handleReset}
-                className={`inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                className={`inline-flex min-h-[42px] items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
                   alternateStatusCount > 0
                     ? "border border-hairline bg-canvas text-ink hover:bg-surface-muted"
                     : "bg-[#1A73E8] text-white hover:bg-[#1557B0] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"

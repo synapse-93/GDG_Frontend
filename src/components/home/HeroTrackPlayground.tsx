@@ -28,7 +28,6 @@ interface DeckCardTheme {
   ink: string;
   subInk: string;
   pill: string;
-  chip: string;
   cta: string;
   dot: string;
   hex: string;
@@ -41,7 +40,6 @@ const DECK_THEMES: DeckCardTheme[] = [
     ink: "text-white",
     subInk: "text-[#DCEAFF]",
     pill: "bg-white text-[#111827]",
-    chip: "bg-black/30 text-white border-white/25",
     cta: "bg-white text-[#111827] hover:bg-[#F1F5F9]",
     dot: "bg-[#4285F4]",
     hex: "#4285F4",
@@ -52,7 +50,6 @@ const DECK_THEMES: DeckCardTheme[] = [
     ink: "text-white",
     subInk: "text-[#DCF5E3]",
     pill: "bg-white text-[#111827]",
-    chip: "bg-black/30 text-white border-white/25",
     cta: "bg-white text-[#111827] hover:bg-[#F1F5F9]",
     dot: "bg-[#34A853]",
     hex: "#34A853",
@@ -63,7 +60,6 @@ const DECK_THEMES: DeckCardTheme[] = [
     ink: "text-white",
     subInk: "text-[#FDE5E3]",
     pill: "bg-white text-[#111827]",
-    chip: "bg-black/30 text-white border-white/25",
     cta: "bg-white text-[#111827] hover:bg-[#F1F5F9]",
     dot: "bg-[#EA4335]",
     hex: "#EA4335",
@@ -75,7 +71,6 @@ const DECK_THEMES: DeckCardTheme[] = [
     ink: "text-[#111827]",
     subInk: "text-[#1F2937]",
     pill: "bg-[#111827] text-[#FAF9F6]",
-    chip: "bg-black/15 text-[#111827] border-black/20",
     cta: "bg-[#111827] text-[#FAF9F6] hover:bg-[#1F2937]",
     dot: "bg-[#FBBC04]",
     hex: "#D99B00",
@@ -133,7 +128,6 @@ export function HeroTrackPlayground() {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(measureRail);
     };
-    // Defer initial DOM measurement after paint to avoid synchronous forced reflow
     rafId = requestAnimationFrame(() => {
       rafId = requestAnimationFrame(measureRail);
     });
@@ -178,7 +172,6 @@ export function HeroTrackPlayground() {
   };
 
   const handleRailClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    // If user clicked directly on the SVG rail or gap (outside a tab button), select the nearest track
     if ((event.target as HTMLElement).closest("button")) return;
     const container = railContainerRef.current;
     if (!container || railMetrics.centers.length === 0) return;
@@ -255,8 +248,8 @@ export function HeroTrackPlayground() {
       onBlurCapture={handleContainerBlur}
       className="w-full"
     >
-      {/* MOBILE (< lg): Compact Horizontal Scrollable Pill Bar + Full-Width Swipeable Track Card */}
-      <div className="space-y-4 lg:hidden">
+      {/* MOBILE (< lg): Compact Horizontal Scrollable Track Tabs + Full-Width Swipeable Track Card */}
+      <div className="space-y-3.5 lg:hidden">
         <div
           role="tablist"
           aria-label="Chapter tracks"
@@ -272,7 +265,7 @@ export function HeroTrackPlayground() {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveIndex(idx)}
-                className={`inline-flex min-h-[38px] shrink-0 items-center gap-2 rounded-full border px-4 py-1.5 font-mono text-xs font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                className={`inline-flex min-h-[36px] shrink-0 items-center gap-2 rounded-lg border px-3.5 py-1.5 font-mono text-xs font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
                   isActive
                     ? "border-ink bg-ink text-canvas"
                     : "border-hairline bg-surface text-ink-muted hover:text-ink"
@@ -299,12 +292,12 @@ export function HeroTrackPlayground() {
             animate={{ opacity: 1, x: 0 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: -18 }}
             transition={{ type: "spring", stiffness: 360, damping: 30 }}
-            className={`relative flex min-h-[296px] w-full flex-col justify-between overflow-hidden rounded-[26px] border border-white/15 p-5 shadow-[0_14px_34px_rgba(12,15,20,0.14)] ${activeTheme.bg} ${activeTheme.ink}`}
+            className={`relative flex min-h-[292px] w-full flex-col justify-between overflow-hidden rounded-xl border border-black/10 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_1px_2px_rgba(0,0,0,0.06),0_10px_24px_-12px_rgba(0,0,0,0.18)] ${activeTheme.bg} ${activeTheme.ink}`}
           >
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 space-y-2">
                 <span
-                  className={`inline-flex items-center rounded-full px-3 py-1 font-mono text-xs font-bold ${activeTheme.pill}`}
+                  className={`inline-flex items-center rounded-md px-2.5 py-0.5 font-mono text-xs font-bold ${activeTheme.pill}`}
                 >
                   {activePillar.shortLabel}
                 </span>
@@ -336,29 +329,24 @@ export function HeroTrackPlayground() {
               >
                 {activePillar.engineeringFocus}
               </p>
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {activePillar.stackTags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className={`rounded-full border px-2.5 py-0.5 font-mono text-[11px] font-semibold ${activeTheme.chip}`}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <p
+                className={`pt-0.5 font-mono text-xs font-medium tracking-tight ${activeTheme.subInk}`}
+              >
+                {activePillar.stackTags.slice(0, 3).join(" / ")}
+              </p>
             </div>
 
-            <div className="flex items-center justify-between gap-2 border-t border-current/15 pt-3.5">
+            <div className="flex items-center justify-between gap-3 border-t border-current/15 pt-3">
               {activeMatchingEvent ? (
                 <Link
                   href={`/events/${activeMatchingEvent.slug}`}
-                  className={`inline-flex max-w-[64%] items-center gap-1.5 truncate font-mono text-xs font-semibold underline decoration-current/40 underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${activeTheme.ink}`}
+                  className={`inline-flex min-w-0 flex-1 items-start gap-1.5 font-mono text-xs font-semibold leading-snug underline decoration-current/40 underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${activeTheme.ink}`}
                 >
                   <Calendar
-                    className="h-3.5 w-3.5 shrink-0"
+                    className="mt-0.5 h-3.5 w-3.5 shrink-0"
                     aria-hidden="true"
                   />
-                  <span className="truncate">{activeMatchingEvent.title}</span>
+                  <span>{activeMatchingEvent.title}</span>
                 </Link>
               ) : (
                 <span />
@@ -368,7 +356,7 @@ export function HeroTrackPlayground() {
                 href={`/events?track=${encodeURIComponent(
                   activePillar.trackFilter
                 )}`}
-                className={`inline-flex shrink-0 items-center gap-1 rounded-full px-3.5 py-1.5 font-mono text-xs font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${activeTheme.cta}`}
+                className={`inline-flex shrink-0 items-center gap-1 rounded-md px-2.5 py-1.5 font-mono text-xs font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${activeTheme.cta}`}
               >
                 <span>Sessions</span>
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -500,14 +488,14 @@ export function HeroTrackPlayground() {
                   stiffness: 320,
                   damping: 26,
                 }}
-                className={`absolute inset-0 flex flex-col justify-between overflow-hidden rounded-[28px] border border-white/15 p-6 shadow-[0_18px_42px_rgba(12,15,20,0.16)] ${
+                className={`absolute inset-0 flex flex-col justify-between overflow-hidden rounded-xl border border-black/10 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_1px_2px_rgba(0,0,0,0.06),0_12px_28px_-12px_rgba(0,0,0,0.2)] ${
                   theme.bg
                 } ${theme.ink} ${!isFront ? "cursor-pointer" : ""}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-2">
                     <span
-                      className={`inline-flex items-center rounded-full px-3 py-1 font-mono text-xs font-bold ${theme.pill}`}
+                      className={`inline-flex items-center rounded-md px-2.5 py-0.5 font-mono text-xs font-bold ${theme.pill}`}
                     >
                       {pillar.shortLabel}
                     </span>
@@ -542,30 +530,25 @@ export function HeroTrackPlayground() {
                   >
                     {pillar.engineeringFocus}
                   </p>
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {pillar.stackTags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className={`rounded-full border px-2.5 py-0.5 font-mono text-[11px] font-semibold ${theme.chip}`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  <p
+                    className={`pt-0.5 font-mono text-xs font-medium tracking-tight ${theme.subInk}`}
+                  >
+                    {pillar.stackTags.slice(0, 3).join(" / ")}
+                  </p>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-current/15 pt-3.5">
+                <div className="flex items-center justify-between gap-3 border-t border-current/15 pt-3">
                   {matchingEvent ? (
                     <Link
                       href={`/events/${matchingEvent.slug}`}
                       tabIndex={isFront ? 0 : -1}
-                      className={`inline-flex max-w-[62%] items-center gap-1.5 truncate font-mono text-xs font-semibold underline decoration-current/40 underline-offset-2 transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${theme.ink}`}
+                      className={`inline-flex min-w-0 flex-1 items-start gap-1.5 font-mono text-xs font-semibold leading-snug underline decoration-current/40 underline-offset-2 transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${theme.ink}`}
                     >
                       <Calendar
-                        className="h-3.5 w-3.5 shrink-0"
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0"
                         aria-hidden="true"
                       />
-                      <span className="truncate">{matchingEvent.title}</span>
+                      <span>{matchingEvent.title}</span>
                     </Link>
                   ) : (
                     <span />
@@ -576,7 +559,7 @@ export function HeroTrackPlayground() {
                       pillar.trackFilter
                     )}`}
                     tabIndex={isFront ? 0 : -1}
-                    className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-mono text-xs font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${theme.cta}`}
+                    className={`inline-flex shrink-0 items-center gap-1 rounded-md px-2.5 py-1.5 font-mono text-xs font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${theme.cta}`}
                   >
                     <span>Sessions</span>
                     <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />

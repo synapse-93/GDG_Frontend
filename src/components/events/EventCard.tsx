@@ -23,7 +23,7 @@ export function EventCard({ event }: EventCardProps) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ type: "spring", stiffness: 360, damping: 32 }}
-      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-hairline bg-surface transition-colors ${trackStyles.borderHover}`}
+      className={`gdg-card-bevel group relative flex flex-col overflow-hidden rounded-xl border border-hairline bg-surface transition-colors ${trackStyles.borderHover}`}
     >
       {/* Generative Color-Blocked Campus Event Poster */}
       <EventPoster

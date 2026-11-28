@@ -256,7 +256,7 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
                           href={`/team?member=${encodeURIComponent(
                             slot.memberSlug
                           )}`}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-3 py-1 font-mono text-xs font-semibold text-gdg-blue-ink transition-colors hover:border-gdg-blue/50 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3 py-1 font-mono text-xs font-semibold text-gdg-blue-ink transition-colors hover:border-gdg-blue/50 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                         >
                           <User className="h-3.5 w-3.5" aria-hidden="true" />
                           <span>View {slot.speaker}&apos;s profile &rarr;</span>

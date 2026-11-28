@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock, MapPin } from "lucide-react";
 import { EventsExplorer } from "@/components/events/EventsExplorer";
+import { GridCrosshairs } from "@/components/ui/GridCrosshairs";
 import { events, getUpcomingEvents } from "@/data/events";
 import { siteConfig } from "@/data/site";
 import { getTrackStyles } from "@/lib/accents";
@@ -19,11 +20,18 @@ export default function EventsPage() {
   return (
     <div className="bg-canvas">
       {/* Open Editorial Masthead + Compact Next Flagship Strip (hidden on mobile so first poster shows immediately) */}
-      <section className="border-b border-hairline bg-canvas py-5 sm:py-10 lg:py-12">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="relative border-b border-hairline bg-canvas py-5 sm:py-10 lg:py-10">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-7">
-              <h1 className="text-3xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-5xl">
+              <p className="mb-2 inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+                <span
+                  aria-hidden="true"
+                  className="h-1.5 w-1.5 rounded-[1.5px] bg-[#4285F4]"
+                />
+                <span>Session Directory</span>
+              </p>
+              <h1 className="text-3xl font-extrabold tracking-[-0.038em] leading-[1.04] text-ink text-balance sm:text-5xl lg:leading-[1.02]">
                 Workshops, Labs &amp; Study Jams
               </h1>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted text-pretty sm:mt-3 sm:text-base">
@@ -36,7 +44,7 @@ export default function EventsPage() {
             {flagship && flagshipStyles && (
               <Link
                 href={`/events/${flagship.slug}`}
-                className="group hidden rounded-2xl border border-hairline bg-surface p-4 transition-colors hover:border-gdg-blue/50 hover:bg-surface-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:block sm:p-5 lg:col-span-5"
+                className="gdg-card-bevel group hidden rounded-xl border border-hairline bg-surface p-4 transition-colors hover:border-gdg-blue/50 hover:bg-surface-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:block sm:p-5 lg:col-span-5"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
                   <span className="inline-flex items-center gap-1.5 font-semibold text-[#166534] dark:text-[#A8DAB5]">
@@ -47,7 +55,7 @@ export default function EventsPage() {
                     Next Flagship Session
                   </span>
                   <span
-                    className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold ${flagshipStyles.badge}`}
+                    className={`inline-flex items-center rounded-md border px-2 py-0.5 font-semibold ${flagshipStyles.badge}`}
                   >
                     {flagship.track}
                   </span>
@@ -90,11 +98,12 @@ export default function EventsPage() {
             )}
           </div>
         </div>
+        <GridCrosshairs />
       </section>
 
       {/* Interactive Operational Directory */}
-      <section className="py-5 sm:py-10 lg:py-14">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="py-5 sm:py-10 lg:py-12">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <Suspense
             fallback={
               <div className="border-y border-hairline py-8 font-mono text-xs text-ink-muted">

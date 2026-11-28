@@ -68,7 +68,7 @@ export function KineticText({
                 ? { animate: { y: "0%", opacity: 1 } }
                 : {
                     whileInView: { y: "0%", opacity: 1 },
-                    viewport: { once: true, amount: 0.25 },
+                    viewport: { once: true, amount: "some" },
                   })}
               transition={{
                 type: "spring",

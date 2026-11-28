@@ -28,12 +28,12 @@ function ChannelIcon({ id }: { id: CommunityLinkItem["id"] }) {
 
 const CHANNEL_BADGE: Record<CommunityLinkItem["id"], string> = {
   github:
-    "bg-[#181717] text-white dark:bg-[#F0F6FC] dark:text-[#181717] rounded-xl",
-  discord: "bg-[#5865F2] text-white rounded-full",
-  linkedin: "bg-[#0A66C2] text-white rounded-xl",
+    "bg-[#181717] text-white dark:bg-[#F0F6FC] dark:text-[#181717] rounded-lg",
+  discord: "bg-[#5865F2] text-white rounded-lg",
+  linkedin: "bg-[#0A66C2] text-white rounded-lg",
   instagram:
-    "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white rounded-2xl",
-  youtube: "bg-[#FF0000] text-white rounded-xl",
+    "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white rounded-lg",
+  youtube: "bg-[#FF0000] text-white rounded-lg",
 };
 
 export function CommunityLinks() {
@@ -43,13 +43,20 @@ export function CommunityLinks() {
       className="bg-canvas py-10 sm:py-16 lg:py-24"
     >
       <ScrollStage className="w-full">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 md:gap-10 lg:grid-cols-12 lg:gap-12">
             {/* Left Editorial Column (4 cols) */}
             <div className="lg:col-span-4">
+              <p className="mb-2.5 inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+                <span
+                  aria-hidden="true"
+                  className="h-1.5 w-1.5 rounded-[1.5px] bg-[#FBBC04]"
+                />
+                <span>Community Channels</span>
+              </p>
               <h2
                 id="community-links-heading"
-                className="text-2xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-4xl"
+                className="text-2xl font-extrabold tracking-[-0.032em] text-ink text-balance sm:text-4xl"
               >
                 <KineticText text="Stay connected between campus sessions" />
               </h2>
@@ -75,7 +82,7 @@ export function CommunityLinks() {
                         href={channel.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center gap-2.5 rounded-2xl border border-hairline bg-surface p-2.5 transition-colors active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                        className="gdg-card-bevel group flex items-center gap-2.5 rounded-xl border border-hairline bg-surface p-2.5 transition-colors active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                       >
                         <span
                           className={`inline-flex h-9 w-9 shrink-0 items-center justify-center ${CHANNEL_BADGE[channel.id]}`}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import * as m from "motion/react-m";
 import {
   useReducedMotion,
@@ -16,29 +16,13 @@ interface ScrollStageProps {
 
 /**
  * Smooth spring-damped scroll uplift stage for below-the-fold sections.
- * Keeps opacity at 1.0 before the user scrolls (scrollY === 0) so Lighthouse
- * contrast audits always pass at 100%, then applies natural scroll-linked
- * fade-in/fade-out once scrolling begins. Completely static under reduced motion.
+ * Keeps full opacity (1.0) at all scroll positions so peeking sections never
+ * dim or trigger WCAG contrast warnings, while delivering subtle GPU-composited
+ * vertical and scale uplift. Completely static under reduced motion.
  */
 export function ScrollStage({ children, className = "" }: ScrollStageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  const [hasScrolled, setHasScrolled] = useState(false);
-
-  useEffect(() => {
-    if (window.scrollY > 4) {
-      const raf = requestAnimationFrame(() => setHasScrolled(true));
-      return () => cancelAnimationFrame(raf);
-    }
-    const onScroll = () => {
-      if (window.scrollY > 4) {
-        setHasScrolled(true);
-        window.removeEventListener("scroll", onScroll);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -51,16 +35,11 @@ export function ScrollStage({ children, className = "" }: ScrollStageProps) {
     mass: 0.5,
   });
 
-  const y = useTransform(smoothProgress, [0, 0.22, 0.8, 1], [22, 0, 0, -12]);
+  const y = useTransform(smoothProgress, [0, 0.22, 0.8, 1], [18, 0, 0, -8]);
   const scale = useTransform(
     smoothProgress,
     [0, 0.22, 0.8, 1],
-    [0.985, 1, 1, 0.99]
-  );
-  const scrollOpacity = useTransform(
-    smoothProgress,
-    [0, 0.22, 0.8, 1],
-    [0.25, 1, 1, 0.35]
+    [0.99, 1, 1, 0.995]
   );
 
   return (
@@ -72,7 +51,6 @@ export function ScrollStage({ children, className = "" }: ScrollStageProps) {
             : {
                 y,
                 scale,
-                opacity: hasScrolled ? scrollOpacity : 1,
               }
         }
         className={prefersReducedMotion ? undefined : "will-change-transform"}

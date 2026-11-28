@@ -21,6 +21,7 @@ import {
   EventUtilities,
   MobileEventActionButtons,
 } from "@/components/events/EventUtilities";
+import { GridCrosshairs } from "@/components/ui/GridCrosshairs";
 import { ScrollStage } from "@/components/ui/ScrollStage";
 import { events, getEventBySlug, getUpcomingEvents } from "@/data/events";
 import { getTrackStyles } from "@/lib/accents";
@@ -59,7 +60,7 @@ function EventDetailFallback() {
       <section className="border-b border-hairline bg-canvas py-10 sm:py-14">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="h-6 w-32 rounded bg-surface-muted" />
-          <div className="mt-6 h-56 w-full rounded-3xl bg-surface-muted" />
+          <div className="mt-6 h-56 w-full rounded-2xl bg-surface-muted" />
         </div>
       </section>
     </div>
@@ -95,8 +96,8 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
   return (
     <div className="bg-canvas pb-28 lg:pb-20">
       {/* Full-Bleed Campus Poster Masthead */}
-      <section className="border-b border-hairline bg-canvas pt-3 pb-6 sm:pt-8 sm:pb-12">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="relative border-b border-hairline bg-canvas pt-3 pb-6 sm:pt-8 sm:pb-12">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <Link
             href="/events"
             className="-ml-2 inline-flex min-h-[40px] items-center gap-1.5 rounded-lg px-2 py-2 font-mono text-xs font-semibold text-ink-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[44px]"
@@ -106,7 +107,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
           </Link>
 
           {/* Expressive Generative SVG Poster Banner — capped to 175px on mobile */}
-          <div className="mt-2 overflow-hidden rounded-2xl sm:mt-3 sm:rounded-3xl">
+          <div className="gdg-card-bevel mt-2 overflow-hidden rounded-xl border border-hairline sm:mt-3">
             <EventPoster
               event={event}
               size="hero"
@@ -115,7 +116,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
           </div>
 
           <div className="mt-4 max-w-4xl space-y-3 sm:mt-7 sm:space-y-4">
-            <h1 className="display-expressive text-3xl font-extrabold tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            <h1 className="display-expressive text-3xl font-extrabold tracking-[-0.038em] leading-[1.04] text-ink sm:text-5xl lg:text-[3.5rem] lg:leading-[1.02]">
               {event.title}
             </h1>
             <p className="max-w-[54ch] text-sm leading-relaxed text-ink-muted text-pretty sm:text-lg">
@@ -134,7 +135,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
                     href={`/team?member=${encodeURIComponent(
                       speaker.memberSlug
                     )}`}
-                    className="group inline-flex min-h-[32px] items-center gap-1.5 rounded-full border border-hairline bg-surface px-2.5 py-1 font-mono text-xs font-semibold text-ink transition-colors hover:border-gdg-blue/60 hover:text-gdg-blue-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[34px] sm:px-3"
+                    className="group inline-flex min-h-[32px] items-center gap-1.5 rounded-lg border border-hairline bg-surface px-2.5 py-1 font-mono text-xs font-semibold text-ink transition-colors hover:border-gdg-blue/60 hover:text-gdg-blue-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[34px] sm:px-3"
                   >
                     <User
                       className="h-3.5 w-3.5 text-gdg-blue"
@@ -191,10 +192,11 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
             </dl>
           </div>
         </div>
+        <GridCrosshairs />
       </section>
 
       {/* Main Reading Column + Sticky Action Rail */}
-      <div className="mx-auto mt-8 max-w-6xl px-4 sm:px-6 lg:mt-12 lg:px-8">
+      <div className="mx-auto mt-8 max-w-[1200px] px-4 sm:px-6 lg:mt-12 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Calm Reading Column (8 cols) */}
           <div className="space-y-12 lg:col-span-8">
@@ -288,7 +290,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
             >
               <Link
                 href="/events"
-                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-hairline bg-canvas px-5 py-2.5 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-hairline bg-canvas px-5 py-2.5 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
               >
                 <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>All Campus Events</span>
@@ -297,7 +299,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
               {nextSuggested && (
                 <Link
                   href={`/events/${nextSuggested.slug}`}
-                  className="group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-hairline bg-canvas px-5 py-2.5 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted hover:text-gdg-blue-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                  className="group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-hairline bg-canvas px-5 py-2.5 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted hover:text-gdg-blue-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                 >
                   <span className="truncate">{`Next: ${nextSuggested.title}`}</span>
                   <ArrowRight
@@ -314,13 +316,13 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
             aria-label="Session logistics and calendar export"
             className="hidden lg:sticky lg:top-24 lg:col-span-4 lg:block"
           >
-            <div className="rounded-3xl border border-hairline bg-surface p-6">
+            <div className="gdg-card-bevel rounded-xl border border-hairline bg-surface p-6">
               {/* Primary Register CTA at Top */}
               <a
                 href={event.registrationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#1A73E8] px-5 py-3 text-sm font-bold text-white transition-spring hover:-translate-y-0.5 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
+                className="inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-lg bg-[#1A73E8] px-5 py-2.5 text-sm font-bold text-white transition-spring hover:-translate-y-0.5 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
               >
                 <span>
                   {isUpcoming ? "Register for Session" : "View Recap & Slides"}
@@ -396,7 +398,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
                     <dt className="font-mono text-xs text-ink-muted">Track</dt>
                     <dd className="mt-1">
                       <span
-                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold ${trackStyles.badge}`}
+                        className={`inline-flex items-center rounded-md border px-2 py-0.5 font-mono text-xs font-semibold ${trackStyles.badge}`}
                       >
                         {event.track}
                       </span>
@@ -425,7 +427,7 @@ async function EventDetailContent({ params }: EventDetailPageProps) {
             href={event.registrationUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#1A73E8] px-5 py-2.5 text-sm font-bold text-white transition-transform active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14]"
+            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[#1A73E8] px-5 py-2.5 text-sm font-bold text-white transition-transform active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14]"
           >
             <span>
               {isUpcoming ? "Register for Session" : "View Recap"}

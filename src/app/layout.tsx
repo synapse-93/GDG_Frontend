@@ -51,11 +51,14 @@ export default function RootLayout({
               Skip to main content
             </a>
             <RouteScrollReset />
+            <div aria-hidden="true" className="gdg-paper-grain" />
             <Navbar />
             <CommandPalette />
-            <main id="main-content" className="flex-1">
-              {children}
-            </main>
+            <div className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col xl:border-x xl:border-hairline">
+              <main id="main-content" className="flex-1">
+                {children}
+              </main>
+            </div>
             <Footer />
           </MotionProvider>
         </ThemeProvider>

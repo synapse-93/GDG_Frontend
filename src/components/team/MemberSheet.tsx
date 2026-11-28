@@ -137,9 +137,9 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
             dragConstraints={isMobile ? { top: 0 } : undefined}
             dragElastic={isMobile ? { top: 0.05, bottom: 0.4 } : undefined}
             onDragEnd={isMobile ? handleDragEnd : undefined}
-            className="flex max-h-[88svh] w-full flex-col overflow-hidden rounded-t-3xl border-t border-hairline bg-surface shadow-[0_24px_64px_rgba(12,15,20,0.3)] md:h-full md:max-h-none md:max-w-lg md:rounded-none md:border-t-0 md:border-l"
+            className="flex max-h-[88svh] w-full flex-col overflow-hidden rounded-t-2xl border-t border-hairline bg-surface shadow-[0_16px_44px_rgba(12,15,20,0.22)] md:h-full md:max-h-none md:max-w-lg md:rounded-none md:border-t-0 md:border-l"
           >
-            {/* Mobile Drag Handle Pill */}
+            {/* Mobile Drag Handle */}
             <div
               aria-hidden="true"
               className="flex shrink-0 justify-center pt-3 pb-1 md:hidden"
@@ -157,7 +157,7 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
                 type="button"
                 onClick={onClose}
                 aria-label="Close member profile"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-canvas text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-hairline bg-canvas text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
               >
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>
@@ -165,20 +165,18 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
 
             {/* Scrollable Profile Body */}
             <div className="flex-1 space-y-6 overflow-y-auto p-6 sm:p-7">
-              {/* Portrait + Identity Header */}
+              {/* Credential Tile + Identity Header */}
               <div className="flex items-start gap-4 sm:gap-5">
                 <BuilderPortrait
                   name={member.name}
                   accentColor={member.accentColor}
-                  mask={member.portraitMask}
                   motif={member.portraitMotif}
-                  isCoreLead={member.vertical === "Lead & Core"}
                   imagePath={member.imagePath}
                   size="sheet"
                 />
                 <div className="min-w-0 flex-1">
                   <span
-                    className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold ${
+                    className={`inline-flex items-center rounded-md border px-2 py-0.5 font-mono text-xs font-semibold ${
                       ACCENT_STYLES[member.accentColor].badge
                     }`}
                   >
@@ -202,7 +200,7 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
 
               {/* Tinted Accent Callout: RVCE Campus Focus */}
               <div
-                className={`rounded-2xl border p-4 ${FOCUS_CALLOUT[member.accentColor]}`}
+                className={`rounded-xl border p-4 ${FOCUS_CALLOUT[member.accentColor]}`}
               >
                 <p className="inline-flex items-center gap-1.5 font-mono text-xs font-bold">
                   <Compass className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -224,13 +222,13 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
                     <span>Ask me about</span>
                   </p>
                   <div className="mt-2.5 flex flex-wrap gap-2">
-                    <span className="rounded-full border border-gdg-blue/35 bg-gdg-blue/10 px-3 py-1 font-mono text-xs font-semibold text-gdg-blue-ink">
+                    <span className="rounded-md border border-gdg-blue/35 bg-gdg-blue/10 px-2.5 py-1 font-mono text-xs font-semibold text-gdg-blue-ink">
                       {member.askMeAbout}
                     </span>
                     {member.techStack.map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-full border border-hairline bg-canvas px-3 py-1 font-mono text-xs font-semibold text-ink"
+                        className="rounded-md border border-hairline bg-canvas px-2.5 py-1 font-mono text-xs font-semibold text-ink"
                       >
                         {tech}
                       </span>
@@ -251,7 +249,7 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
                         key={ev.slug}
                         href={`/events/${ev.slug}`}
                         onClick={onClose}
-                        className="group flex items-center justify-between gap-3 rounded-2xl border border-hairline bg-canvas px-4 py-3 transition-colors hover:border-gdg-blue/50 hover:bg-surface-muted/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                        className="group flex items-center justify-between gap-3 rounded-xl border border-hairline bg-canvas px-4 py-3 transition-colors hover:border-gdg-blue/50 hover:bg-surface-muted/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                       >
                         <div className="min-w-0">
                           <p className="inline-flex max-w-full items-center gap-2 text-sm font-bold text-ink group-hover:text-gdg-blue-ink">
@@ -283,7 +281,7 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${member.name} on GitHub`}
-                    className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-hairline bg-canvas px-4 py-2 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-lg border border-hairline bg-canvas px-3.5 py-2 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                   >
                     <Code2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                     <span>GitHub</span>
@@ -299,7 +297,7 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${member.name} on LinkedIn`}
-                    className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-hairline bg-canvas px-4 py-2 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-lg border border-hairline bg-canvas px-3.5 py-2 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                   >
                     <Briefcase
                       className="h-3.5 w-3.5 shrink-0"
@@ -318,7 +316,7 @@ export function MemberSheet({ member, onClose }: MemberSheetProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${member.name}'s website`}
-                    className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-hairline bg-canvas px-4 py-2 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-lg border border-hairline bg-canvas px-3.5 py-2 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                   >
                     <Globe className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                     <span>Website</span>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Clock, MapPin } from "lucide-react";
 import { EventPoster } from "@/components/events/EventPoster";
+import { GridCrosshairs } from "@/components/ui/GridCrosshairs";
 import { KineticText } from "@/components/ui/KineticText";
 import { ScrollStage } from "@/components/ui/ScrollStage";
 import { getUpcomingEvents, type EventTrack } from "@/data/events";
@@ -23,16 +24,23 @@ export function FeaturedEvents() {
   return (
     <section
       aria-labelledby="featured-events-heading"
-      className="border-b border-hairline bg-canvas py-10 sm:py-16 lg:flex lg:min-h-[calc(100svh-4rem)] lg:items-center lg:py-14"
+      className="relative border-b border-hairline bg-canvas py-10 sm:py-16 lg:flex lg:min-h-[calc(100svh-4rem)] lg:items-center lg:py-14"
     >
       <ScrollStage className="w-full">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
           {/* Swiss Editorial Section Header */}
           <div className="flex flex-col gap-4 border-b border-hairline pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
+              <p className="mb-2 inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+                <span
+                  aria-hidden="true"
+                  className="h-1.5 w-1.5 rounded-[1.5px] bg-[#34A853]"
+                />
+                <span>Campus Calendar</span>
+              </p>
               <h2
                 id="featured-events-heading"
-                className="text-3xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-4xl lg:text-[2.65rem] lg:leading-[1.06]"
+                className="text-3xl font-extrabold tracking-[-0.032em] text-ink text-balance sm:text-4xl lg:text-[2.65rem] lg:leading-[1.04]"
               >
                 <KineticText text="Upcoming on campus" />
               </h2>
@@ -59,7 +67,7 @@ export function FeaturedEvents() {
             {/* Flagship Upcoming Session (7 cols) */}
             <article className="group relative flex flex-col justify-between border-b border-hairline py-5 sm:py-8 lg:col-span-7 lg:border-r lg:border-b-0 lg:py-8 lg:pr-10">
               <div className="space-y-4 sm:space-y-6">
-                <div className="overflow-hidden rounded-2xl transition-spring group-hover:-translate-y-1 sm:rounded-3xl">
+                <div className="gdg-card-bevel overflow-hidden rounded-xl border border-hairline transition-spring group-hover:-translate-y-1">
                   <EventPoster
                     event={flagship}
                     size="hero"
@@ -134,7 +142,7 @@ export function FeaturedEvents() {
                         >
                           {/* Bold Color-Blocked M3 Date Chip */}
                           <div
-                            className={`flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-2xl font-mono transition-spring group-hover:-rotate-3 ${DATE_CHIP[event.track]}`}
+                            className={`flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl font-mono transition-spring group-hover:-rotate-3 ${DATE_CHIP[event.track]}`}
                           >
                             <span className="text-lg font-extrabold leading-none tabular-nums">
                               {day}
@@ -193,6 +201,7 @@ export function FeaturedEvents() {
           </div>
         </div>
       </ScrollStage>
+      <GridCrosshairs />
     </section>
   );
 }

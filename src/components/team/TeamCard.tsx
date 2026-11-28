@@ -7,13 +7,16 @@ import {
   Briefcase,
   Code2,
   Globe,
-  MessageCircle,
   RotateCcw,
   RotateCw,
 } from "lucide-react";
-import { BuilderPortrait } from "@/components/team/BuilderPortrait";
+import {
+  getInitials,
+  getMemberCredential,
+  TrackGlyph,
+} from "@/components/team/BuilderPortrait";
 import type { TeamMember } from "@/data/team";
-import { ACCENT_STYLES, type AccentColor } from "@/lib/accents";
+import { type AccentColor } from "@/lib/accents";
 
 interface TeamCardProps {
   member: TeamMember;
@@ -30,29 +33,18 @@ const ACCENT_TOP_BAR: Record<AccentColor, string> = {
   yellow: "bg-[#FBBC04] dark:bg-[#FDD663]",
 };
 
-const ACCENT_HEADER_TINT: Record<AccentColor, string> = {
-  blue: "from-[#4285F4]/18 via-[#4285F4]/6 to-transparent dark:from-[#669DF6]/22 dark:via-[#669DF6]/8 dark:to-transparent",
-  green:
-    "from-[#34A853]/18 via-[#34A853]/6 to-transparent dark:from-[#81C995]/22 dark:via-[#81C995]/8 dark:to-transparent",
-  red: "from-[#EA4335]/18 via-[#EA4335]/6 to-transparent dark:from-[#F28B82]/22 dark:via-[#F28B82]/8 dark:to-transparent",
-  yellow:
-    "from-[#FBBC04]/24 via-[#FBBC04]/8 to-transparent dark:from-[#FDD663]/20 dark:via-[#FDD663]/8 dark:to-transparent",
-};
-
-const ACCENT_BACK_SURFACE: Record<AccentColor, string> = {
-  blue: "from-[#4285F4]/10 via-surface to-surface dark:from-[#669DF6]/14 dark:via-surface dark:to-surface",
-  green:
-    "from-[#34A853]/10 via-surface to-surface dark:from-[#81C995]/14 dark:via-surface dark:to-surface",
-  red: "from-[#EA4335]/10 via-surface to-surface dark:from-[#F28B82]/14 dark:via-surface dark:to-surface",
-  yellow:
-    "from-[#FBBC04]/14 via-surface to-surface dark:from-[#FDD663]/14 dark:via-surface dark:to-surface",
+const ACCENT_INK: Record<AccentColor, string> = {
+  blue: "text-[#1765CC] dark:text-[#669DF6]",
+  green: "text-[#137333] dark:text-[#81C995]",
+  red: "text-[#C5221F] dark:text-[#F28B82]",
+  yellow: "text-[#9A6700] dark:text-[#FDD663]",
 };
 
 const ACCENT_BORDER_HOVER: Record<AccentColor, string> = {
-  blue: "hover:border-[#4285F4]/60 dark:hover:border-[#669DF6]/55",
-  green: "hover:border-[#34A853]/60 dark:hover:border-[#81C995]/55",
-  red: "hover:border-[#EA4335]/60 dark:hover:border-[#F28B82]/55",
-  yellow: "hover:border-[#D99B00]/70 dark:hover:border-[#FDD663]/60",
+  blue: "hover:border-[#4285F4]/70 dark:hover:border-[#669DF6]/65",
+  green: "hover:border-[#34A853]/70 dark:hover:border-[#81C995]/65",
+  red: "hover:border-[#EA4335]/70 dark:hover:border-[#F28B82]/65",
+  yellow: "hover:border-[#D99B00]/80 dark:hover:border-[#FDD663]/70",
 };
 
 const ACCENT_CLIP_PIN: Record<AccentColor, string> = {
@@ -61,6 +53,27 @@ const ACCENT_CLIP_PIN: Record<AccentColor, string> = {
   red: "bg-[#EA4335] dark:bg-[#F28B82]",
   yellow: "bg-[#FBBC04] dark:bg-[#FDD663]",
 };
+
+/** Crisp deterministic pass barcode strip for the bottom edge of each RVCE credential badge */
+function PassBarcode({ seed }: { seed: number }) {
+  const widths = [1.5, 3, 1, 2, 1, 3.5, 1.5, 1, 2.5, 1.5, 3, 1, 2, 1.5];
+  let x = 0;
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 64 12"
+      className="h-3 w-16 text-ink/35"
+      fill="currentColor"
+    >
+      {widths.map((w, idx) => {
+        const barW = widths[(idx + seed) % widths.length];
+        const rectX = x;
+        x += barW + 1.8;
+        return <rect key={idx} x={rectX} y={0} width={barW} height={12} rx={0.4} />;
+      })}
+    </svg>
+  );
+}
 
 export function TeamCard({
   member,
@@ -71,8 +84,9 @@ export function TeamCard({
 }: TeamCardProps) {
   const [flipped, setFlipped] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const accent = ACCENT_STYLES[member.accentColor];
-  const isCoreLead = member.vertical === "Lead & Core";
+  const credential = getMemberCredential(member.portraitMotif);
+  const initials = getInitials(member.name);
+  const barcodeSeed = Number(credential.passNumber) || 1;
 
   const handleToggleFlip = () => {
     setFlipped((prev) => !prev);
@@ -96,10 +110,10 @@ export function TeamCard({
 
   const cardSizeClass =
     mode === "carousel"
-      ? "h-[364px] w-[78vw] max-w-[295px] shrink-0 snap-center"
+      ? "h-[336px] w-[78vw] max-w-[295px] shrink-0 snap-center"
       : variant === "leadership"
-      ? "mx-auto h-[364px] w-full max-w-[330px]"
-      : "h-[364px] w-full";
+      ? "mx-auto h-[312px] w-full max-w-[336px]"
+      : "h-[312px] w-full";
 
   const hangingRotate = flipped
     ? 0
@@ -118,7 +132,7 @@ export function TeamCard({
         aria-label={
           flipped
             ? `${member.name}, ${member.role}. Back of badge showing bio and links. Activate to flip back.`
-            : `${member.name}, ${member.role}. Activate to flip badge for bio, focus, and links.`
+            : `${member.name}, ${member.role}. Pass ${credential.passLabel}. Activate to flip badge for bio, focus, and links.`
         }
         onClick={handleToggleFlip}
         onKeyDown={handleKeyDown}
@@ -129,75 +143,94 @@ export function TeamCard({
           damping: 24,
           mass: 0.85,
         }}
-        className="gdg-card-3d relative h-full w-full cursor-pointer select-none rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4285F4]"
+        className="gdg-card-3d relative h-full w-full cursor-pointer select-none rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4285F4]"
       >
-        {/* FRONT OF LANYARD BADGE */}
+        {/* FRONT OF RVCE EVENT-PASS / CREDENTIAL BADGE */}
         <div
           aria-hidden={flipped}
-          className={`gdg-card-face absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-hairline bg-surface shadow-[0_14px_34px_rgba(12,15,20,0.08)] transition-colors dark:shadow-[0_16px_38px_rgba(0,0,0,0.34)] ${
+          className={`gdg-card-face gdg-card-bevel absolute inset-0 flex flex-col overflow-hidden rounded-xl border border-hairline bg-surface transition-colors ${
             ACCENT_BORDER_HOVER[member.accentColor]
           } ${flipped ? "pointer-events-none" : "pointer-events-auto"}`}
         >
-          {/* Top Google Color Edge */}
+          {/* Laminated Diagonal Specular Sheen Sweep on Hover/Tilt */}
           <span
             aria-hidden="true"
-            className={`pointer-events-none absolute inset-x-0 top-0 h-[4px] ${ACCENT_TOP_BAR[member.accentColor]}`}
+            data-active={hovered && !flipped ? "true" : "false"}
+            className="gdg-lanyard-sheen pointer-events-none absolute inset-0 z-10"
           />
 
-          {/* Track-Tinted Header with Physical Lanyard Cutout Slot */}
-          <div
-            className={`relative flex flex-col items-center bg-gradient-to-b px-5 pt-4 pb-3 ${ACCENT_HEADER_TINT[member.accentColor]}`}
-          >
-            {/* Lanyard slot cutout */}
+          {/* Crisp 3px solid track color top stripe (zero glow bleed) */}
+          <span
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-x-0 top-0 h-[3px] ${ACCENT_TOP_BAR[member.accentColor]}`}
+          />
+
+          {/* Top Lanyard Slot & Header Metadata */}
+          <div className="flex flex-col items-center px-4 pt-3.5 pb-2.5">
             <div
               aria-hidden="true"
-              className="mb-3 h-2.5 w-12 rounded-full border border-hairline bg-canvas shadow-inner"
+              className="mb-2.5 h-2 w-11 rounded-md border border-hairline bg-canvas"
             />
-
-            <div className="flex w-full items-center justify-between gap-2">
-              <span
-                className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-[11px] font-semibold ${accent.badge}`}
-              >
+            <div className="flex w-full items-center justify-between gap-2 font-mono text-[10.5px] font-semibold uppercase tracking-[0.08em]">
+              <span className={ACCENT_INK[member.accentColor]}>
                 {member.vertical}
               </span>
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
-                RVCE &apos;26
-              </span>
+              <span className="text-ink-muted">RVCE &apos;26</span>
             </div>
           </div>
 
-          {/* Center Expressive Mascot & Identity */}
-          <div className="flex flex-1 flex-col items-center justify-center px-5 text-center">
-            <BuilderPortrait
-              name={member.name}
-              accentColor={member.accentColor}
-              mask={member.portraitMask}
-              motif={member.portraitMotif}
-              isCoreLead={isCoreLead}
-              imagePath={member.imagePath}
-              size="lanyard"
-              hovered={hovered && !flipped}
-            />
+          {/* Center Editorial Typographic Credential Block */}
+          <div className="border-y border-hairline bg-canvas/70 px-4 py-3.5">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+                  Chapter Pass
+                </p>
+                <p className="mt-0.5 font-mono text-2xl font-extrabold tracking-[-0.04em] leading-none text-ink tabular-nums">
+                  <span>{credential.passNumber}</span>
+                  <span
+                    className={`mx-1.5 font-bold ${ACCENT_INK[member.accentColor]}`}
+                  >
+                    {"//"}
+                  </span>
+                  <span>{credential.roleCode}</span>
+                </p>
+              </div>
 
-            <h3 className="mt-4 text-xl font-extrabold tracking-tight text-ink">
-              {member.name}
-            </h3>
-            <p className="mt-1 font-mono text-xs font-medium text-ink-muted">
-              {member.role}
-            </p>
-
-            <span className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-hairline bg-canvas px-3 py-1 font-mono text-[11px] text-ink">
-              <MessageCircle
-                className="h-3 w-3 shrink-0 text-gdg-blue"
-                aria-hidden="true"
-              />
-              <span className="truncate">{member.askMeAbout}</span>
-            </span>
+              <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border border-hairline bg-surface">
+                <TrackGlyph
+                  motif={member.portraitMotif}
+                  className={`h-4 w-4 ${ACCENT_INK[member.accentColor]}`}
+                />
+                <span className="mt-0.5 font-mono text-[9px] font-bold tracking-wider text-ink-muted">
+                  {initials}
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Front Footer Micro-Cue */}
-          <div className="flex items-center justify-between border-t border-hairline/80 bg-canvas/55 px-5 py-2.5 font-mono text-[11px] font-semibold text-ink-muted">
-            <span className="truncate">GDG on Campus</span>
+          {/* Identity & Plain-Text Ask Me About */}
+          <div className="flex flex-1 flex-col justify-between px-4 py-3">
+            <div>
+              <h3 className="truncate text-lg font-extrabold tracking-tight text-ink">
+                {member.name}
+              </h3>
+              <p className="mt-0.5 truncate font-mono text-xs text-ink-muted">
+                {member.role}
+              </p>
+            </div>
+
+            <p className="mt-2 line-clamp-2 text-xs leading-snug text-ink-muted">
+              <span className="font-mono text-[11px] font-semibold text-ink">
+                Ask me about:
+              </span>{" "}
+              {member.askMeAbout}
+            </p>
+          </div>
+
+          {/* Minimalist Pass Barcode & Flip Cue */}
+          <div className="flex items-center justify-between border-t border-hairline bg-canvas/55 px-4 py-2 font-mono text-[11px] font-semibold text-ink-muted">
+            <PassBarcode seed={barcodeSeed} />
             <span className="inline-flex shrink-0 items-center gap-1 text-gdg-blue-ink">
               <span>{mode === "carousel" ? "Tap to flip" : "Flip"}</span>
               <RotateCw className="h-3 w-3" aria-hidden="true" />
@@ -208,13 +241,13 @@ export function TeamCard({
         {/* BACK OF LANYARD BADGE (rotated 180deg) */}
         <div
           aria-hidden={!flipped}
-          className={`gdg-card-face gdg-card-back absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-hairline bg-gradient-to-br p-5 shadow-[0_14px_34px_rgba(12,15,20,0.1)] dark:shadow-[0_16px_38px_rgba(0,0,0,0.4)] ${
-            ACCENT_BACK_SURFACE[member.accentColor]
-          } ${flipped ? "pointer-events-auto" : "pointer-events-none"}`}
+          className={`gdg-card-face gdg-card-back gdg-card-bevel absolute inset-0 flex flex-col overflow-hidden rounded-xl border border-hairline bg-surface p-4 ${
+            flipped ? "pointer-events-auto" : "pointer-events-none"
+          }`}
         >
           <span
             aria-hidden="true"
-            className={`pointer-events-none absolute inset-x-0 top-0 h-[4px] ${ACCENT_TOP_BAR[member.accentColor]}`}
+            className={`pointer-events-none absolute inset-x-0 top-0 h-[3px] ${ACCENT_TOP_BAR[member.accentColor]}`}
           />
 
           {/* Back Header */}
@@ -224,7 +257,7 @@ export function TeamCard({
                 {member.name}
               </h3>
               <p className="truncate font-mono text-[11px] text-ink-muted">
-                {member.role}
+                {credential.passLabel} &middot; {member.role}
               </p>
             </div>
             <button
@@ -235,46 +268,41 @@ export function TeamCard({
                 setFlipped(false);
               }}
               aria-label={`Flip ${member.name}'s badge back to front`}
-              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-hairline bg-canvas text-ink-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-hairline bg-canvas text-ink-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
             >
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
             </button>
           </div>
 
           {/* Bio & Campus Focus */}
-          <div className="mt-2.5 flex-1 space-y-2 overflow-hidden">
+          <div className="mt-2 flex-1 space-y-2 overflow-hidden">
             <p className="line-clamp-2 text-xs leading-relaxed text-ink-muted text-pretty">
               {member.bio}
             </p>
 
-            <div className="rounded-xl border border-hairline/80 bg-canvas/75 px-3 py-1.5">
+            <div className="rounded-lg border border-hairline bg-canvas/75 px-2.5 py-1.5">
               <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-muted">
                 Campus Focus
               </p>
-              <p className="mt-0.5 line-clamp-2 text-[11.5px] leading-snug text-ink">
+              <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-ink">
                 {member.campusFocus}
               </p>
             </div>
 
-            <div>
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-muted">
-                Ask me about
-              </p>
-              <div className="mt-1 flex flex-wrap gap-1">
-                {member.techStack.slice(0, 3).map((chip) => (
-                  <span
-                    key={chip}
-                    className="rounded-full border border-hairline bg-canvas px-2 py-0.5 font-mono text-[10.5px] font-medium text-ink"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-1">
+              {member.techStack.slice(0, 3).map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-md border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-[10px] font-medium text-ink"
+                >
+                  {chip}
+                </span>
+              ))}
             </div>
           </div>
 
           {/* Social Links & Full-Width Profile Drawer Trigger */}
-          <div className="mt-2.5 space-y-2 border-t border-hairline/80 pt-2.5">
+          <div className="mt-2 space-y-2 border-t border-hairline pt-2">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-1.5">
                 {member.links.github && (
@@ -285,7 +313,7 @@ export function TeamCard({
                     tabIndex={flipped ? 0 : -1}
                     onClick={handleSocialClick}
                     aria-label={`${member.name} on GitHub`}
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-hairline bg-canvas text-ink-muted transition-colors hover:border-gdg-blue/60 hover:text-gdg-blue-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-hairline bg-canvas text-ink-muted transition-colors hover:border-ink/40 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                   >
                     <Code2 className="h-3.5 w-3.5" aria-hidden="true" />
                   </a>
@@ -298,7 +326,7 @@ export function TeamCard({
                     tabIndex={flipped ? 0 : -1}
                     onClick={handleSocialClick}
                     aria-label={`${member.name} on LinkedIn`}
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-hairline bg-canvas text-ink-muted transition-colors hover:border-gdg-blue/60 hover:text-gdg-blue-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-hairline bg-canvas text-ink-muted transition-colors hover:border-ink/40 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                   >
                     <Briefcase className="h-3.5 w-3.5" aria-hidden="true" />
                   </a>
@@ -311,13 +339,13 @@ export function TeamCard({
                     tabIndex={flipped ? 0 : -1}
                     onClick={handleSocialClick}
                     aria-label={`${member.name}'s website`}
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-hairline bg-canvas text-ink-muted transition-colors hover:border-gdg-blue/60 hover:text-gdg-blue-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-hairline bg-canvas text-ink-muted transition-colors hover:border-ink/40 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                   >
                     <Globe className="h-3.5 w-3.5" aria-hidden="true" />
                   </a>
                 )}
               </div>
-              <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
+              <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-muted">
                 {member.vertical}
               </span>
             </div>
@@ -326,7 +354,7 @@ export function TeamCard({
               type="button"
               tabIndex={flipped ? 0 : -1}
               onClick={handleOpenProfile}
-              className="inline-flex min-h-[34px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#1A73E8] px-3.5 py-1.5 font-mono text-[11px] font-bold text-white transition-colors hover:bg-[#1557B0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
+              className="inline-flex min-h-[34px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-lg bg-[#1A73E8] px-3 py-1.5 font-mono text-[11px] font-bold text-white transition-colors hover:bg-[#1557B0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
             >
               <span>Sessions &amp; Full Profile</span>
               <ArrowRight className="h-3 w-3 shrink-0" aria-hidden="true" />
@@ -369,12 +397,12 @@ export function TeamCard({
       {/* Lanyard Clip Pin & Short Connector Tab */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-5 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center"
+        className="pointer-events-none absolute -top-4 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center"
       >
         <span
-          className={`h-2.5 w-2.5 rounded-full border-2 border-canvas shadow-sm ${ACCENT_CLIP_PIN[member.accentColor]}`}
+          className={`h-2.5 w-2.5 rounded-full border-2 border-canvas ${ACCENT_CLIP_PIN[member.accentColor]}`}
         />
-        <span className="h-3 w-[3px] rounded-b-full bg-hairline dark:bg-ink-muted/60" />
+        <span className="h-2.5 w-[2.5px] rounded-b-sm bg-hairline dark:bg-ink-muted/60" />
       </div>
 
       {badgeInner}

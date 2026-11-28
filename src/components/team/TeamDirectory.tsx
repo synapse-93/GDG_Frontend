@@ -55,10 +55,10 @@ function chunkIntoRows<T>(items: T[], size: number): T[][] {
 const FOUR_COL_TILTS = [-2, 1.5, -1.5, 2] as const;
 const TWO_COL_TILTS = [-1.8, 1.8] as const;
 
-/** Computes vertical sag (px) along the quadratic Bézier wire M 0 8 Q 500 38 1000 8 */
+/** Computes vertical sag (px) along the quadratic Bézier wire M 0 6 Q 500 28 1000 6 */
 function getWireDropPx(colIdx: number, colCount: number): number {
   const t = (colIdx + 0.5) / colCount;
-  const y = (1 - t) * (1 - t) * 8 + 2 * (1 - t) * t * 38 + t * t * 8;
+  const y = (1 - t) * (1 - t) * 6 + 2 * (1 - t) * t * 28 + t * t * 6;
   return Math.round(y);
 }
 
@@ -77,27 +77,27 @@ function HangingLanyardRow({
 }: HangingLanyardRowProps) {
   const gridColsClass =
     columns === 1
-      ? "grid-cols-1 max-w-[330px] mx-auto"
+      ? "grid-cols-1 max-w-[336px] mx-auto"
       : columns === 2
       ? "grid-cols-2 max-w-3xl mx-auto gap-10"
       : columns === 3
-      ? "grid-cols-3 gap-7"
-      : "grid-cols-4 gap-6";
+      ? "grid-cols-3 gap-6"
+      : "grid-cols-4 gap-5";
 
   return (
-    <div className="relative pt-2">
+    <div className="relative pt-1">
       {/* Delicate curved SVG wire spanning the width of the row */}
       <svg
-        viewBox="0 0 1000 44"
+        viewBox="0 0 1000 34"
         preserveAspectRatio="none"
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-11 w-full text-ink-muted/35 dark:text-ink-muted/45"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[34px] w-full text-ink-muted/35 dark:text-ink-muted/45"
       >
         <path
-          d="M 0 8 Q 500 38 1000 8"
+          d="M 0 6 Q 500 28 1000 6"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="1.5"
           strokeLinecap="round"
         />
       </svg>
@@ -113,10 +113,7 @@ function HangingLanyardRow({
           const wireDrop = getWireDropPx(idx, columns);
 
           return (
-            <div
-              key={member.slug}
-              style={{ paddingTop: `${wireDrop + 12}px` }}
-            >
+            <div key={member.slug} style={{ paddingTop: `${wireDrop + 8}px` }}>
               <TeamCard
                 member={member}
                 variant={variant}
@@ -253,7 +250,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
     selectedVertical === "All" && normalizedQuery.length === 0;
 
   return (
-    <div className="space-y-6 sm:space-y-10">
+    <div className="space-y-5 lg:space-y-6">
       <TeamFilters
         selectedVertical={selectedVertical}
         searchQuery={searchQuery}
@@ -279,70 +276,68 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
           <button
             type="button"
             onClick={handleReset}
-            className="mt-6 inline-flex min-h-[42px] items-center gap-2 rounded-full bg-[#1A73E8] px-5 py-2.5 text-sm font-semibold text-white transition-transform duration-150 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
+            className="mt-6 inline-flex min-h-[42px] items-center gap-2 rounded-lg bg-[#1A73E8] px-5 py-2.5 text-sm font-semibold text-white transition-transform duration-150 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
           >
             <RotateCcw className="h-4 w-4" aria-hidden="true" />
             <span>Reset filters</span>
           </button>
         </div>
       ) : showTwoTierSplit ? (
-        <div className="space-y-10 sm:space-y-16">
-          {/* Tier 1: Chapter Leadership & Operations */}
-          <ScrollStage>
-            <section
-              aria-labelledby="leadership-heading"
-              className="space-y-3 sm:space-y-6"
-            >
-              <div className="flex items-baseline justify-between gap-2">
-                <h2
-                  id="leadership-heading"
-                  className="text-lg font-extrabold tracking-tight text-ink sm:text-2xl"
-                >
-                  <KineticText
-                    text="Chapter Leadership & Operations"
-                    mode="mount"
-                  />
-                </h2>
-                <div className="flex shrink-0 items-center gap-2">
-                  <span className="hidden whitespace-nowrap font-mono text-xs text-ink-muted lg:inline">
-                    {`${coreLeads.length} organizers · Click any badge to flip`}
-                  </span>
-                  <span className="inline-flex items-center gap-1 whitespace-nowrap font-mono text-[11px] font-medium text-ink-muted lg:hidden">
-                    <span>Swipe</span>
-                    <ArrowRight className="h-3 w-3" aria-hidden="true" />
-                  </span>
-                </div>
+        <div className="space-y-8 lg:space-y-12">
+          {/* Tier 1: Chapter Leadership & Operations — Above the Fold on Desktop */}
+          <section
+            aria-labelledby="leadership-heading"
+            className="space-y-2.5 lg:space-y-2"
+          >
+            <div className="flex items-baseline justify-between gap-2">
+              <h2
+                id="leadership-heading"
+                className="text-lg font-extrabold tracking-tight text-ink sm:text-xl"
+              >
+                <KineticText
+                  text="Chapter Leadership & Operations"
+                  mode="mount"
+                />
+              </h2>
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="hidden whitespace-nowrap font-mono text-xs text-ink-muted lg:inline">
+                  {`${coreLeads.length} organizers · Click any badge to flip`}
+                </span>
+                <span className="inline-flex items-center gap-1 whitespace-nowrap font-mono text-[11px] font-medium text-ink-muted lg:hidden">
+                  <span>Swipe</span>
+                  <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                </span>
               </div>
+            </div>
 
-              {/* Mobile Swipeable 3D-Flip Carousel */}
-              <MobileSwipeCarousel
+            {/* Mobile Swipeable 3D-Flip Carousel */}
+            <MobileSwipeCarousel
+              members={coreLeads}
+              variant="leadership"
+              onSelect={handleOpenMember}
+            />
+
+            {/* Desktop Hanging Lanyard Row */}
+            <div className="hidden lg:block">
+              <HangingLanyardRow
                 members={coreLeads}
                 variant="leadership"
+                columns={2}
                 onSelect={handleOpenMember}
               />
-
-              {/* Desktop Hanging Lanyard Row */}
-              <div className="hidden lg:block">
-                <HangingLanyardRow
-                  members={coreLeads}
-                  variant="leadership"
-                  columns={2}
-                  onSelect={handleOpenMember}
-                />
-              </div>
-            </section>
-          </ScrollStage>
+            </div>
+          </section>
 
           {/* Tier 2: Technical Vertical Leads & Maintainers */}
           <ScrollStage>
             <section
               aria-labelledby="verticals-heading"
-              className="space-y-3 sm:space-y-6"
+              className="space-y-2.5 lg:space-y-3"
             >
               <div className="flex items-baseline justify-between gap-2">
                 <h2
                   id="verticals-heading"
-                  className="text-lg font-extrabold tracking-tight text-ink sm:text-2xl"
+                  className="text-lg font-extrabold tracking-tight text-ink sm:text-xl"
                 >
                   <KineticText text="Technical Vertical Leads & Maintainers" />
                 </h2>
@@ -365,7 +360,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
               />
 
               {/* Desktop Hanging Lanyard 4-Column Rows */}
-              <div className="hidden space-y-12 lg:block">
+              <div className="hidden space-y-10 lg:block">
                 {verticalRows.map((row, rowIdx) => (
                   <HangingLanyardRow
                     key={`vertical-row-${rowIdx}`}
@@ -380,7 +375,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
           </ScrollStage>
         </div>
       ) : (
-        <section className="space-y-3 sm:space-y-6">
+        <section className="space-y-3 lg:space-y-4">
           <div className="flex items-baseline justify-between gap-2">
             <p className="font-mono text-xs text-ink-muted">
               {`${filteredMembers.length} ${
@@ -401,7 +396,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
             onSelect={handleOpenMember}
           />
 
-          <div className="hidden space-y-12 lg:block">
+          <div className="hidden space-y-10 lg:block">
             {filteredRows.map((row, rowIdx) => (
               <HangingLanyardRow
                 key={`filtered-row-${rowIdx}`}

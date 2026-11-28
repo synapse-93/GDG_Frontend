@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as m from "motion/react-m";
@@ -15,18 +15,6 @@ import { GdgLogo } from "@/components/brand/GdgLogo";
 import { COMMAND_PALETTE_EVENT } from "@/components/layout/CommandPalette";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { siteConfig } from "@/data/site";
-
-const emptySubscribe = () => () => {};
-
-function getShortcutHint(): string {
-  if (typeof navigator === "undefined") return "⌘K";
-  const platform = navigator.platform || navigator.userAgent || "";
-  return /mac|iphone|ipad|ipod/i.test(platform) ? "⌘K" : "Ctrl K";
-}
-
-function getServerShortcutHint(): string {
-  return "⌘K";
-}
 
 const MOBILE_DOCK_ROUTES = [
   { href: "/", label: "Home", Icon: Home },
@@ -46,12 +34,6 @@ export function Navbar() {
     restDelta: 0.001,
   });
 
-  const shortcutHint = useSyncExternalStore(
-    emptySubscribe,
-    getShortcutHint,
-    getServerShortcutHint
-  );
-
   const isActive = (href: string) => {
     if (href === "/") {
       return pathname === "/";
@@ -69,8 +51,8 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-hairline bg-canvas/90 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-40 border-b border-hairline bg-canvas/95 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6 lg:px-8">
           <Link
             href="/"
             aria-label={`${siteConfig.chapterName} — Home`}
@@ -79,7 +61,7 @@ export function Navbar() {
             <GdgLogo responsive />
           </Link>
 
-          {/* Desktop navigation with spring hover pill (nav-hover) + active underline (nav-indicator) */}
+          {/* Desktop navigation with spring hover highlight (nav-hover) + active underline (nav-indicator) */}
           <LayoutGroup id="navbar-links">
             <nav
               aria-label="Primary navigation"
@@ -110,7 +92,7 @@ export function Navbar() {
                           stiffness: 420,
                           damping: 32,
                         }}
-                        className="pointer-events-none absolute inset-x-0.5 top-1/2 h-9 -translate-y-1/2 rounded-full bg-surface-muted/85"
+                        className="pointer-events-none absolute inset-x-0.5 top-1/2 h-9 -translate-y-1/2 rounded-lg bg-surface-muted/85"
                       />
                     )}
                     <span
@@ -130,7 +112,7 @@ export function Navbar() {
                           damping: 32,
                           mass: 0.8,
                         }}
-                        className="absolute right-2 bottom-0 left-2 h-[2.5px] rounded-full bg-gdg-blue"
+                        className="absolute right-2 bottom-0 left-2 h-[2.5px] rounded-sm bg-gdg-blue"
                       />
                     )}
                   </Link>
@@ -139,28 +121,21 @@ export function Navbar() {
             </nav>
           </LayoutGroup>
 
-          {/* Actions: Desktop ⌘K Launcher (hidden on mobile; lives in bottom dock) + 3D Theme Toggle */}
+          {/* Actions: Compact square Search icon button (desktop) + 3D Theme Toggle */}
           <div className="flex items-center gap-2.5">
             <m.button
               type="button"
               onClick={triggerCommandPalette}
-              whileTap={{ scale: 0.97 }}
+              whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              aria-label="Open command navigation (Ctrl+K or Command+K)"
-              className="group relative hidden h-10 items-center gap-2 overflow-hidden rounded-lg border border-hairline bg-surface px-3 text-xs font-medium text-ink-muted transition-colors hover:border-gdg-blue/60 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:inline-flex"
+              aria-label="Search (Ctrl+K)"
+              title="Search (Ctrl+K)"
+              className="group hidden h-10 w-10 items-center justify-center rounded-lg border border-hairline bg-surface text-ink-muted transition-colors hover:border-ink/40 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:inline-flex"
             >
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-[#4285F4] via-[#EA4335] via-60% to-[#34A853] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-              />
               <Search
-                className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6 group-hover:text-gdg-blue-ink"
+                className="h-4 w-4 transition-transform duration-200 group-hover:scale-105 group-hover:text-ink"
                 aria-hidden="true"
               />
-              <span>Search...</span>
-              <kbd className="rounded border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-xs text-ink transition-colors group-hover:border-gdg-blue/40">
-                {shortcutHint}
-              </kbd>
             </m.button>
 
             <ThemeToggle />
@@ -191,7 +166,7 @@ export function Navbar() {
           className="fixed inset-x-4 bottom-4 z-40 mx-auto max-w-sm md:hidden"
         >
           <LayoutGroup id="mobile-bottom-dock">
-            <div className="grid grid-cols-4 items-center gap-1 rounded-full border border-hairline bg-surface/90 p-1.5 shadow-[0_14px_38px_rgba(12,15,20,0.18)] backdrop-blur-xl dark:bg-surface/85 dark:shadow-[0_16px_42px_rgba(0,0,0,0.55)]">
+            <div className="grid grid-cols-4 items-center gap-1 rounded-full border border-hairline bg-surface/90 p-1.5 shadow-[0_10px_28px_rgba(12,15,20,0.16)] backdrop-blur-xl dark:bg-surface/85 dark:shadow-[0_14px_34px_rgba(0,0,0,0.5)]">
               {MOBILE_DOCK_ROUTES.map(({ href, label, Icon }) => {
                 const active = isActive(href);
                 return (

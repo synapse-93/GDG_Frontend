@@ -320,14 +320,14 @@ export function EventPoster({
               layoutId={badgeLayoutId}
               layout="position"
               transition={{ type: "spring", stiffness: 380, damping: 32 }}
-              className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-xs font-bold tracking-tight"
+              className="inline-flex items-center rounded-md px-2.5 py-0.5 font-mono text-xs font-bold tracking-tight"
               style={{ backgroundColor: theme.pillBg, color: theme.pillInk }}
             >
               {event.track}
             </m.span>
           ) : (
             <span
-              className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-xs font-bold tracking-tight"
+              className="inline-flex items-center rounded-md px-2.5 py-0.5 font-mono text-xs font-bold tracking-tight"
               style={{ backgroundColor: theme.pillBg, color: theme.pillInk }}
             >
               {event.track}
@@ -335,7 +335,7 @@ export function EventPoster({
           )}
 
           <span
-            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold ${scrimPillClass}`}
+            className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 font-mono text-xs font-semibold ${scrimPillClass}`}
           >
             <span
               aria-hidden="true"
@@ -347,7 +347,7 @@ export function EventPoster({
         </div>
 
         <span
-          className={`relative z-10 inline-flex shrink-0 items-center rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold ${scrimPillClass}`}
+          className={`relative z-10 inline-flex shrink-0 items-center rounded-md border px-2 py-0.5 font-mono text-xs font-semibold ${scrimPillClass}`}
         >
           {event.mode}
         </span>
@@ -392,7 +392,7 @@ export function EventPoster({
 
           {size === "hero" && (
             <span
-              className="mt-3 hidden rounded-full px-3 py-1 font-sans text-xs font-bold tracking-normal sm:inline-flex"
+              className="mt-3 hidden rounded-md px-2.5 py-1 font-sans text-xs font-bold tracking-normal sm:inline-flex"
               style={{ backgroundColor: theme.pillBg, color: theme.pillInk }}
             >
               GDG on Campus RVCE

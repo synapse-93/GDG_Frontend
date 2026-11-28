@@ -3,19 +3,19 @@
 
 :root {
   color-scheme: light;
-  --canvas: #FAF9F6;
-  --surface: #FFFFFF;
-  --surface-muted: #F1F3F4;
-  --hairline: #E5E7EB;
-  --ink: #111827;
-  --ink-muted: #4B5563;
+  --canvas: #F6F4EE;
+  --surface: #FCFBF8;
+  --surface-muted: #EDE9DF;
+  --hairline: rgba(21, 21, 19, 0.10);
+  --ink: #151513;
+  --ink-muted: #52514B;
   --gdg-blue: #4285F4;
   --gdg-blue-ink: #1765CC;
   --gdg-red: #EA4335;
   --gdg-yellow: #FBBC04;
   --gdg-green: #34A853;
-  --blueprint-line: rgba(17, 24, 39, 0.06);
-  --blueprint-dot: rgba(17, 24, 39, 0.14);
+  --blueprint-line: rgba(21, 21, 19, 0.06);
+  --blueprint-dot: rgba(21, 21, 19, 0.14);
   /* Material 3 Expressive tactile spring easing via CSS linear() */
   --ease-spring: linear(
     0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%,
@@ -28,19 +28,19 @@
 
 .dark {
   color-scheme: dark;
-  --canvas: #0C0F14;
-  --surface: #141922;
-  --surface-muted: #1C2330;
-  --hairline: #273041;
-  --ink: #F8FAFC;
-  --ink-muted: #94A3B8;
+  --canvas: #101113;
+  --surface: #16181C;
+  --surface-muted: #1E2026;
+  --hairline: rgba(255, 255, 255, 0.09);
+  --ink: #F4F3EF;
+  --ink-muted: #9A9B9F;
   --gdg-blue: #669DF6;
   --gdg-blue-ink: #669DF6;
   --gdg-red: #F28B82;
   --gdg-yellow: #FDD663;
   --gdg-green: #81C995;
-  --blueprint-line: rgba(248, 250, 252, 0.06);
-  --blueprint-dot: rgba(248, 250, 252, 0.14);
+  --blueprint-line: rgba(255, 255, 255, 0.06);
+  --blueprint-dot: rgba(255, 255, 255, 0.14);
 }
 
 @theme inline {
@@ -70,6 +70,72 @@ body {
   font-family: var(--font-sans);
   overflow-x: clip;
   caret-color: var(--gdg-blue);
+}
+
+h1,
+h2 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Ultra-subtle printed paper grain overlay via inline SVG feTurbulence */
+.gdg-paper-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.022;
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+.dark .gdg-paper-grain {
+  opacity: 0.03;
+}
+
+/* Crisp 1px top inner highlight bevel + grounded neutral elevation */
+.gdg-card-bevel {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1px 2px rgba(21, 21, 19, 0.04),
+    0 8px 24px -12px rgba(21, 21, 19, 0.08);
+}
+
+.dark .gdg-card-bevel {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.28),
+    0 8px 24px -12px rgba(0, 0, 0, 0.45);
+}
+
+/* Subtle laminated specular sheen sweep on /team lanyard badges */
+.gdg-lanyard-sheen {
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 65%
+  );
+  transform: translate3d(-115%, 0, 0);
+  transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.dark .gdg-lanyard-sheen {
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 65%
+  );
+}
+
+.gdg-lanyard-sheen[data-active="true"] {
+  transform: translate3d(115%, 0, 0);
 }
 
 ::selection {
@@ -218,41 +284,9 @@ input[type="search"]::-webkit-search-decoration {
   }
 }
 
-@keyframes gdg-mascot-bob {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -3px, 0);
-  }
-}
-
-@keyframes gdg-mascot-blink {
-  0%,
-  92%,
-  100% {
-    transform: scaleY(1);
-  }
-  96% {
-    transform: scaleY(0.14);
-  }
-}
-
 .gdg-idle-float {
   animation: gdg-idle-float 3.6s ease-in-out infinite;
   will-change: transform;
-}
-
-.gdg-mascot-bob {
-  animation: gdg-mascot-bob 4.4s ease-in-out infinite;
-  will-change: transform;
-}
-
-.gdg-mascot-blink {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: gdg-mascot-blink 5.6s ease-in-out infinite;
 }
 
 /* 3D Lanyard Profile Card Flip Helpers */
@@ -320,9 +354,7 @@ input[type="search"]::-webkit-search-decoration {
   .gdg-scroll-progress,
   .gdg-poster-parallax,
   .gdg-idle-float,
-  .gdg-deck-progress,
-  .gdg-mascot-bob,
-  .gdg-mascot-blink {
+  .gdg-deck-progress {
     animation: none !important;
     will-change: auto;
   }
@@ -338,8 +370,12 @@ input[type="search"]::-webkit-search-decoration {
 
   .gdg-poster-parallax,
   .gdg-idle-float,
-  .gdg-mascot-bob,
-  .gdg-mascot-blink {
+  .gdg-lanyard-sheen {
     transform: none !important;
+    transition: none !important;
+  }
+
+  .gdg-lanyard-sheen {
+    opacity: 0 !important;
   }
 }

@@ -14,6 +14,7 @@ import {
   Maximize2,
   X,
 } from "lucide-react";
+import { GridCrosshairs } from "@/components/ui/GridCrosshairs";
 import { KineticText } from "@/components/ui/KineticText";
 import { ScrollStage } from "@/components/ui/ScrollStage";
 import { getEventBySlug } from "@/data/events";
@@ -226,17 +227,24 @@ export function LatestRecap() {
   return (
     <section
       aria-labelledby="latest-recap-heading"
-      className="border-b border-hairline bg-surface-muted/45 py-10 sm:py-16 lg:flex lg:min-h-[calc(100svh-4rem)] lg:items-center lg:py-14"
+      className="relative border-b border-hairline bg-surface-muted/45 py-10 sm:py-16 lg:flex lg:min-h-[calc(100svh-4rem)] lg:items-center lg:py-14"
     >
       <ScrollStage className="w-full">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <LayoutGroup id="recap-contact-sheet">
             <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
               {/* Left: Editorial Recap Summary + 3 Concrete Takeaways (5 cols) */}
               <div className="lg:col-span-5">
+                <p className="mb-3 inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+                  <span
+                    aria-hidden="true"
+                    className="h-1.5 w-1.5 rounded-[1.5px] bg-[#EA4335]"
+                  />
+                  <span>Latest Recap</span>
+                </p>
                 <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-ink-muted">
                   <span
-                    className={`inline-flex items-center rounded-full border px-3 py-0.5 font-semibold ${
+                    className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold ${
                       trackStyles
                         ? trackStyles.badge
                         : "border-hairline bg-surface text-ink"
@@ -296,7 +304,7 @@ export function LatestRecap() {
                         <Link
                           key={resource.href}
                           href={resource.href}
-                          className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-[#1A73E8] px-5 py-2.5 text-sm font-bold text-white transition-spring hover:-translate-y-0.5 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8] sm:w-auto"
+                          className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-[#1A73E8] px-5 py-2.5 text-sm font-bold text-white transition-spring hover:-translate-y-0.5 hover:bg-[#1557B0] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8] sm:w-auto"
                         >
                           <span>{resource.label}</span>
                           <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -310,7 +318,7 @@ export function LatestRecap() {
                         href={resource.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-hairline bg-surface px-5 py-2.5 text-sm font-bold text-ink transition-spring hover:-translate-y-0.5 hover:bg-canvas focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:w-auto"
+                        className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-hairline bg-surface px-5 py-2.5 text-sm font-bold text-ink transition-spring hover:-translate-y-0.5 hover:bg-canvas focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:w-auto"
                       >
                         <span>{resource.label}</span>
                         <ArrowUpRight
@@ -350,17 +358,17 @@ export function LatestRecap() {
                           stiffness: 400,
                           damping: 30,
                         }}
-                        className={`group flex w-[78vw] max-w-[300px] shrink-0 snap-center flex-col justify-between overflow-hidden rounded-2xl border text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:w-auto sm:max-w-none sm:rounded-3xl ${theme.bg} ${theme.border}`}
+                        className={`gdg-card-bevel group flex w-[78vw] max-w-[300px] shrink-0 snap-center flex-col justify-between overflow-hidden rounded-xl border text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:w-auto sm:max-w-none ${theme.bg} ${theme.border}`}
                       >
                         {/* Original Editorial Scene Illustration */}
                         <div className="flex items-center justify-between gap-2 px-4 pt-4">
                           <span
-                            className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-xs font-bold ${theme.pill}`}
+                            className={`inline-flex items-center rounded-md px-2.5 py-0.5 font-mono text-xs font-bold ${theme.pill}`}
                           >
                             {tile.label}
                           </span>
                           <span
-                            className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${
+                            className={`inline-flex h-7 w-7 items-center justify-center rounded-lg ${
                               tile.accentColor === "yellow"
                                 ? "bg-[#111827]/12 text-[#111827]"
                                 : "bg-white/15 text-white"
@@ -423,7 +431,7 @@ export function LatestRecap() {
                       stiffness: 380,
                       damping: 32,
                     }}
-                    className="w-full max-w-xl overflow-hidden rounded-3xl border border-hairline bg-surface shadow-[0_24px_64px_rgba(12,15,20,0.32)]"
+                    className="gdg-card-bevel w-full max-w-xl overflow-hidden rounded-xl border border-hairline bg-surface"
                   >
                     {/* Enlarged Editorial Scene Header */}
                     <div
@@ -431,7 +439,7 @@ export function LatestRecap() {
                     >
                       <div className="flex items-center justify-between gap-3">
                         <span
-                          className={`inline-flex items-center rounded-full px-3 py-1 font-mono text-xs font-bold ${TILE_THEME[activeTile.accentColor].pill}`}
+                          className={`inline-flex items-center rounded-md px-2.5 py-1 font-mono text-xs font-bold ${TILE_THEME[activeTile.accentColor].pill}`}
                         >
                           {activeTile.label}
                         </span>
@@ -440,7 +448,7 @@ export function LatestRecap() {
                           type="button"
                           onClick={handleClose}
                           aria-label="Close highlight preview"
-                          className={`inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                          className={`inline-flex h-9 w-9 items-center justify-center rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
                             activeTile.accentColor === "yellow"
                               ? "bg-[#111827] text-[#FAF9F6] hover:bg-[#1F2937]"
                               : "bg-white/20 text-white hover:bg-white/30"
@@ -479,7 +487,7 @@ export function LatestRecap() {
                         <Link
                           href={`/events/${latestRecap.eventSlug}`}
                           onClick={handleClose}
-                          className="inline-flex min-h-[42px] items-center gap-2 rounded-full bg-[#1A73E8] px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-[#1557B0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
+                          className="inline-flex min-h-[42px] items-center gap-2 rounded-lg bg-[#1A73E8] px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-[#1557B0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] dark:bg-[#669DF6] dark:text-[#0C0F14] dark:hover:bg-[#8AB4F8]"
                         >
                           <span>Read Full Event Recap</span>
                           <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -487,7 +495,7 @@ export function LatestRecap() {
                         <button
                           type="button"
                           onClick={handleClose}
-                          className="inline-flex min-h-[42px] items-center rounded-full border border-hairline bg-canvas px-4 py-2 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                          className="inline-flex min-h-[42px] items-center rounded-lg border border-hairline bg-canvas px-4 py-2 font-mono text-xs font-semibold text-ink transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
                         >
                           Close
                         </button>
@@ -500,6 +508,7 @@ export function LatestRecap() {
           </LayoutGroup>
         </div>
       </ScrollStage>
+      <GridCrosshairs />
     </section>
   );
 }
