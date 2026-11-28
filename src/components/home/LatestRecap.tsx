@@ -14,7 +14,8 @@ import {
   Maximize2,
   X,
 } from "lucide-react";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { KineticText } from "@/components/ui/KineticText";
+import { ScrollStage } from "@/components/ui/ScrollStage";
 import { getEventBySlug } from "@/data/events";
 import { siteConfig, type RecapHighlightTile } from "@/data/site";
 import { getTrackStyles } from "@/lib/accents";
@@ -227,7 +228,7 @@ export function LatestRecap() {
       aria-labelledby="latest-recap-heading"
       className="border-b border-hairline bg-surface-muted/45 py-16 sm:py-20"
     >
-      <ScrollReveal className="w-full">
+      <ScrollStage className="w-full">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <LayoutGroup id="recap-contact-sheet">
             <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
@@ -263,7 +264,7 @@ export function LatestRecap() {
                   id="latest-recap-heading"
                   className="mt-4 text-3xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-4xl lg:text-[2.5rem] lg:leading-[1.08]"
                 >
-                  {latestRecap.title}
+                  <KineticText text={latestRecap.title} />
                 </h2>
 
                 <p className="mt-3 text-base leading-relaxed text-ink-muted text-pretty">
@@ -498,7 +499,7 @@ export function LatestRecap() {
             </AnimatePresence>
           </LayoutGroup>
         </div>
-      </ScrollReveal>
+      </ScrollStage>
     </section>
   );
 }

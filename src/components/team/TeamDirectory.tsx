@@ -7,6 +7,7 @@ import { RotateCcw, SearchX } from "lucide-react";
 import { MemberSheet } from "@/components/team/MemberSheet";
 import { TeamCard } from "@/components/team/TeamCard";
 import { TeamFilters, type VerticalFilter } from "@/components/team/TeamFilters";
+import { KineticText } from "@/components/ui/KineticText";
 import {
   TEAM_VERTICALS,
   type TeamMember,
@@ -165,7 +166,10 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
                   id="leadership-heading"
                   className="text-2xl font-extrabold tracking-tight text-ink"
                 >
-                  Chapter Leadership &amp; Operations
+                  <KineticText
+                    text="Chapter Leadership & Operations"
+                    mode="mount"
+                  />
                 </h2>
                 <span className="font-mono text-xs text-ink-muted">
                   {`${coreLeads.length} organizers`}
@@ -193,7 +197,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
                   id="verticals-heading"
                   className="text-2xl font-extrabold tracking-tight text-ink"
                 >
-                  Technical Vertical Leads &amp; Maintainers
+                  <KineticText text="Technical Vertical Leads & Maintainers" />
                 </h2>
                 <span className="font-mono text-xs text-ink-muted">
                   {`${verticalLeads.length} leads`}

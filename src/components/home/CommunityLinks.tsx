@@ -6,7 +6,8 @@ import {
   MessageSquare,
   PlayCircle,
 } from "lucide-react";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { KineticText } from "@/components/ui/KineticText";
+import { ScrollStage } from "@/components/ui/ScrollStage";
 import { siteConfig, type CommunityLinkItem } from "@/data/site";
 
 function ChannelIcon({ id }: { id: CommunityLinkItem["id"] }) {
@@ -40,7 +41,7 @@ export function CommunityLinks() {
       aria-labelledby="community-links-heading"
       className="bg-canvas py-16 sm:py-24"
     >
-      <ScrollReveal className="w-full">
+      <ScrollStage className="w-full">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left Editorial Column (4 cols) */}
@@ -49,7 +50,7 @@ export function CommunityLinks() {
               id="community-links-heading"
               className="text-3xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-4xl"
             >
-              Stay connected between campus sessions
+              <KineticText text="Stay connected between campus sessions" />
             </h2>
             <p className="mt-3 text-base leading-relaxed text-ink-muted text-pretty">
               Follow starter repositories, recorded architecture teardowns, and
@@ -99,7 +100,7 @@ export function CommunityLinks() {
           </div>
         </div>
         </div>
-      </ScrollReveal>
+      </ScrollStage>
     </section>
   );
 }

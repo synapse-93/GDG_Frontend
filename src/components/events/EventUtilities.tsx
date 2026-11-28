@@ -4,6 +4,7 @@ import { useState } from "react";
 import * as m from "motion/react-m";
 import { AnimatePresence } from "motion/react";
 import { CalendarPlus, Check, Link2 } from "lucide-react";
+import { PixelBurst } from "@/components/ui/PixelBurst";
 import type { EventItem } from "@/data/events";
 
 interface EventUtilitiesProps {
@@ -65,6 +66,8 @@ function buildIcsContent(event: EventItem): string {
 export function EventUtilities({ event }: EventUtilitiesProps) {
   const [downloaded, setDownloaded] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [icsBurst, setIcsBurst] = useState(0);
+  const [copyBurst, setCopyBurst] = useState(0);
 
   const handleDownloadIcs = () => {
     const ics = buildIcsContent(event);
@@ -79,6 +82,7 @@ export function EventUtilities({ event }: EventUtilitiesProps) {
     URL.revokeObjectURL(url);
 
     setDownloaded(true);
+    setIcsBurst((prev) => prev + 1);
     window.setTimeout(() => setDownloaded(false), 2600);
   };
 
@@ -99,6 +103,7 @@ export function EventUtilities({ event }: EventUtilitiesProps) {
     }
 
     setCopied(true);
+    setCopyBurst((prev) => prev + 1);
     window.setTimeout(() => setCopied(false), 2200);
   };
 
@@ -107,8 +112,9 @@ export function EventUtilities({ event }: EventUtilitiesProps) {
       <button
         type="button"
         onClick={handleDownloadIcs}
-        className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-hairline bg-canvas px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-surface-muted active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+        className="relative inline-flex min-h-[44px] w-full items-center justify-center gap-2 overflow-visible rounded-full border border-hairline bg-canvas px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-surface-muted active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
       >
+        <PixelBurst triggerKey={icsBurst} />
         <AnimatePresence mode="wait" initial={false}>
           {downloaded ? (
             <m.span
@@ -147,8 +153,9 @@ export function EventUtilities({ event }: EventUtilitiesProps) {
       <button
         type="button"
         onClick={handleCopyLink}
-        className="inline-flex min-h-[42px] w-full items-center justify-center gap-2 rounded-full border border-hairline bg-transparent px-4 py-2 font-mono text-xs font-semibold text-ink-muted transition-colors hover:bg-surface-muted hover:text-ink active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+        className="relative inline-flex min-h-[42px] w-full items-center justify-center gap-2 overflow-visible rounded-full border border-hairline bg-transparent px-4 py-2 font-mono text-xs font-semibold text-ink-muted transition-colors hover:bg-surface-muted hover:text-ink active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
       >
+        <PixelBurst triggerKey={copyBurst} />
         <AnimatePresence mode="wait" initial={false}>
           {copied ? (
             <m.span

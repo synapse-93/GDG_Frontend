@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Clock, MapPin } from "lucide-react";
 import { EventPoster } from "@/components/events/EventPoster";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { KineticText } from "@/components/ui/KineticText";
+import { ScrollStage } from "@/components/ui/ScrollStage";
 import { getUpcomingEvents, type EventTrack } from "@/data/events";
 import { getTrackStyles } from "@/lib/accents";
 
@@ -24,7 +25,7 @@ export function FeaturedEvents() {
       aria-labelledby="featured-events-heading"
       className="border-b border-hairline bg-canvas py-16 sm:py-20"
     >
-      <ScrollReveal className="w-full">
+      <ScrollStage className="w-full">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           {/* Swiss Editorial Section Header */}
           <div className="flex flex-col gap-4 border-b border-hairline pb-6 sm:flex-row sm:items-end sm:justify-between">
@@ -33,7 +34,7 @@ export function FeaturedEvents() {
                 id="featured-events-heading"
                 className="text-3xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-4xl lg:text-[2.65rem] lg:leading-[1.06]"
               >
-                On the campus build calendar
+                <KineticText text="On the campus build calendar" />
               </h2>
               <p className="mt-2 max-w-[52ch] text-base text-ink-muted text-pretty">
                 Upcoming in-person clinics and hybrid engineering workshops across
@@ -187,7 +188,7 @@ export function FeaturedEvents() {
             </div>
           </div>
         </div>
-      </ScrollReveal>
+      </ScrollStage>
     </section>
   );
 }

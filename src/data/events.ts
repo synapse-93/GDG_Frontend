@@ -70,8 +70,8 @@ export const events: EventItem[] = [
       {
         time: "05:30 PM",
         title: "Check-in & Kernel Environment Setup",
-        speaker: "Aarav Krishnamurthy",
-        memberSlug: "aarav-krishnamurthy",
+        speaker: "Karthik Gowda",
+        memberSlug: "karthik-gowda",
         notes:
           "Verify cgroups v2 mount points, kernel headers, and isolated lab directories so everyone compiles cleanly before the live walkthrough starts.",
         setupTip: "Run `stat -fc %T /sys/fs/cgroup/` and confirm it outputs `cgroup2fs`.",
@@ -79,8 +79,8 @@ export const events: EventItem[] = [
       {
         time: "06:00 PM",
         title: "Demystifying Namespaces, chroot & OverlayFS",
-        speaker: "Niharika Kulkarni",
-        memberSlug: "niharika-kulkarni",
+        speaker: "Aditya Kulkarni",
+        memberSlug: "aditya-kulkarni",
         notes:
           "Live terminal demonstration peeling back a container image into lower/upper overlay layers and isolating hostname, PID tree, and filesystem root.",
         setupTip: "Have `util-linux` (`unshare`, `nsenter`) and `strace` available in PATH.",
@@ -88,8 +88,8 @@ export const events: EventItem[] = [
       {
         time: "07:00 PM",
         title: "Hands-On Lab: Building a 120-Line Container Runner",
-        speaker: "Rohan Subramanian",
-        memberSlug: "rohan-subramanian",
+        speaker: "Tanvi Desai",
+        memberSlug: "tanvi-desai",
         notes:
           "Step-by-step coding sprint writing a minimal Go/Rust process runner that forks with `CLONE_NEWPID | CLONE_NEWNS`, pivots root, and enforces a 64MB cgroup ceiling.",
         setupTip: "Clone the starter skeleton early: `git clone https://github.com/gdg-on-campus-rvce-demo/tiny-runtime`.",
@@ -97,8 +97,8 @@ export const events: EventItem[] = [
       {
         time: "08:00 PM",
         title: "Live Debugging Clinic & Wrap-Up",
-        speaker: "Aarav Krishnamurthy",
-        memberSlug: "aarav-krishnamurthy",
+        speaker: "Karthik Gowda",
+        memberSlug: "karthik-gowda",
         notes:
           "Open troubleshooting table for kernel permission edge cases, rootless user namespaces, and next-step systems reading references.",
         setupTip: "Bring any failing `strace` logs or Dockerfile layering questions for live review.",
@@ -137,8 +137,8 @@ export const events: EventItem[] = [
       {
         time: "10:00 AM",
         title: "Anatomy of Reliable Tool-Using Agents",
-        speaker: "Meera Balasubramanian",
-        memberSlug: "meera-balasubramanian",
+        speaker: "Devika Sharma",
+        memberSlug: "devika-sharma",
         notes:
           "Compare brittle unconstrained loops against bounded state machines with explicit stop conditions, schema validation, and human-in-the-loop checkpoints.",
         setupTip: "Ensure `python3 --version` (>= 3.11) or `node -v` (>= 20) runs cleanly.",
@@ -146,8 +146,8 @@ export const events: EventItem[] = [
       {
         time: "10:50 AM",
         title: "Workshop Part 1: Structured Tool Contracts & Memory State",
-        speaker: "Devansh Iyer",
-        memberSlug: "devansh-iyer",
+        speaker: "Nikhil Menon",
+        memberSlug: "nikhil-menon",
         notes:
           "Author typed JSON schemas for tool invocations, wire deterministic mock tools for offline testing, and cap rolling context windows without losing state.",
         setupTip: "Pre-install `uv` or `npm` so starter packages resolve fast on campus Wi-Fi.",
@@ -155,8 +155,8 @@ export const events: EventItem[] = [
       {
         time: "12:00 PM",
         title: "Workshop Part 2: Automated Eval Harnesses & Failure Injection",
-        speaker: "Meera Balasubramanian",
-        memberSlug: "meera-balasubramanian",
+        speaker: "Devika Sharma",
+        memberSlug: "devika-sharma",
         notes:
           "Build a 20-case golden evaluation suite that injects malformed tool outputs and timeouts to verify graceful recovery before shipping.",
         setupTip: "Use the provided local mock replay fixture—no paid API key required for the lab.",
@@ -164,8 +164,8 @@ export const events: EventItem[] = [
       {
         time: "01:00 PM",
         title: "Architecture Q&A & Starter Repo Walkthrough",
-        speaker: "Devansh Iyer",
-        memberSlug: "devansh-iyer",
+        speaker: "Nikhil Menon",
+        memberSlug: "nikhil-menon",
         notes:
           "Open clinic reviewing student project ideas, trace logging formats, and cost/latency budgeting for capstone deployments.",
         setupTip: "Bookmark the trace-inspector template from the starter repository.",
@@ -204,8 +204,8 @@ export const events: EventItem[] = [
       {
         time: "10:30 AM",
         title: "Reading Browser Performance Traces Without Guesswork",
-        speaker: "Ananya Venkataraman",
-        memberSlug: "ananya-venkataraman",
+        speaker: "Sneha Joshi",
+        memberSlug: "sneha-joshi",
         notes:
           "Pinpoint main-thread long tasks, layout thrashing, and hydration waterfalls on real student web apps using Chrome DevTools.",
         setupTip: "Open an incognito Chrome window with extensions disabled for clean traces.",
@@ -213,8 +213,8 @@ export const events: EventItem[] = [
       {
         time: "11:20 AM",
         title: "Streaming HTML, Partial Prerendering & Edge Caching",
-        speaker: "Siddharth Menon",
-        memberSlug: "siddharth-menon",
+        speaker: "Siddharth Rao",
+        memberSlug: "siddharth-rao",
         notes:
           "Trace how static shells stream alongside `<Suspense>` boundaries so navigation feels instant while dynamic segments resolve cleanly.",
         setupTip: "Have `node -v` (>= 20) and `npm run build` ready on the benchmark repo.",
@@ -222,8 +222,8 @@ export const events: EventItem[] = [
       {
         time: "12:15 PM",
         title: "Live Audit Lab: Cutting Hydration Cost by 60%",
-        speaker: "Ananya Venkataraman",
-        memberSlug: "ananya-venkataraman",
+        speaker: "Sneha Joshi",
+        memberSlug: "sneha-joshi",
         notes:
           "Refactor an intentionally bloated client bundle into crisp Server Components, async LazyMotion springs, and preloaded variable fonts.",
         setupTip: "Compare `next build` route sizes before and after moving static blocks server-side.",
@@ -231,8 +231,8 @@ export const events: EventItem[] = [
       {
         time: "01:05 PM",
         title: "Open Checklist Review & Take-Home Benchmarks",
-        speaker: "Siddharth Menon",
-        memberSlug: "siddharth-menon",
+        speaker: "Siddharth Rao",
+        memberSlug: "siddharth-rao",
         notes:
           "Walk through the chapter's shipping checklist for INP, reduced-motion, and WCAG AA contrast across Light and Dark themes.",
         setupTip: "Export your before/after Lighthouse JSON report for reference.",
@@ -270,8 +270,8 @@ export const events: EventItem[] = [
       {
         time: "09:30 AM",
         title: "Opening Note: Building Open Developer Culture on Campus",
-        speaker: "Aarav Krishnamurthy",
-        memberSlug: "aarav-krishnamurthy",
+        speaker: "Karthik Gowda",
+        memberSlug: "karthik-gowda",
         notes:
           "Framed the 2026–27 chapter build cycle around reproducible workshops, public starter kits, and peer engineering critiques.",
         setupTip: "Slides and semester roadmap are archived in the starter repository.",
@@ -279,8 +279,8 @@ export const events: EventItem[] = [
       {
         time: "10:15 AM",
         title: "Architecture Teardown: From Prototype to Resilient Deployment",
-        speaker: "Ananya Venkataraman",
-        memberSlug: "ananya-venkataraman",
+        speaker: "Sneha Joshi",
+        memberSlug: "sneha-joshi",
         notes:
           "Live refactoring session transforming a fragile hackathon app into an accessible, statically prerendered Next.js build.",
         setupTip: "Review the `teardown-diff` branch in the DevFest Warmup repo.",
@@ -288,8 +288,8 @@ export const events: EventItem[] = [
       {
         time: "11:15 AM",
         title: "Lightning Demos: Debugging Stories & Design Craft",
-        speaker: "Tara Narayanan",
-        memberSlug: "tara-narayanan",
+        speaker: "Meera Nair",
+        memberSlug: "meera-nair",
         notes:
           "Fast-paced demos covering contrast audits, typographic hierarchy on mobile viewports, and accessible interface motion.",
         setupTip: "Download the WCAG AA palette token reference from the recap notes.",
@@ -297,8 +297,8 @@ export const events: EventItem[] = [
       {
         time: "12:15 PM",
         title: "Track Clinic Breakouts & Resource Handover",
-        speaker: "Aarav Krishnamurthy",
-        memberSlug: "aarav-krishnamurthy",
+        speaker: "Karthik Gowda",
+        memberSlug: "karthik-gowda",
         notes:
           "Small-group Q&A tables across Web, AI/ML, Cloud, and Android tracks for students selecting winter study jams.",
         setupTip: "Browse upcoming tracks on `/events` to catch the winter labs.",
@@ -336,8 +336,8 @@ export const events: EventItem[] = [
       {
         time: "02:00 PM",
         title: "Declarative Mental Models: Compose vs. Flutter Widget Trees",
-        speaker: "Pranav Hegde",
-        memberSlug: "pranav-hegde",
+        speaker: "Varun Hegde",
+        memberSlug: "varun-hegde",
         notes:
           "Side-by-side comparison of Compose slot APIs, recomposition scopes, and Flutter's Element/RenderObject pipeline.",
         setupTip: "Run `flutter doctor` or sync Gradle dependencies before running the sample project.",
@@ -345,8 +345,8 @@ export const events: EventItem[] = [
       {
         time: "02:50 PM",
         title: "Hands-On Lab: Adaptive Navigation & State Hoisting",
-        speaker: "Tara Narayanan",
-        memberSlug: "tara-narayanan",
+        speaker: "Meera Nair",
+        memberSlug: "meera-nair",
         notes:
           "Implemented canonical compact-to-expanded layout switches using shared design tokens and `48dp` minimum touch targets.",
         setupTip: "Test both `375px` phone and `768px` tablet emulators from the starter workspace.",
@@ -354,8 +354,8 @@ export const events: EventItem[] = [
       {
         time: "04:10 PM",
         title: "Motion Choreography & Frame-Budget Profiling",
-        speaker: "Pranav Hegde",
-        memberSlug: "pranav-hegde",
+        speaker: "Varun Hegde",
+        memberSlug: "varun-hegde",
         notes:
           "Profiled jank frames in Android GPU Inspector and Flutter DevTools to keep gesture transitions locked at 60fps.",
         setupTip: "Always profile in `--profile` mode rather than debug builds.",
@@ -363,8 +363,8 @@ export const events: EventItem[] = [
       {
         time: "05:00 PM",
         title: "Code Review Showcase & Closing Notes",
-        speaker: "Tara Narayanan",
-        memberSlug: "tara-narayanan",
+        speaker: "Meera Nair",
+        memberSlug: "meera-nair",
         notes:
           "Walked through student-submitted UI implementations and shared accessibility checklists for TalkBack and screen magnification.",
         setupTip: "Enable Layout Bounds in Developer Options to verify padding symmetry.",
@@ -402,8 +402,8 @@ export const events: EventItem[] = [
       {
         time: "06:00 PM",
         title: "Kubernetes Control Plane & Pod Lifecycle Primer",
-        speaker: "Rohan Subramanian",
-        memberSlug: "rohan-subramanian",
+        speaker: "Tanvi Desai",
+        memberSlug: "tanvi-desai",
         notes:
           "Explained reconciliation loops, kube-scheduler placement decisions, and why declarative state beats imperative cluster commands.",
         setupTip: "Launch Google Cloud Shell in browser for pre-authenticated `kubectl`.",
@@ -411,8 +411,8 @@ export const events: EventItem[] = [
       {
         time: "06:45 PM",
         title: "Guided Lab: Deploying Multi-Service Apps on GKE Autopilot",
-        speaker: "Niharika Kulkarni",
-        memberSlug: "niharika-kulkarni",
+        speaker: "Aditya Kulkarni",
+        memberSlug: "aditya-kulkarni",
         notes:
           "Applied Deployment, ClusterIP Service, and ConfigMap blueprints to ship a two-tier demo API on GKE Autopilot.",
         setupTip: "Validate manifests locally with `kubectl apply --dry-run=client -f k8s/`.",
@@ -420,8 +420,8 @@ export const events: EventItem[] = [
       {
         time: "07:45 PM",
         title: "Resilience Drill: Health Probes, Rollbacks & Resource Quotas",
-        speaker: "Rohan Subramanian",
-        memberSlug: "rohan-subramanian",
+        speaker: "Tanvi Desai",
+        memberSlug: "tanvi-desai",
         notes:
           "Triggered an intentional failing release, watched readiness probes halt bad traffic, and executed an instant `kubectl rollout undo`.",
         setupTip: "Inspect probe failure reasons via `kubectl describe pod <name>`.",
@@ -429,8 +429,8 @@ export const events: EventItem[] = [
       {
         time: "08:15 PM",
         title: "Study Path Resources & Q&A",
-        speaker: "Niharika Kulkarni",
-        memberSlug: "niharika-kulkarni",
+        speaker: "Aditya Kulkarni",
+        memberSlug: "aditya-kulkarni",
         notes:
           "Shared self-paced Google Cloud skill badges, YAML linting hooks, and local `kind` cluster recipes for laptop practice.",
         setupTip: "Install `kind` locally to replay the manifests offline without cloud spend.",

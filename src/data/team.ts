@@ -5,7 +5,13 @@ export type TeamVertical =
   | "Cloud"
   | "Design";
 
-export type PortraitMask = "circle" | "arch" | "clover" | "scallop";
+export type PortraitMask =
+  | "hexagon"
+  | "arch"
+  | "clover"
+  | "scallop"
+  | "squircle"
+  | "circle";
 
 export type PortraitMotif =
   | "orbit"
@@ -50,9 +56,9 @@ export const TEAM_VERTICALS: readonly TeamVertical[] = [
 
 export const teamMembers: TeamMember[] = [
   {
-    id: "aarav-krishnamurthy",
-    slug: "aarav-krishnamurthy",
-    name: "Aarav Krishnamurthy",
+    id: "karthik-gowda",
+    slug: "karthik-gowda",
+    name: "Karthik Gowda",
     role: "GDG on Campus Organizer",
     vertical: "Lead & Core",
     accentColor: "blue",
@@ -61,18 +67,18 @@ export const teamMembers: TeamMember[] = [
     techStack: ["TypeScript", "Go", "Linux", "Systems Architecture"],
     campusFocus:
       "Leading the 2026–27 Build Cycle roadmap, multi-branch mentorship circles, and reproducible workshop starter kits across RVCE.",
-    portraitMask: "scallop",
+    portraitMask: "hexagon",
     portraitMotif: "orbit",
     links: {
-      github: "https://github.com/gdg-rvce-demo-aarav",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-aarav",
-      website: "https://aarav-demo.example.dev",
+      github: "https://github.com/gdg-rvce-demo-karthik",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-karthik",
+      website: "https://karthik-demo.example.dev",
     },
   },
   {
-    id: "kavya-ramachandran",
-    slug: "kavya-ramachandran",
-    name: "Kavya Ramachandran",
+    id: "pranav-reddy",
+    slug: "pranav-reddy",
+    name: "Pranav Reddy",
     role: "Technical Operations Lead",
     vertical: "Lead & Core",
     accentColor: "blue",
@@ -84,14 +90,14 @@ export const teamMembers: TeamMember[] = [
     portraitMask: "arch",
     portraitMotif: "grid",
     links: {
-      github: "https://github.com/gdg-rvce-demo-kavya",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-kavya",
+      github: "https://github.com/gdg-rvce-demo-pranav",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-pranav",
     },
   },
   {
-    id: "ananya-venkataraman",
-    slug: "ananya-venkataraman",
-    name: "Ananya Venkataraman",
+    id: "sneha-joshi",
+    slug: "sneha-joshi",
+    name: "Sneha Joshi",
     role: "Web Architecture Lead",
     vertical: "Dev Vertical",
     accentColor: "blue",
@@ -100,18 +106,18 @@ export const teamMembers: TeamMember[] = [
     techStack: ["Next.js", "React 19", "TypeScript", "Web Performance"],
     campusFocus:
       "Running Web Vitals performance clinics and maintaining open-source campus frontend starter templates.",
-    portraitMask: "circle",
+    portraitMask: "squircle",
     portraitMotif: "prism",
     links: {
-      github: "https://github.com/gdg-rvce-demo-ananya",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-ananya",
-      website: "https://ananya-demo.example.dev",
+      github: "https://github.com/gdg-rvce-demo-sneha",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-sneha",
+      website: "https://sneha-demo.example.dev",
     },
   },
   {
-    id: "pranav-hegde",
-    slug: "pranav-hegde",
-    name: "Pranav Hegde",
+    id: "varun-hegde",
+    slug: "varun-hegde",
+    name: "Varun Hegde",
     role: "Android & Mobile Maintainer",
     vertical: "Dev Vertical",
     accentColor: "blue",
@@ -123,14 +129,14 @@ export const teamMembers: TeamMember[] = [
     portraitMask: "arch",
     portraitMotif: "stack",
     links: {
-      github: "https://github.com/gdg-rvce-demo-pranav",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-pranav",
+      github: "https://github.com/gdg-rvce-demo-varun",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-varun",
     },
   },
   {
-    id: "meera-balasubramanian",
-    slug: "meera-balasubramanian",
-    name: "Meera Balasubramanian",
+    id: "devika-sharma",
+    slug: "devika-sharma",
+    name: "Devika Sharma",
     role: "Applied AI Lead",
     vertical: "AI / ML",
     accentColor: "green",
@@ -142,15 +148,15 @@ export const teamMembers: TeamMember[] = [
     portraitMask: "clover",
     portraitMotif: "nodes",
     links: {
-      github: "https://github.com/gdg-rvce-demo-meera",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-meera",
-      website: "https://meera-demo.example.dev",
+      github: "https://github.com/gdg-rvce-demo-devika",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-devika",
+      website: "https://devika-demo.example.dev",
     },
   },
   {
-    id: "devansh-iyer",
-    slug: "devansh-iyer",
-    name: "Devansh Iyer",
+    id: "nikhil-menon",
+    slug: "nikhil-menon",
+    name: "Nikhil Menon",
     role: "ML Systems Engineer",
     vertical: "AI / ML",
     accentColor: "green",
@@ -162,14 +168,14 @@ export const teamMembers: TeamMember[] = [
     portraitMask: "scallop",
     portraitMotif: "wave",
     links: {
-      github: "https://github.com/gdg-rvce-demo-devansh",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-devansh",
+      github: "https://github.com/gdg-rvce-demo-nikhil",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-nikhil",
     },
   },
   {
-    id: "rohan-subramanian",
-    slug: "rohan-subramanian",
-    name: "Rohan Subramanian",
+    id: "tanvi-desai",
+    slug: "tanvi-desai",
+    name: "Tanvi Desai",
     role: "Cloud & Infrastructure Lead",
     vertical: "Cloud",
     accentColor: "red",
@@ -178,18 +184,18 @@ export const teamMembers: TeamMember[] = [
     techStack: ["Linux Kernel", "Kubernetes", "Rust", "Google Cloud"],
     campusFocus:
       "Leading Linux & Systems Night and mentoring student teams on declarative GKE Autopilot deployments.",
-    portraitMask: "arch",
+    portraitMask: "hexagon",
     portraitMotif: "terminal",
     links: {
-      github: "https://github.com/gdg-rvce-demo-rohan",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-rohan",
-      website: "https://rohan-demo.example.dev",
+      github: "https://github.com/gdg-rvce-demo-tanvi",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-tanvi",
+      website: "https://tanvi-demo.example.dev",
     },
   },
   {
-    id: "niharika-kulkarni",
-    slug: "niharika-kulkarni",
-    name: "Niharika Kulkarni",
+    id: "aditya-kulkarni",
+    slug: "aditya-kulkarni",
+    name: "Aditya Kulkarni",
     role: "DevOps & Observability Core",
     vertical: "Cloud",
     accentColor: "red",
@@ -201,14 +207,14 @@ export const teamMembers: TeamMember[] = [
     portraitMask: "clover",
     portraitMotif: "mesh",
     links: {
-      github: "https://github.com/gdg-rvce-demo-niharika",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-niharika",
+      github: "https://github.com/gdg-rvce-demo-aditya",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-aditya",
     },
   },
   {
-    id: "tara-narayanan",
-    slug: "tara-narayanan",
-    name: "Tara Narayanan",
+    id: "meera-nair",
+    slug: "meera-nair",
+    name: "Meera Nair",
     role: "Design Systems Lead",
     vertical: "Design",
     accentColor: "yellow",
@@ -220,15 +226,15 @@ export const teamMembers: TeamMember[] = [
     portraitMask: "scallop",
     portraitMotif: "compass",
     links: {
-      github: "https://github.com/gdg-rvce-demo-tara",
-      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-tara",
-      website: "https://tara-demo.example.dev",
+      github: "https://github.com/gdg-rvce-demo-meera",
+      linkedin: "https://www.linkedin.com/in/gdg-rvce-demo-meera",
+      website: "https://meera-demo.example.dev",
     },
   },
   {
-    id: "siddharth-menon",
-    slug: "siddharth-menon",
-    name: "Siddharth Menon",
+    id: "siddharth-rao",
+    slug: "siddharth-rao",
+    name: "Siddharth Rao",
     role: "Interaction & Motion Designer",
     vertical: "Design",
     accentColor: "yellow",
@@ -237,7 +243,7 @@ export const teamMembers: TeamMember[] = [
     techStack: ["Motion Springs", "SVG Geometry", "Accessibility", "React"],
     campusFocus:
       "Designing interactive playgrounds, view transitions, and keyboard-first navigation utilities with zero WebGL bloat.",
-    portraitMask: "circle",
+    portraitMask: "squircle",
     portraitMotif: "kinetic",
     links: {
       github: "https://github.com/gdg-rvce-demo-siddharth",

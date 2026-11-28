@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Users } from "lucide-react";
 import { CountdownTimer } from "@/components/home/CountdownTimer";
 import { HeroTrackPlayground } from "@/components/home/HeroTrackPlayground";
+import { KineticText } from "@/components/ui/KineticText";
 import { getUpcomingEvents } from "@/data/events";
 import { siteConfig } from "@/data/site";
 
@@ -10,14 +11,18 @@ export function HeroSection() {
 
   return (
     <section className="relative border-b border-hairline bg-canvas">
-      <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-10">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
+      <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Oversized Editorial Poster Column */}
           <div className="min-w-0 space-y-6 lg:col-span-6 lg:space-y-5">
-            <h1 className="display-expressive text-5xl font-extrabold tracking-tight leading-[0.98] text-ink sm:text-6xl lg:text-7xl">
-              {"Build "}
-              <span className="text-gdg-blue-ink">open</span>
-              {" systems at RVCE."}
+            <h1 className="display-expressive text-5xl font-extrabold tracking-tight leading-[0.98] text-ink sm:text-6xl lg:text-[4.25rem]">
+              <KineticText
+                text="Build open systems at RVCE."
+                highlightWord="open"
+                highlightClassName="text-gdg-blue-ink"
+                mode="mount"
+                staggerSeconds={0.035}
+              />
             </h1>
 
             <p className="max-w-[50ch] text-base leading-relaxed text-ink-muted text-pretty sm:text-lg">
@@ -52,7 +57,7 @@ export function HeroSection() {
             )}
           </div>
 
-          {/* Interactive Material 3 Expressive 4-Color Playground */}
+          {/* Interactive Fanned Hero Track Deck + Bending Indicator + Floating Pill Dock */}
           <div className="min-w-0 lg:col-span-6">
             <HeroTrackPlayground />
           </div>
