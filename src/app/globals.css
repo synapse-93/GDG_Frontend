@@ -3,19 +3,19 @@
 
 :root {
   color-scheme: light;
-  --canvas: #FAF9F6;
-  --surface: #FFFFFF;
-  --surface-muted: #F2EFE9;
-  --hairline: #E5E2DC;
-  --ink: #111827;
-  --ink-muted: #4B5563;
-  --gdg-blue: #4285F4;
+  --canvas: #F6F4EE;
+  --surface: #FDFCF9;
+  --surface-muted: #ECE9E0;
+  --hairline: #D8D4C9;
+  --ink: #0F1115;
+  --ink-muted: #4A4F5A;
+  --gdg-blue: #1A73E8;
   --gdg-blue-ink: #1765CC;
-  --gdg-red: #EA4335;
-  --gdg-yellow: #FBBC04;
-  --gdg-green: #34A853;
-  --blueprint-line: rgba(17, 24, 39, 0.05);
-  --blueprint-dot: rgba(17, 24, 39, 0.11);
+  --gdg-red: #D93025;
+  --gdg-yellow: #F9AB00;
+  --gdg-green: #188038;
+  --blueprint-line: rgba(15, 17, 21, 0.06);
+  --blueprint-dot: rgba(15, 17, 21, 0.12);
   /* Material 3 Expressive tactile spring easing via CSS linear() */
   --ease-spring: linear(
     0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%,
@@ -28,19 +28,19 @@
 
 .dark {
   color-scheme: dark;
-  --canvas: #0C0F14;
-  --surface: #141922;
-  --surface-muted: #1C2330;
-  --hairline: #252D3D;
-  --ink: #F8FAFC;
-  --ink-muted: #94A3B8;
+  --canvas: #0C0E12;
+  --surface: #12151C;
+  --surface-muted: #1A1F29;
+  --hairline: #262C38;
+  --ink: #F5F3EE;
+  --ink-muted: #9BA3B4;
   --gdg-blue: #669DF6;
   --gdg-blue-ink: #669DF6;
   --gdg-red: #F28B82;
   --gdg-yellow: #FDD663;
   --gdg-green: #81C995;
-  --blueprint-line: rgba(148, 163, 184, 0.07);
-  --blueprint-dot: rgba(148, 163, 184, 0.14);
+  --blueprint-line: rgba(245, 243, 238, 0.06);
+  --blueprint-dot: rgba(245, 243, 238, 0.14);
 }
 
 @theme inline {
@@ -107,11 +107,27 @@ input[type="search"]::-webkit-search-decoration {
   appearance: none;
 }
 
-/* Expressive Display Scale & Spring Motion Utilities (GPU transform/opacity only) */
+/* Monumental Swiss Editorial Display Scale */
+.display-monumental {
+  font-size: clamp(3.25rem, 7.5vw, 6.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
 .display-expressive {
   letter-spacing: -0.035em;
   line-height: 0.98;
   text-wrap: balance;
+}
+
+.swiss-index {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
 
 .transition-spring {
@@ -124,94 +140,6 @@ input[type="search"]::-webkit-search-decoration {
   transition-property: transform, opacity, background-color, border-color, color;
   transition-duration: 220ms;
   transition-timing-function: var(--ease-snappy);
-}
-
-/* Architectural studio dot matrix */
-.bg-blueprint-grid {
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    var(--blueprint-dot) 1.15px,
-    transparent 0
-  );
-  background-size: 24px 24px;
-  background-position: -1px -1px;
-}
-
-/* Pure CSS 3D helpers */
-.perspective-studio {
-  perspective: 900px;
-}
-
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
-/* GPU-composited keyframes: ONLY transform & opacity */
-@keyframes gdg-spin-3d {
-  0% {
-    transform: rotateX(22deg) rotateY(0deg) rotateZ(6deg);
-  }
-  50% {
-    transform: rotateX(-16deg) rotateY(180deg) rotateZ(-6deg);
-  }
-  100% {
-    transform: rotateX(22deg) rotateY(360deg) rotateZ(6deg);
-  }
-}
-
-@keyframes gdg-spin-reverse-3d {
-  0% {
-    transform: rotateX(64deg) rotateY(14deg) rotateZ(360deg);
-  }
-  50% {
-    transform: rotateX(56deg) rotateY(-14deg) rotateZ(180deg);
-  }
-  100% {
-    transform: rotateX(64deg) rotateY(14deg) rotateZ(0deg);
-  }
-}
-
-@keyframes gdg-float-3d {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0.94;
-  }
-  50% {
-    transform: translate3d(0, -8px, 0);
-    opacity: 1;
-  }
-}
-
-@keyframes gdg-drawer-in {
-  from {
-    transform: translate3d(24px, 0, 0);
-    opacity: 0;
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-
-.animate-gdg-spin-3d {
-  animation: gdg-spin-3d 18s linear infinite;
-  will-change: transform;
-}
-
-.animate-gdg-spin-reverse-3d {
-  animation: gdg-spin-reverse-3d 14s linear infinite;
-  will-change: transform;
-}
-
-.animate-gdg-float-3d {
-  animation: gdg-float-3d 6s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-.animate-gdg-drawer-in {
-  animation: gdg-drawer-in 260ms var(--ease-snappy) both;
-  will-change: transform, opacity;
 }
 
 /* DomainArtwork GPU-composited spring hover reactions */
@@ -294,10 +222,6 @@ input[type="search"]::-webkit-search-decoration {
     transform: none !important;
   }
 
-  .animate-gdg-spin-3d,
-  .animate-gdg-spin-reverse-3d,
-  .animate-gdg-float-3d,
-  .animate-gdg-drawer-in,
   .gdg-scroll-progress,
   .gdg-poster-parallax {
     animation: none !important;

@@ -179,7 +179,7 @@ export const events: EventItem[] = [
     tagline:
       "Audit real rendering bottlenecks, master streaming Server Components, and eliminate layout shift at the edge.",
     description:
-      "A deep technical session on modern web ergonomics and performance engineering. We dissect flamegraphs in Chrome DevTools, compare static pre-rendering with edge streaming, and optimize typography, hydration payloads, and GPU-composited animations.",
+      "A deep technical session on modern web architecture and performance engineering. We dissect real browser traces in Chrome DevTools, compare static pre-rendering with edge streaming, and optimize typography, hydration payloads, and smooth UI transitions.",
     track: "Web",
     status: "upcoming",
     dateISO: "2027-02-06T10:30:00+05:30",
@@ -196,18 +196,18 @@ export const events: EventItem[] = [
       "Node.js 20+ ready to clone and profile the benchmark repository",
     ],
     outcomes: [
-      "Diagnose LCP, INP, and CLS regressions using DevTools traces and Lighthouse",
+      "Diagnose LCP, INP, and CLS regressions using Chrome DevTools performance traces",
       "Structure Server and Client Component boundaries to trim client JS bundles",
-      "Design zero-jank UI transitions using GPU-composited transform and opacity rules",
+      "Design crisp UI transitions using smooth transform and opacity animations",
     ],
     agenda: [
       {
         time: "10:30 AM",
-        title: "Reading Browser Flamegraphs Without Guesswork",
+        title: "Reading Browser Performance Traces Without Guesswork",
         speaker: "Ananya Venkataraman",
         memberSlug: "ananya-venkataraman",
         notes:
-          "Pinpoint main-thread long tasks, layout thrashing, and hydration waterfalls on real student web apps using Chrome Performance Insights.",
+          "Pinpoint main-thread long tasks, layout thrashing, and hydration waterfalls on real student web apps using Chrome DevTools.",
         setupTip: "Open an incognito Chrome window with extensions disabled for clean traces.",
       },
       {
@@ -291,7 +291,7 @@ export const events: EventItem[] = [
         speaker: "Tara Narayanan",
         memberSlug: "tara-narayanan",
         notes:
-          "Fast-paced demos covering contrast audits, typographic hierarchy on mobile viewports, and GPU-composited motion craft.",
+          "Fast-paced demos covering contrast audits, typographic hierarchy on mobile viewports, and accessible interface motion.",
         setupTip: "Download the WCAG AA palette token reference from the recap notes.",
       },
       {

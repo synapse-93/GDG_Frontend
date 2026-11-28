@@ -125,10 +125,10 @@ export const siteConfig = {
       title: "Web & Edge Systems",
       shortLabel: "Web",
       description:
-        "Modern web standards, accessible interfaces, performance profiling, and resilient full-stack engineering.",
+        "Modern web standards, accessible interfaces, performance audits, and resilient full-stack engineering.",
       engineeringFocus:
-        "Flamegraph profiling, streaming Server Components, WCAG AA color systems, and GPU-composited motion.",
-      campusLab: "EC Seminar Hall · Perf & Edge Lab",
+        "Core Web Vitals audits, streaming Server Components, WCAG AA color systems, and crisp interactive UI.",
+      campusLab: "EC Seminar Hall · Web Systems Lab",
       stackTags: ["Next.js 16", "TypeScript", "Tailwind v4", "Web Vitals"],
       trackFilter: "Web",
       accentColor: "blue",
@@ -137,11 +137,11 @@ export const siteConfig = {
       title: "Applied AI & Agents",
       shortLabel: "AI / ML",
       description:
-        "Hands-on model tooling, retrieval pipelines, evaluation harnesses, and responsible agent workflows.",
+        "Hands-on model tooling, retrieval pipelines, evaluation suites, and responsible agent workflows.",
       engineeringFocus:
-        "Schema-enforced tool calling, deterministic guardrails, local model quantization, and golden-set evals.",
-      campusLab: "CS Seminar Hall · Agent Eval Studio",
-      stackTags: ["Python", "Structured Tools", "Eval Harnesses", "Local LLM"],
+        "Schema-enforced tool calling, deterministic guardrails, local model quantization, and regression checks.",
+      campusLab: "CS Seminar Hall · AI Agents Lab",
+      stackTags: ["Python", "Structured Tools", "Eval Suites", "Local LLM"],
       trackFilter: "AI / ML",
       accentColor: "green",
     },
@@ -149,10 +149,10 @@ export const siteConfig = {
       title: "Cloud & Infrastructure",
       shortLabel: "Cloud",
       description:
-        "Linux foundations, Kubernetes orchestration, reproducible deployments, and production observability.",
+        "Linux foundations, Kubernetes orchestration, reproducible deployments, and service observability.",
       engineeringFocus:
-        "Kernel namespaces & cgroups v2 from scratch, GKE Autopilot manifests, readiness probes, and OpenTelemetry.",
-      campusLab: "IEM Auditorium · Systems Clinic",
+        "Kernel namespaces & cgroups v2 from scratch, GKE Autopilot manifests, readiness probes, and tracing.",
+      campusLab: "IEM Auditorium · Systems Lab",
       stackTags: ["Linux Kernel", "Go / Rust", "Kubernetes", "Google Cloud"],
       trackFilter: "Cloud",
       accentColor: "red",
@@ -161,10 +161,10 @@ export const siteConfig = {
       title: "Android & Design Craft",
       shortLabel: "Android",
       description:
-        "Jetpack Compose, Flutter UI architecture, motion ergonomics, and cohesive developer design systems.",
+        "Jetpack Compose, Flutter UI architecture, adaptive layouts, and cohesive student design systems.",
       engineeringFocus:
-        "Unidirectional state hoisting, adaptive phone-to-tablet layouts, semantic touch ergonomics, and 60fps UI.",
-      campusLab: "EC Seminar Hall · Declarative UI Studio",
+        "Unidirectional state hoisting, adaptive phone-to-tablet layouts, touch ergonomics, and smooth UI motion.",
+      campusLab: "EC Seminar Hall · Mobile UI Lab",
       stackTags: ["Jetpack Compose", "Kotlin", "Flutter", "Design Tokens"],
       trackFilter: "Android",
       accentColor: "yellow",
@@ -177,7 +177,7 @@ export const siteConfig = {
     venue: "IEM Auditorium, RVCE",
     track: "Web",
     summary:
-      "Our autumn kickoff paired live system architecture teardowns with rapid prototype clinics across frontend performance, local LLM tooling, and cloud deployments.",
+      "Our autumn kickoff paired live system architecture teardowns with rapid prototype clinics across web performance, local LLM tooling, and cloud deployments.",
     highlights: [
       "Three live code-along architecture teardowns covering edge routing, streaming UI, and container debugging.",
       "Open lightning-demo desk where student builders walked through real debugging postmortems and design decisions.",
@@ -186,37 +186,37 @@ export const siteConfig = {
     takeawayTabs: [
       {
         id: "teardowns",
-        label: "Architecture Teardown",
+        label: "01 // Teardown",
         scene: "teardown",
         headline: "Edge routing, streaming UI, and container debugging live on stage",
         detail:
-          "Three RVCE track leads opened real student repositories in DevTools and POSIX terminals—walking through cold-start latency, partial prerendering boundaries, and crash-looping container probes without slideware.",
+          "Three RVCE track leads opened real student repositories in DevTools and terminals—walking through cold-start latency, partial prerendering boundaries, and crash-looping container probes.",
         artifact: "starter-kit/edge-teardown-checklist.md",
         accentColor: "blue",
       },
       {
         id: "flamegraphs",
-        label: "Flamegraph Clinic",
+        label: "02 // Perf Clinic",
         scene: "flamegraph",
-        headline: "Trimming hydration cost and layout shifts in live student apps",
+        headline: "Trimming hydration cost and layout shifts in student web apps",
         detail:
-          "Builders profiled main-thread long tasks side by side in Chrome Performance Insights, splitting heavy client trees into Server Components and preloaded variable fonts.",
-        artifact: "starter-kit/perf-flamegraph-notes.md",
+          "Builders audited main-thread bottlenecks side by side in Chrome DevTools, splitting heavy client trees into Server Components and preloaded variable fonts.",
+        artifact: "starter-kit/web-perf-notes.md",
         accentColor: "green",
       },
       {
         id: "postmortems",
-        label: "Lightning Postmortems",
+        label: "03 // Postmortems",
         scene: "postmortem",
         headline: "Honest debugging stories from shipped campus prototypes",
         detail:
-          "Student builders shared what actually broke during demo week: hydration mismatches on live clocks, runaway token loops in agent prototypes, and WCAG contrast traps on yellow surfaces.",
+          "Student builders shared what actually broke during demo week: hydration mismatches on live clocks, runaway tool loops in agent prototypes, and WCAG contrast traps on yellow surfaces.",
         artifact: "notes/autumn-postmortem-log.md",
         accentColor: "red",
       },
       {
         id: "handoff",
-        label: "Open Starter Kits",
+        label: "04 // Starter Kits",
         scene: "starterkit",
         headline: "Reproducible repositories & accessibility checklists for self-paced study",
         detail:
