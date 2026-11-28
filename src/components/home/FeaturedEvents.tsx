@@ -23,7 +23,7 @@ export function FeaturedEvents() {
   return (
     <section
       aria-labelledby="featured-events-heading"
-      className="border-b border-hairline bg-canvas py-16 sm:py-20"
+      className="border-b border-hairline bg-canvas py-10 sm:py-16 lg:py-20"
     >
       <ScrollStage className="w-full">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -34,11 +34,11 @@ export function FeaturedEvents() {
                 id="featured-events-heading"
                 className="text-3xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-4xl lg:text-[2.65rem] lg:leading-[1.06]"
               >
-                <KineticText text="On the campus build calendar" />
+                <KineticText text="Upcoming on campus" />
               </h2>
               <p className="mt-2 max-w-[52ch] text-base text-ink-muted text-pretty">
-                Upcoming in-person clinics and hybrid engineering workshops across
-                RVCE seminar halls.
+                In-person code labs and hybrid workshops across RVCE seminar
+                halls.
               </p>
             </div>
 
@@ -57,10 +57,14 @@ export function FeaturedEvents() {
           {/* Asymmetric 7/5 Swiss Editorial Split */}
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Flagship Upcoming Session (7 cols) */}
-            <article className="group relative flex flex-col justify-between border-b border-hairline py-8 lg:col-span-7 lg:border-r lg:border-b-0 lg:py-8 lg:pr-10">
-              <div className="space-y-6">
-                <div className="overflow-hidden rounded-3xl transition-spring group-hover:-translate-y-1">
-                  <EventPoster event={flagship} size="hero" />
+            <article className="group relative flex flex-col justify-between border-b border-hairline py-5 sm:py-8 lg:col-span-7 lg:border-r lg:border-b-0 lg:py-8 lg:pr-10">
+              <div className="space-y-4 sm:space-y-6">
+                <div className="overflow-hidden rounded-2xl transition-spring group-hover:-translate-y-1 sm:rounded-3xl">
+                  <EventPoster
+                    event={flagship}
+                    size="hero"
+                    className="h-[160px] min-h-0 sm:h-auto sm:min-h-[256px]"
+                  />
                 </div>
 
                 <div>

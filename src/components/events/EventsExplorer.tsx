@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { EventCard } from "@/components/events/EventCard";
+import { ScrollStage } from "@/components/ui/ScrollStage";
 import {
   EVENT_TRACKS,
   type EventItem,
@@ -90,6 +91,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
     base: string;
     value: string;
   } | null>(null);
+  const [hoveredTrack, setHoveredTrack] = useState<TrackFilter | null>(null);
   const query =
     queryOverride && queryOverride.base === urlQuery
       ? queryOverride.value
@@ -247,17 +249,17 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
   })();
 
   return (
-    <div className="space-y-7">
-      {/* Hairline-Separated Operational Toolbar */}
-      <div className="space-y-4 border-b border-hairline pb-5">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          {/* Search Input with subtle desktop `/` shortcut hint */}
-          <div className="relative flex-1 lg:max-w-md">
+    <div className="space-y-5 sm:space-y-7">
+      {/* Compact 2-Row Mobile Utility Bar / Full Desktop Toolbar */}
+      <div className="space-y-3 border-b border-hairline pb-4 sm:space-y-4 sm:pb-5">
+        {/* Row 1: Search Input + Compact Posters/Schedule Toggle on same line on mobile */}
+        <div className="flex items-center gap-2 lg:justify-between lg:gap-3">
+          <div className="group relative min-w-0 flex-1 rounded-xl border border-hairline bg-surface transition-[border-color,box-shadow] duration-200 focus-within:border-gdg-blue/70 focus-within:ring-2 focus-within:ring-[#4285F4]/20 lg:max-w-md">
             <label htmlFor="events-search-input" className="sr-only">
               Search events by title, topic, or speaker
             </label>
             <Search
-              className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-ink-muted"
+              className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-ink-muted transition-colors group-focus-within:text-gdg-blue-ink sm:left-3.5"
               aria-hidden="true"
             />
             <input
@@ -266,34 +268,46 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
               type="search"
               value={query}
               onChange={(e) => updateQuery(e.target.value)}
-              placeholder="Search title, topic, venue, or speaker..."
-              className="w-full rounded-lg border border-hairline bg-surface py-2.5 pr-12 pl-10 text-sm text-ink placeholder:text-ink-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+              placeholder="Search sessions..."
+              className="w-full rounded-xl bg-transparent py-2 pr-10 pl-9 text-sm text-ink placeholder:text-ink-muted focus:outline-none sm:py-2.5 sm:pr-12 sm:pl-10"
             />
-            {query.length > 0 ? (
-              <button
-                type="button"
-                onClick={() => updateQuery("")}
-                aria-label="Clear search query"
-                className="absolute top-1/2 right-1 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-ink-muted hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
-              >
-                <X className="h-4 w-4" aria-hidden="true" />
-              </button>
-            ) : (
-              <kbd
-                aria-hidden="true"
-                className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-xs text-ink-muted lg:inline-flex"
-              >
-                /
-              </kbd>
-            )}
+            <AnimatePresence mode="wait" initial={false}>
+              {query.length > 0 ? (
+                <m.button
+                  key="events-clear-search"
+                  type="button"
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.7 }}
+                  transition={{ type: "spring", stiffness: 480, damping: 28 }}
+                  onClick={() => updateQuery("")}
+                  aria-label="Clear search query"
+                  className="absolute top-1/2 right-1 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-ink-muted hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                >
+                  <X className="h-4 w-4" aria-hidden="true" />
+                </m.button>
+              ) : (
+                <m.kbd
+                  key="events-slash-hint"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.14 }}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-xs text-ink-muted lg:inline-flex"
+                >
+                  /
+                </m.kbd>
+              )}
+            </AnimatePresence>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Segmented Status Toggle */}
+          <div className="flex shrink-0 items-center gap-3">
+            {/* Desktop Segmented Status Toggle (mobile status chips sit in Row 2 horizontal strip) */}
             <div
               role="group"
               aria-label="Filter sessions by schedule status"
-              className="inline-flex flex-1 rounded-lg border border-hairline bg-surface p-1 sm:flex-initial"
+              className="hidden rounded-lg border border-hairline bg-surface p-1 md:inline-flex"
             >
               {STATUS_OPTIONS.map((option) => {
                 const active = statusFilter === option.value;
@@ -303,7 +317,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
                     type="button"
                     aria-pressed={active}
                     onClick={() => updateStatus(option.value)}
-                    className={`flex-1 rounded-md px-3.5 py-2 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:flex-initial ${
+                    className={`rounded-md px-3.5 py-2 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
                       active
                         ? "bg-ink text-canvas"
                         : "text-ink-muted hover:bg-surface-muted hover:text-ink"
@@ -315,7 +329,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
               })}
             </div>
 
-            {/* Posters / Schedule View Switcher */}
+            {/* Posters / Schedule View Switcher (compact icons on < sm, labeled on sm+) */}
             <div
               role="group"
               aria-label="Choose events display layout"
@@ -324,15 +338,16 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
               <button
                 type="button"
                 aria-pressed={viewMode === "posters"}
+                aria-label="Posters grid view"
                 onClick={() => updateView("posters")}
-                className={`inline-flex items-center gap-1.5 rounded-md px-3 py-2 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:px-3 sm:py-2 ${
                   viewMode === "posters"
                     ? "bg-ink text-canvas"
                     : "text-ink-muted hover:bg-surface-muted hover:text-ink"
                 }`}
               >
-                <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" />
-                <span>Posters</span>
+                <LayoutGrid className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
+                <span className="hidden sm:inline">Posters</span>
                 <kbd
                   aria-hidden="true"
                   className={`ml-0.5 hidden rounded border px-1 py-0 text-[11px] lg:inline ${
@@ -347,15 +362,16 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
               <button
                 type="button"
                 aria-pressed={viewMode === "schedule"}
+                aria-label="Schedule list view"
                 onClick={() => updateView("schedule")}
-                className={`inline-flex items-center gap-1.5 rounded-md px-3 py-2 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:px-3 sm:py-2 ${
                   viewMode === "schedule"
                     ? "bg-ink text-canvas"
                     : "text-ink-muted hover:bg-surface-muted hover:text-ink"
                 }`}
               >
-                <List className="h-3.5 w-3.5" aria-hidden="true" />
-                <span>Schedule</span>
+                <List className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
+                <span className="hidden sm:inline">Schedule</span>
                 <kbd
                   aria-hidden="true"
                   className={`ml-0.5 hidden rounded border px-1 py-0 text-[11px] lg:inline ${
@@ -371,79 +387,138 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
           </div>
         </div>
 
-        {/* Track Filter Pills + Results Meta */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-          <div
-            role="group"
-            aria-label="Filter sessions by technical track"
-            className="flex flex-wrap items-center gap-2"
-          >
-            <button
-              type="button"
-              aria-pressed={trackFilter === "All"}
-              onClick={() => updateTrack("All")}
-              className={`inline-flex min-h-[38px] items-center gap-1.5 rounded-full border px-3.5 py-1.5 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
-                trackFilter === "All"
-                  ? "border-ink bg-ink text-canvas"
-                  : "border-hairline bg-canvas text-ink-muted hover:bg-surface-muted hover:text-ink"
-              }`}
+        {/* Row 2: Single-line horizontally scrollable chip strip on mobile; wrapped filter bar on desktop */}
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-3">
+          <LayoutGroup id="events-track-filters">
+            <div
+              role="group"
+              aria-label="Filter sessions by status and technical track"
+              onMouseLeave={() => setHoveredTrack(null)}
+              className="flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap no-scrollbar md:flex-wrap md:overflow-visible md:pb-0"
             >
-              <span>All Tracks</span>
-              <kbd
-                aria-hidden="true"
-                className={`hidden font-mono text-[11px] opacity-70 lg:inline`}
-              >
-                0
-              </kbd>
-            </button>
+              {/* Mobile-only Status Chips inline in Row 2 */}
+              <div className="flex shrink-0 items-center gap-1.5 md:hidden">
+                {STATUS_OPTIONS.map((option) => {
+                  const active = statusFilter === option.value;
+                  return (
+                    <button
+                      key={`mob-status-${option.value}`}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => updateStatus(option.value)}
+                      className={`inline-flex min-h-[34px] shrink-0 items-center rounded-full border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                        active
+                          ? "border-ink bg-ink text-canvas"
+                          : "border-hairline bg-surface text-ink-muted"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+                <span
+                  aria-hidden="true"
+                  className="mx-0.5 h-4 w-px shrink-0 bg-hairline"
+                />
+              </div>
 
-            {EVENT_TRACKS.map((track, idx) => {
-              const active = trackFilter === track;
-              const styles = getTrackStyles(track);
-              return (
-                <button
-                  key={track}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => updateTrack(track)}
-                  className={`inline-flex min-h-[38px] items-center gap-1.5 rounded-full border px-3.5 py-1.5 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
-                    active
-                      ? styles.badge
-                      : "border-hairline bg-canvas text-ink-muted hover:bg-surface-muted hover:text-ink"
-                  }`}
-                >
-                  <span
-                    aria-hidden="true"
-                    className={`h-1.5 w-1.5 rounded-full ${
-                      active && track === "Android"
-                        ? "bg-[#111827] dark:bg-[#FDD663]"
-                        : styles.dot
-                    }`}
-                  />
-                  <span>{track}</span>
-                  <kbd
-                    aria-hidden="true"
-                    className="hidden font-mono text-[11px] opacity-65 lg:inline"
-                  >
-                    {idx + 1}
-                  </kbd>
-                </button>
-              );
-            })}
-
-            {hasActiveFilters && (
               <button
                 type="button"
-                onClick={handleReset}
-                className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs font-medium text-ink-muted transition-colors hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                aria-pressed={trackFilter === "All"}
+                onMouseEnter={() => setHoveredTrack("All")}
+                onFocus={() => setHoveredTrack("All")}
+                onBlur={() => setHoveredTrack(null)}
+                onClick={() => updateTrack("All")}
+                className={`relative inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[38px] sm:px-3.5 sm:py-1.5 ${
+                  trackFilter === "All"
+                    ? "border-ink bg-ink text-canvas"
+                    : "border-hairline bg-canvas text-ink-muted hover:text-ink"
+                }`}
               >
-                <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-                <span>Reset</span>
+                {hoveredTrack === "All" && trackFilter !== "All" && (
+                  <m.span
+                    layoutId="events-track-hover"
+                    aria-hidden="true"
+                    transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                    className="pointer-events-none absolute inset-0 rounded-full bg-surface-muted/90"
+                  />
+                )}
+                <span className="relative z-10">All Tracks</span>
+                <kbd
+                  aria-hidden="true"
+                  className="relative z-10 hidden font-mono text-[11px] opacity-70 lg:inline"
+                >
+                  0
+                </kbd>
               </button>
-            )}
-          </div>
 
-          <p aria-live="polite" className="font-mono text-xs text-ink-muted">
+              {EVENT_TRACKS.map((track, idx) => {
+                const active = trackFilter === track;
+                const hovered = hoveredTrack === track && !active;
+                const styles = getTrackStyles(track);
+                return (
+                  <button
+                    key={track}
+                    type="button"
+                    aria-pressed={active}
+                    onMouseEnter={() => setHoveredTrack(track)}
+                    onFocus={() => setHoveredTrack(track)}
+                    onBlur={() => setHoveredTrack(null)}
+                    onClick={() => updateTrack(track)}
+                    className={`relative inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[38px] sm:px-3.5 sm:py-1.5 ${
+                      active
+                        ? styles.badge
+                        : "border-hairline bg-canvas text-ink-muted hover:text-ink"
+                    }`}
+                  >
+                    {hovered && (
+                      <m.span
+                        layoutId="events-track-hover"
+                        aria-hidden="true"
+                        transition={{
+                          type: "spring",
+                          stiffness: 420,
+                          damping: 32,
+                        }}
+                        className="pointer-events-none absolute inset-0 rounded-full bg-surface-muted/90"
+                      />
+                    )}
+                    <span
+                      aria-hidden="true"
+                      className={`relative z-10 h-1.5 w-1.5 rounded-full ${
+                        active && track === "Android"
+                          ? "bg-[#111827] dark:bg-[#FDD663]"
+                          : styles.dot
+                      }`}
+                    />
+                    <span className="relative z-10">{track}</span>
+                    <kbd
+                      aria-hidden="true"
+                      className="relative z-10 hidden font-mono text-[11px] opacity-65 lg:inline"
+                    >
+                      {idx + 1}
+                    </kbd>
+                  </button>
+                );
+              })}
+
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1 font-mono text-xs font-medium text-ink-muted transition-colors hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:min-h-[38px] sm:px-3 sm:py-1.5"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>Reset</span>
+                </button>
+              )}
+            </div>
+          </LayoutGroup>
+
+          <p
+            aria-live="polite"
+            className="hidden font-mono text-xs text-ink-muted sm:block"
+          >
             Showing{" "}
             <span className="font-semibold text-ink tabular-nums">
               {filteredEvents.length}
@@ -453,8 +528,9 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
         </div>
       </div>
 
-      {/* Results: Shared-Element FLIP Posters Grid <-> Schedule List */}
-      <LayoutGroup id="events-explorer">
+      {/* Results: Shared-Element FLIP Posters Grid <-> Schedule List inside ScrollStage */}
+      <ScrollStage>
+        <LayoutGroup id="events-explorer">
         {filteredEvents.length > 0 ? (
           viewMode === "schedule" ? (
             <div>
@@ -627,6 +703,7 @@ export function EventsExplorer({ events }: EventsExplorerProps) {
           </div>
         )}
       </LayoutGroup>
+      </ScrollStage>
     </div>
   );
 }

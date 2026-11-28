@@ -53,8 +53,8 @@ export function CommunityLinks() {
               <KineticText text="Stay connected between campus sessions" />
             </h2>
             <p className="mt-3 text-base leading-relaxed text-ink-muted text-pretty">
-              Follow starter repositories, recorded architecture teardowns, and
-              study-jam threads across our open chapter channels.
+              Grab starter repos, watch recorded talks, and join study-jam
+              threads across our campus channels.
             </p>
           </div>
 

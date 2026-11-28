@@ -33,6 +33,7 @@ function renderFormattedTip(tip: string) {
 export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
   const [openIndices, setOpenIndices] = useState<number[]>([0]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const allExpanded = openIndices.length === agenda.length;
 
@@ -70,11 +71,15 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
         </button>
       </div>
 
-      {/* Agenda Timeline with Bending SVG Active Bracket */}
-      <div className="relative mt-5 flex items-stretch gap-3 border-y border-hairline">
+      {/* Agenda Timeline with Hover-Tracking Bending SVG Active Bracket */}
+      <div
+        onMouseLeave={() => setHoveredIndex(null)}
+        className="relative mt-5 flex items-stretch gap-3 border-y border-hairline"
+      >
         <div className="hidden py-3 sm:flex">
           <BendingIndicator
             activeIndex={activeIndex}
+            hoveredIndex={hoveredIndex}
             itemCount={agenda.length}
           />
         </div>
@@ -90,8 +95,9 @@ export function EventAgenda({ agenda, dotClass }: EventAgendaProps) {
                   type="button"
                   aria-expanded={isOpen}
                   aria-controls={panelId}
-                  onMouseEnter={() => setActiveIndex(idx)}
-                  onFocus={() => setActiveIndex(idx)}
+                  onMouseEnter={() => setHoveredIndex(idx)}
+                  onFocus={() => setHoveredIndex(idx)}
+                  onBlur={() => setHoveredIndex(null)}
                   onClick={() => toggleIndex(idx)}
                   className="group flex w-full flex-col gap-2 py-4 text-left transition-colors hover:bg-surface-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:flex-row sm:items-center sm:gap-5 sm:px-2"
                 >

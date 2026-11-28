@@ -8,6 +8,7 @@ import { MemberSheet } from "@/components/team/MemberSheet";
 import { TeamCard } from "@/components/team/TeamCard";
 import { TeamFilters, type VerticalFilter } from "@/components/team/TeamFilters";
 import { KineticText } from "@/components/ui/KineticText";
+import { ScrollStage } from "@/components/ui/ScrollStage";
 import {
   TEAM_VERTICALS,
   type TeamMember,
@@ -124,7 +125,7 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
     selectedVertical === "All" && normalizedQuery.length === 0;
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6 sm:space-y-10">
       <TeamFilters
         selectedVertical={selectedVertical}
         searchQuery={searchQuery}
@@ -158,65 +159,69 @@ export function TeamDirectory({ members }: TeamDirectoryProps) {
             </button>
           </div>
         ) : showTwoTierSplit ? (
-          <div className="space-y-14">
+          <div className="space-y-8 sm:space-y-14">
             {/* Tier 1: Chapter Leadership — 2 Horizontal Feature Cards */}
-            <section aria-labelledby="leadership-heading" className="space-y-5">
-              <div className="flex items-baseline justify-between gap-2">
-                <h2
-                  id="leadership-heading"
-                  className="text-2xl font-extrabold tracking-tight text-ink"
-                >
-                  <KineticText
-                    text="Chapter Leadership & Operations"
-                    mode="mount"
-                  />
-                </h2>
-                <span className="font-mono text-xs text-ink-muted">
-                  {`${coreLeads.length} organizers`}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <AnimatePresence mode="popLayout">
-                  {coreLeads.map((member) => (
-                    <TeamCard
-                      key={member.slug}
-                      member={member}
-                      variant="leadership"
-                      onSelect={handleOpenMember}
+            <ScrollStage>
+              <section aria-labelledby="leadership-heading" className="space-y-3 sm:space-y-5">
+                <div className="flex items-baseline justify-between gap-2">
+                  <h2
+                    id="leadership-heading"
+                    className="text-lg font-extrabold tracking-tight text-ink sm:text-2xl"
+                  >
+                    <KineticText
+                      text="Chapter Leadership & Operations"
+                      mode="mount"
                     />
-                  ))}
-                </AnimatePresence>
-              </div>
-            </section>
+                  </h2>
+                  <span className="font-mono text-xs text-ink-muted">
+                    {`${coreLeads.length} organizers`}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-6">
+                  <AnimatePresence mode="popLayout">
+                    {coreLeads.map((member) => (
+                      <TeamCard
+                        key={member.slug}
+                        member={member}
+                        variant="leadership"
+                        onSelect={handleOpenMember}
+                      />
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </section>
+            </ScrollStage>
 
             {/* Tier 2: Technical Vertical Leads — 4-Column Responsive Grid */}
-            <section aria-labelledby="verticals-heading" className="space-y-5">
-              <div className="flex items-baseline justify-between gap-2">
-                <h2
-                  id="verticals-heading"
-                  className="text-2xl font-extrabold tracking-tight text-ink"
-                >
-                  <KineticText text="Technical Vertical Leads & Maintainers" />
-                </h2>
-                <span className="font-mono text-xs text-ink-muted">
-                  {`${verticalLeads.length} leads`}
-                </span>
-              </div>
+            <ScrollStage>
+              <section aria-labelledby="verticals-heading" className="space-y-3 sm:space-y-5">
+                <div className="flex items-baseline justify-between gap-2">
+                  <h2
+                    id="verticals-heading"
+                    className="text-lg font-extrabold tracking-tight text-ink sm:text-2xl"
+                  >
+                    <KineticText text="Technical Vertical Leads & Maintainers" />
+                  </h2>
+                  <span className="font-mono text-xs text-ink-muted">
+                    {`${verticalLeads.length} leads`}
+                  </span>
+                </div>
 
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                <AnimatePresence mode="popLayout">
-                  {verticalLeads.map((member) => (
-                    <TeamCard
-                      key={member.slug}
-                      member={member}
-                      variant="vertical"
-                      onSelect={handleOpenMember}
-                    />
-                  ))}
-                </AnimatePresence>
-              </div>
-            </section>
+                <div className="grid grid-cols-1 gap-3 sm:gap-5 md:grid-cols-2 lg:grid-cols-4">
+                  <AnimatePresence mode="popLayout">
+                    {verticalLeads.map((member) => (
+                      <TeamCard
+                        key={member.slug}
+                        member={member}
+                        variant="vertical"
+                        onSelect={handleOpenMember}
+                      />
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </section>
+            </ScrollStage>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

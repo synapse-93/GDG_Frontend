@@ -18,26 +18,25 @@ export default function EventsPage() {
 
   return (
     <div className="bg-canvas">
-      {/* Open Editorial Masthead + Compact Next Flagship Strip */}
-      <section className="border-b border-hairline bg-canvas py-10 sm:py-12">
+      {/* Open Editorial Masthead + Compact Next Flagship Strip (hidden on mobile so first poster shows immediately) */}
+      <section className="border-b border-hairline bg-canvas py-5 sm:py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-7">
-              <h1 className="text-4xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-5xl">
+              <h1 className="text-3xl font-extrabold tracking-[-0.03em] text-ink text-balance sm:text-5xl">
                 Workshops, Labs &amp; Study Jams
               </h1>
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted text-pretty">
-                Filter upcoming RVCE campus sessions and past technical
-                teardowns by track, schedule status, or speaker—switching
-                between Posters and a high-scanability Schedule view.
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted text-pretty sm:mt-3 sm:text-base">
+                Browse upcoming workshops and past recaps by track, status, or
+                speaker—switch between Posters and Schedule.
               </p>
             </div>
 
-            {/* Compact Next Flagship Feature Strip (zero empty vertical void) */}
+            {/* Compact Next Flagship Feature Strip (hidden on < md to avoid duplicating first poster) */}
             {flagship && flagshipStyles && (
               <Link
                 href={`/events/${flagship.slug}`}
-                className="group block rounded-2xl border border-hairline bg-surface p-4 transition-colors hover:border-gdg-blue/50 hover:bg-surface-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:p-5 lg:col-span-5"
+                className="group hidden rounded-2xl border border-hairline bg-surface p-4 transition-colors hover:border-gdg-blue/50 hover:bg-surface-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] md:block sm:p-5 lg:col-span-5"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
                   <span className="inline-flex items-center gap-1.5 font-semibold text-[#166534] dark:text-[#A8DAB5]">
@@ -94,7 +93,7 @@ export default function EventsPage() {
       </section>
 
       {/* Interactive Operational Directory */}
-      <section className="py-10 sm:py-14">
+      <section className="py-5 sm:py-10 lg:py-14">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <Suspense
             fallback={

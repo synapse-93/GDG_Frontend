@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as m from "motion/react-m";
+import { LayoutGroup } from "motion/react";
 import { Menu, Search, X } from "lucide-react";
 import { GdgLogo } from "@/components/brand/GdgLogo";
 import { COMMAND_PALETTE_EVENT } from "@/components/layout/CommandPalette";
@@ -25,6 +26,7 @@ function getServerShortcutHint(): string {
 export function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -89,61 +91,90 @@ export function Navbar() {
           <GdgLogo responsive />
         </Link>
 
-        {/* Desktop editorial navigation with spring-animated layoutId indicator */}
-        <nav
-          aria-label="Primary navigation"
-          className="hidden items-center gap-6 md:flex"
-        >
-          {siteConfig.navLinks.map((item) => {
-            const active = isActive(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={`relative inline-flex h-16 items-center gap-2 px-1 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
-                  active ? "text-ink" : "text-ink-muted hover:text-ink"
-                }`}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`h-1.5 w-1.5 rounded-full transition-opacity ${
-                    item.accentDot
-                  } ${active ? "opacity-100" : "opacity-35"}`}
-                />
-                <span>{item.label}</span>
-                {active && (
-                  <m.span
-                    layoutId="nav-indicator"
+        {/* Desktop navigation with spring hover pill (nav-hover) + active underline (nav-indicator) */}
+        <LayoutGroup id="navbar-links">
+          <nav
+            aria-label="Primary navigation"
+            onMouseLeave={() => setHoveredHref(null)}
+            className="hidden items-center gap-2 md:flex"
+          >
+            {siteConfig.navLinks.map((item) => {
+              const active = isActive(item.href);
+              const hovered = hoveredHref === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  onMouseEnter={() => setHoveredHref(item.href)}
+                  onFocus={() => setHoveredHref(item.href)}
+                  onBlur={() => setHoveredHref(null)}
+                  className={`relative inline-flex h-16 items-center gap-2 px-3.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                    active ? "text-ink" : "text-ink-muted hover:text-ink"
+                  }`}
+                >
+                  {hovered && (
+                    <m.span
+                      layoutId="nav-hover"
+                      aria-hidden="true"
+                      transition={{
+                        type: "spring",
+                        stiffness: 420,
+                        damping: 32,
+                      }}
+                      className="pointer-events-none absolute inset-x-0.5 top-1/2 h-9 -translate-y-1/2 rounded-full bg-surface-muted/85"
+                    />
+                  )}
+                  <span
                     aria-hidden="true"
-                    transition={{
-                      type: "spring",
-                      stiffness: 420,
-                      damping: 32,
-                      mass: 0.8,
-                    }}
-                    className="absolute right-0 bottom-0 left-0 h-[2.5px] rounded-full bg-gdg-blue"
+                    className={`relative z-10 h-1.5 w-1.5 rounded-full transition-opacity ${
+                      item.accentDot
+                    } ${active || hovered ? "opacity-100" : "opacity-35"}`}
                   />
-                )}
-              </Link>
-            );
-          })}
-        </nav>
+                  <span className="relative z-10">{item.label}</span>
+                  {active && (
+                    <m.span
+                      layoutId="nav-indicator"
+                      aria-hidden="true"
+                      transition={{
+                        type: "spring",
+                        stiffness: 420,
+                        damping: 32,
+                        mass: 0.8,
+                      }}
+                      className="absolute right-2 bottom-0 left-2 h-[2.5px] rounded-full bg-gdg-blue"
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        </LayoutGroup>
 
-        {/* Actions: ⌘K Launcher + Theme Toggle + Mobile Drawer */}
-        <div className="flex items-center gap-2">
-          <button
+        {/* Actions: Tactile ⌘K Launcher + 3D Theme Toggle + Mobile Drawer */}
+        <div className="flex items-center gap-2.5">
+          <m.button
             type="button"
             onClick={triggerCommandPalette}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
             aria-label="Open command navigation (Ctrl+K or Command+K)"
-            className="inline-flex h-10 items-center gap-2 rounded-lg border border-hairline bg-surface px-2.5 text-xs font-medium text-ink-muted transition-colors hover:border-gdg-blue/60 hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:px-3"
+            className="group relative inline-flex h-10 items-center gap-2 overflow-hidden rounded-lg border border-hairline bg-surface px-2.5 text-xs font-medium text-ink-muted transition-colors hover:border-gdg-blue/60 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:px-3"
           >
-            <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {/* Subtle 4-color Google gradient hairline sheen on hover */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-[#4285F4] via-[#EA4335] via-60% to-[#34A853] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            />
+            <Search
+              className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6 group-hover:text-gdg-blue-ink"
+              aria-hidden="true"
+            />
             <span className="hidden sm:inline">Search...</span>
-            <kbd className="hidden rounded border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-xs text-ink sm:inline">
+            <kbd className="hidden rounded border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-xs text-ink transition-colors group-hover:border-gdg-blue/40 sm:inline">
               {shortcutHint}
             </kbd>
-          </button>
+          </m.button>
 
           <ThemeToggle />
 

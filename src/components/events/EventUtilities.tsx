@@ -195,3 +195,86 @@ export function EventUtilities({ event }: EventUtilitiesProps) {
     </div>
   );
 }
+
+/**
+ * Compact thumb-friendly icon action buttons (.ics + Copy Link) for the
+ * mobile sticky bottom action bar on /events/[slug].
+ */
+export function MobileEventActionButtons({ event }: EventUtilitiesProps) {
+  const [downloaded, setDownloaded] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [icsBurst, setIcsBurst] = useState(0);
+  const [copyBurst, setCopyBurst] = useState(0);
+
+  const handleDownloadIcs = () => {
+    const ics = buildIcsContent(event);
+    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `${event.slug}.ics`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+
+    setDownloaded(true);
+    setIcsBurst((prev) => prev + 1);
+    window.setTimeout(() => setDownloaded(false), 2400);
+  };
+
+  const handleCopyLink = async () => {
+    const shareUrl = window.location.href;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = shareUrl;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "absolute";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+    }
+
+    setCopied(true);
+    setCopyBurst((prev) => prev + 1);
+    window.setTimeout(() => setCopied(false), 2200);
+  };
+
+  return (
+    <div className="flex shrink-0 items-center gap-2">
+      <button
+        type="button"
+        onClick={handleDownloadIcs}
+        aria-label={downloaded ? "Calendar invite saved" : "Download .ics calendar invite"}
+        title="Download .ics"
+        className="relative inline-flex h-11 w-11 items-center justify-center overflow-visible rounded-full border border-hairline bg-canvas text-ink transition-colors hover:bg-surface-muted active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+      >
+        <PixelBurst triggerKey={icsBurst} />
+        {downloaded ? (
+          <Check className="h-4 w-4 text-gdg-green" aria-hidden="true" />
+        ) : (
+          <CalendarPlus className="h-4 w-4 text-gdg-blue" aria-hidden="true" />
+        )}
+      </button>
+
+      <button
+        type="button"
+        onClick={handleCopyLink}
+        aria-label={copied ? "Session link copied" : "Copy session link"}
+        title="Copy link"
+        className="relative inline-flex h-11 w-11 items-center justify-center overflow-visible rounded-full border border-hairline bg-canvas text-ink transition-colors hover:bg-surface-muted active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+      >
+        <PixelBurst triggerKey={copyBurst} />
+        {copied ? (
+          <Check className="h-4 w-4 text-gdg-green" aria-hidden="true" />
+        ) : (
+          <Link2 className="h-4 w-4 text-ink-muted" aria-hidden="true" />
+        )}
+      </button>
+    </div>
+  );
+}

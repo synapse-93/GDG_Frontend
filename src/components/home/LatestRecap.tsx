@@ -226,7 +226,7 @@ export function LatestRecap() {
   return (
     <section
       aria-labelledby="latest-recap-heading"
-      className="border-b border-hairline bg-surface-muted/45 py-16 sm:py-20"
+      className="border-b border-hairline bg-surface-muted/45 py-10 sm:py-16 lg:py-20"
     >
       <ScrollStage className="w-full">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -326,7 +326,7 @@ export function LatestRecap() {
               {/* Right: Interactive Campus Contact Sheet Bento (7 cols) */}
               <div className="space-y-4 lg:col-span-7">
                 <div className="flex items-center justify-between gap-2 font-mono text-xs text-ink-muted">
-                  <span>Campus Contact Sheet &middot; Click any frame to inspect</span>
+                  <span>Session highlights</span>
                   <span>
                     {linkedEvent
                       ? `${linkedEvent.agenda.length} blocks archived`
@@ -334,7 +334,7 @@ export function LatestRecap() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 no-scrollbar sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0">
                   {latestRecap.takeawayTabs.map((tile) => {
                     const theme = TILE_THEME[tile.accentColor];
                     return (
@@ -350,7 +350,7 @@ export function LatestRecap() {
                           stiffness: 400,
                           damping: 30,
                         }}
-                        className={`group flex flex-col justify-between overflow-hidden rounded-3xl border text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${theme.bg} ${theme.border}`}
+                        className={`group flex w-[78vw] max-w-[300px] shrink-0 snap-center flex-col justify-between overflow-hidden rounded-2xl border text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] sm:w-auto sm:max-w-none sm:rounded-3xl ${theme.bg} ${theme.border}`}
                       >
                         {/* Original Editorial Scene Illustration */}
                         <div className="flex items-center justify-between gap-2 px-4 pt-4">

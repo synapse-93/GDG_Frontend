@@ -10,6 +10,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import * as m from "motion/react-m";
+import { AnimatePresence, LayoutGroup } from "motion/react";
 import { useTheme } from "next-themes";
 import {
   ArrowRight,
@@ -62,10 +63,6 @@ const TRACK_DOT: Record<string, string> = {
   Android: "bg-[#FBBC04] dark:bg-[#FDD663]",
 };
 
-/**
- * Lightweight fuzzy scorer returning > 0 for matches (higher = better) or -1 for no match.
- * Rewards exact prefix, contiguous substring, word-boundary hits, and ordered subsequences.
- */
 function fuzzyScore(haystack: string, rawQuery: string): number {
   const text = haystack.toLowerCase();
   const query = rawQuery.trim().toLowerCase();
@@ -104,14 +101,12 @@ function scoreCommandItem(item: CommandItem, query: string): number {
   const keywordScore = fuzzyScore(item.keywords, query);
   const groupScore = fuzzyScore(item.group, query);
 
-  const best = Math.max(
+  return Math.max(
     titleScore > 0 ? titleScore * 1.5 : -1,
     subtitleScore > 0 ? subtitleScore * 1.1 : -1,
     keywordScore,
     groupScore
   );
-
-  return best;
 }
 
 export function CommandPalette() {
@@ -203,7 +198,7 @@ export function CommandPalette() {
         id: "page-events",
         group: "Pages",
         title: "Events Directory",
-        subtitle: "Browse workshops, study jams & Poster Grid or List View",
+        subtitle: "Browse workshops, study jams & Posters or Schedule view",
         keywords: "events workshops calendar schedule posters list",
         dotColor: "bg-[#34A853] dark:bg-[#81C995]",
         href: "/events",
@@ -380,8 +375,6 @@ export function CommandPalette() {
     }
   };
 
-  if (!open) return null;
-
   const flatIndexMap = new Map<string, number>();
   filteredItems.forEach((item, idx) => flatIndexMap.set(item.id, idx));
 
@@ -405,152 +398,208 @@ export function CommandPalette() {
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-[#111827]/40 px-4 pt-16 backdrop-blur-[2px] dark:bg-black/65 sm:pt-24"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          closePalette();
-        }
-      }}
-    >
-      <m.div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Quick command navigation"
-        onKeyDown={handleDialogKeyDown}
-        initial={{ opacity: 0, y: -10, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ type: "spring", stiffness: 460, damping: 34 }}
-        className="w-full max-w-xl overflow-hidden rounded-xl border border-hairline bg-surface shadow-[0_24px_64px_rgba(12,15,20,0.24)]"
-      >
-        {/* Search Input Header */}
-        <div className="flex items-center gap-3 border-b border-hairline px-4 py-3">
-          <Search
-            className="h-4 w-4 shrink-0 text-ink-muted"
-            aria-hidden="true"
-          />
-          <label htmlFor="gdg-command-input" className="sr-only">
-            Search events, tracks, team members, or switch theme
-          </label>
-          <input
-            ref={inputRef}
-            id="gdg-command-input"
-            type="text"
-            role="combobox"
-            aria-expanded="true"
-            aria-controls="gdg-command-listbox"
-            aria-activedescendant={activeOptionId}
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setActiveIndex(0);
-            }}
-            placeholder="Search events, team members, tracks, or switch theme..."
-            className="w-full bg-transparent text-sm text-ink placeholder:text-ink-muted focus:outline-none"
-          />
-          <button
-            ref={closeButtonRef}
-            type="button"
-            onClick={closePalette}
-            aria-label="Close command palette"
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
-          >
-            <X className="h-4 w-4" aria-hidden="true" />
-          </button>
-        </div>
-
-        {/* Scrollable Command List */}
-        <div
-          ref={listRef}
-          id="gdg-command-listbox"
-          role="listbox"
-          aria-label="Available commands"
-          className="max-h-[min(60vh,420px)] overflow-y-auto py-2"
+    <AnimatePresence>
+      {open && (
+        <m.div
+          key="cmd-palette-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.18 }}
+          className="fixed inset-0 z-50 flex items-start justify-center bg-[#111827]/45 px-4 pt-16 backdrop-blur-md dark:bg-black/65 sm:pt-24"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              closePalette();
+            }
+          }}
         >
-          {groupedItems.length === 0 ? (
-            <div className="px-4 py-10 text-center">
-              <p className="text-sm font-semibold text-ink">
-                No matching results
-              </p>
-              <p className="mt-1 text-xs text-ink-muted">
-                Try searching for &ldquo;Linux&rdquo;, &ldquo;AI&rdquo;,
-                &ldquo;Team&rdquo;, or &ldquo;Dark&rdquo;.
-              </p>
+          <m.div
+            ref={dialogRef}
+            key="cmd-palette-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Quick command navigation"
+            onKeyDown={handleDialogKeyDown}
+            initial={{ opacity: 0, y: -12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 460, damping: 32 }}
+            className="w-full max-w-xl overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_24px_64px_rgba(12,15,20,0.28)]"
+          >
+            {/* Search Input Header */}
+            <div className="flex items-center gap-3 border-b border-hairline px-4 py-3.5">
+              <Search
+                className="h-4 w-4 shrink-0 text-gdg-blue-ink"
+                aria-hidden="true"
+              />
+              <label htmlFor="gdg-command-input" className="sr-only">
+                Search events, tracks, team members, or switch theme
+              </label>
+              <input
+                ref={inputRef}
+                id="gdg-command-input"
+                type="text"
+                role="combobox"
+                aria-expanded="true"
+                aria-controls="gdg-command-listbox"
+                aria-activedescendant={activeOptionId}
+                value={query}
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                  setActiveIndex(0);
+                }}
+                placeholder="Search events, team members, tracks, or switch theme..."
+                className="w-full bg-transparent text-sm text-ink placeholder:text-ink-muted focus:outline-none"
+              />
+              <AnimatePresence initial={false}>
+                {query.length > 0 && (
+                  <m.button
+                    key="cmd-clear-query"
+                    type="button"
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.7 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 28 }}
+                    onClick={() => {
+                      setQuery("");
+                      setActiveIndex(0);
+                      inputRef.current?.focus();
+                    }}
+                    aria-label="Clear search query"
+                    className="inline-flex h-7 items-center rounded-md border border-hairline bg-canvas px-2 font-mono text-[11px] font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+                  >
+                    Clear
+                  </m.button>
+                )}
+              </AnimatePresence>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={closePalette}
+                aria-label="Close command palette"
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-surface-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4]"
+              >
+                <X className="h-4 w-4" aria-hidden="true" />
+              </button>
             </div>
-          ) : (
-            groupedItems.map(({ group, items }) => (
-              <div key={group} className="mb-2 last:mb-0">
-                <div className="flex items-center gap-2 px-4 py-1.5 font-mono text-xs font-semibold text-ink-muted">
-                  {renderGroupIcon(group)}
-                  <span>{group}</span>
-                </div>
-                <div className="px-2">
-                  {items.map((item) => {
-                    const flatIdx = flatIndexMap.get(item.id) ?? 0;
-                    const isActive = flatIdx === clampedIndex;
-                    return (
-                      <button
-                        key={item.id}
-                        id={`cmd-option-${item.id}`}
-                        type="button"
-                        role="option"
-                        aria-selected={isActive}
-                        tabIndex={-1}
-                        onMouseEnter={() => setActiveIndex(flatIdx)}
-                        onClick={() => runCommand(item)}
-                        className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${isActive
-                            ? "bg-surface-muted text-ink"
-                            : "text-ink-muted hover:bg-surface-muted/70 hover:text-ink"
-                          }`}
-                      >
-                        <div className="flex min-w-0 items-center gap-2.5">
-                          {item.dotColor ? (
-                            <span
-                              aria-hidden="true"
-                              className={`h-2 w-2 shrink-0 rounded-full ${item.dotColor}`}
-                            />
-                          ) : (
-                            <span
-                              aria-hidden="true"
-                              className="h-2 w-2 shrink-0 rounded-full bg-hairline"
-                            />
-                          )}
-                          <div className="min-w-0">
-                            <p className="truncate text-sm font-semibold text-ink">
-                              {item.title}
-                            </p>
-                            <p className="truncate font-mono text-xs text-ink-muted">
-                              {item.subtitle}
-                            </p>
-                          </div>
-                        </div>
-                        <ArrowRight
-                          className={`h-3.5 w-3.5 shrink-0 transition-transform ${isActive
-                              ? "translate-x-0.5 text-gdg-blue-ink"
-                              : "text-ink-muted/60"
-                            }`}
-                          aria-hidden="true"
-                        />
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))
-          )}
-        </div>
 
-        {/* Keyboard Hints Footer */}
-        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-hairline bg-canvas px-4 py-2.5 font-mono text-xs text-ink-muted">
-          <div className="flex items-center gap-3">
-            <span>↑↓ Navigate</span>
-            <span>↵ Open</span>
-            <span>Esc Close</span>
-          </div>
-          <span>GDG on Campus RVCE</span>
-        </div>
-      </m.div>
-    </div>
+            {/* Scrollable Command List with Spring-Gliding Selection Bar */}
+            <div
+              ref={listRef}
+              id="gdg-command-listbox"
+              role="listbox"
+              aria-label="Available commands"
+              className="max-h-[min(60vh,420px)] overflow-y-auto py-2"
+            >
+              <LayoutGroup id="cmd-palette-list">
+                {groupedItems.length === 0 ? (
+                  <m.div
+                    key="cmd-empty"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ type: "spring", stiffness: 360, damping: 28 }}
+                    className="px-4 py-10 text-center"
+                  >
+                    <p className="text-sm font-semibold text-ink">
+                      No matching results
+                    </p>
+                    <p className="mt-1 text-xs text-ink-muted">
+                      Try searching for &ldquo;Linux&rdquo;, &ldquo;AI&rdquo;,
+                      &ldquo;Sneha&rdquo;, or &ldquo;Dark&rdquo;.
+                    </p>
+                  </m.div>
+                ) : (
+                  groupedItems.map(({ group, items }) => (
+                    <div key={group} className="mb-2 last:mb-0">
+                      <div className="flex items-center gap-2 px-4 py-1.5 font-mono text-xs font-semibold text-ink-muted">
+                        {renderGroupIcon(group)}
+                        <span>{group}</span>
+                      </div>
+                      <div className="px-2">
+                        {items.map((item) => {
+                          const flatIdx = flatIndexMap.get(item.id) ?? 0;
+                          const isActive = flatIdx === clampedIndex;
+                          return (
+                            <m.button
+                              key={item.id}
+                              layout="position"
+                              id={`cmd-option-${item.id}`}
+                              type="button"
+                              role="option"
+                              aria-selected={isActive}
+                              tabIndex={-1}
+                              onMouseEnter={() => setActiveIndex(flatIdx)}
+                              onClick={() => runCommand(item)}
+                              className={`relative flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285F4] ${
+                                isActive ? "text-ink" : "text-ink-muted hover:text-ink"
+                              }`}
+                            >
+                              {isActive && (
+                                <m.span
+                                  layoutId="cmd-active-row"
+                                  aria-hidden="true"
+                                  transition={{
+                                    type: "spring",
+                                    stiffness: 460,
+                                    damping: 34,
+                                  }}
+                                  className="pointer-events-none absolute inset-0 rounded-xl bg-surface-muted"
+                                >
+                                  <span className="absolute top-2 bottom-2 left-0 w-[3px] rounded-full bg-gdg-blue" />
+                                </m.span>
+                              )}
+
+                              <div className="relative z-10 flex min-w-0 items-center gap-2.5">
+                                {item.dotColor ? (
+                                  <span
+                                    aria-hidden="true"
+                                    className={`h-2 w-2 shrink-0 rounded-full ${item.dotColor}`}
+                                  />
+                                ) : (
+                                  <span
+                                    aria-hidden="true"
+                                    className="h-2 w-2 shrink-0 rounded-full bg-hairline"
+                                  />
+                                )}
+                                <div className="min-w-0">
+                                  <p className="truncate text-sm font-semibold text-ink">
+                                    {item.title}
+                                  </p>
+                                  <p className="truncate font-mono text-xs text-ink-muted">
+                                    {item.subtitle}
+                                  </p>
+                                </div>
+                              </div>
+                              <ArrowRight
+                                className={`relative z-10 h-3.5 w-3.5 shrink-0 transition-transform ${
+                                  isActive
+                                    ? "translate-x-0.5 text-gdg-blue-ink"
+                                    : "text-ink-muted/60"
+                                }`}
+                                aria-hidden="true"
+                              />
+                            </m.button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </LayoutGroup>
+            </div>
+
+            {/* Keyboard Hints Footer */}
+            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-hairline bg-canvas px-4 py-2.5 font-mono text-xs text-ink-muted">
+              <div className="flex items-center gap-3">
+                <span>↑↓ Navigate</span>
+                <span>↵ Open</span>
+                <span>Esc Close</span>
+              </div>
+              <span>GDG on Campus RVCE</span>
+            </div>
+          </m.div>
+        </m.div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -62,11 +62,11 @@ export const teamMembers: TeamMember[] = [
     role: "GDG on Campus Organizer",
     vertical: "Lead & Core",
     accentColor: "blue",
-    bio: "Coordinates technical tracks, workshop curricula, and open-source campus sprints with a focus on peer-led engineering craft.",
+    bio: "Runs the semester calendar, plans track workshops, and helps students turn weekend side projects into open-source repos.",
     askMeAbout: "Linux systems & campus sprints",
     techStack: ["TypeScript", "Go", "Linux", "Systems Architecture"],
     campusFocus:
-      "Leading the 2026–27 Build Cycle roadmap, multi-branch mentorship circles, and reproducible workshop starter kits across RVCE.",
+      "Planning the 2026–27 workshop calendar, peer mentoring groups, and starter kits across all RVCE branches.",
     portraitMask: "hexagon",
     portraitMotif: "orbit",
     links: {
@@ -82,11 +82,11 @@ export const teamMembers: TeamMember[] = [
     role: "Technical Operations Lead",
     vertical: "Lead & Core",
     accentColor: "blue",
-    bio: "Designs reproducible workshop setups, speaker runbooks, and inclusive onboarding paths for first-time campus builders.",
+    bio: "Sets up workshop labs, speaker checklists, and beginner guides so first-year students can jump right in.",
     askMeAbout: "Workshop runbooks & GitHub Actions",
     techStack: ["Python", "GitHub Actions", "Docs-as-Code", "DevEx"],
     campusFocus:
-      "Standardizing lab pre-flight checklists and beginner-friendly onboarding tracks so non-CS students ship on day one.",
+      "Keeping lab setups smooth and writing step-by-step guides so students from non-CS branches can ship on day one.",
     portraitMask: "arch",
     portraitMotif: "grid",
     links: {
@@ -101,11 +101,11 @@ export const teamMembers: TeamMember[] = [
     role: "Web Architecture Lead",
     vertical: "Dev Vertical",
     accentColor: "blue",
-    bio: "Obsessed with TypeScript ergonomics, rendering pipelines, and building accessible web tools that feel instantaneous.",
+    bio: "Builds fast React apps, fixes tricky CSS layouts, and spends way too much time in Chrome DevTools chasing layout shifts.",
     askMeAbout: "Next.js perf profiling & a11y",
     techStack: ["Next.js", "React 19", "TypeScript", "Web Performance"],
     campusFocus:
-      "Running Web Vitals performance clinics and maintaining open-source campus frontend starter templates.",
+      "Running Web Vitals clinics and maintaining open-source frontend starter templates for campus projects.",
     portraitMask: "squircle",
     portraitMotif: "prism",
     links: {
@@ -121,11 +121,11 @@ export const teamMembers: TeamMember[] = [
     role: "Android & Mobile Maintainer",
     vertical: "Dev Vertical",
     accentColor: "blue",
-    bio: "Builds offline-first Kotlin and Flutter applications and runs hands-on labs on declarative state architecture.",
+    bio: "Builds offline-first Kotlin and Flutter apps and runs weekend code labs on clean mobile state management.",
     askMeAbout: "Jetpack Compose animations",
     techStack: ["Kotlin", "Jetpack Compose", "Flutter", "SQLite"],
     campusFocus:
-      "Curating side-by-side Compose & Flutter UI labs focused on adaptive tablet layouts and 60fps frame budgets.",
+      "Running side-by-side Compose and Flutter labs focused on tablet layouts and smooth 60fps scrolling.",
     portraitMask: "arch",
     portraitMotif: "stack",
     links: {
@@ -140,11 +140,11 @@ export const teamMembers: TeamMember[] = [
     role: "Applied AI Lead",
     vertical: "AI / ML",
     accentColor: "green",
-    bio: "Explores structured tool-calling agents, evaluation harnesses, and transparent retrieval systems for developer workflows.",
+    bio: "Works on tool-calling AI agents, automated test suites, and retrieval pipelines that actually hold up during live demos.",
     askMeAbout: "Tool-calling agents & eval suites",
     techStack: ["Python", "Structured Tools", "Eval Harnesses", "RAG"],
     campusFocus:
-      "Teaching schema-enforced agent architectures and deterministic regression testing in the Winter AI Studio.",
+      "Teaching structured tool-calling patterns and regression tests during our winter AI workshops.",
     portraitMask: "clover",
     portraitMotif: "nodes",
     links: {
@@ -160,11 +160,11 @@ export const teamMembers: TeamMember[] = [
     role: "ML Systems Engineer",
     vertical: "AI / ML",
     accentColor: "green",
-    bio: "Focuses on model quantization, local inference benchmarks, and reproducible Python notebooks for campus study jams.",
+    bio: "Quantizes open-weights models to run locally on student laptops and maintains clean Python notebooks for study jams.",
     askMeAbout: "Local LLM quantization & ONNX",
     techStack: ["PyTorch", "ONNX", "Quantization", "FastAPI"],
     campusFocus:
-      "Benchmarking small open-weights models on student laptops so AI workshops run offline without cloud bottlenecks.",
+      "Benchmarking small local models so AI workshops work smoothly on campus Wi-Fi without needing paid APIs.",
     portraitMask: "scallop",
     portraitMotif: "wave",
     links: {
@@ -179,11 +179,11 @@ export const teamMembers: TeamMember[] = [
     role: "Cloud & Infrastructure Lead",
     vertical: "Cloud",
     accentColor: "red",
-    bio: "Spends evenings poking at Linux namespaces, Kubernetes schedulers, and automated CI pipelines for student projects.",
+    bio: "Spends evenings poking at Linux namespaces, Kubernetes clusters, and GitHub Actions pipelines for student projects.",
     askMeAbout: "Linux eBPF & terminal setups",
     techStack: ["Linux Kernel", "Kubernetes", "Rust", "Google Cloud"],
     campusFocus:
-      "Leading Linux & Systems Night and mentoring student teams on declarative GKE Autopilot deployments.",
+      "Leading Linux & Systems Night and helping student teams deploy cleanly on GKE Autopilot.",
     portraitMask: "hexagon",
     portraitMotif: "terminal",
     links: {
@@ -199,11 +199,11 @@ export const teamMembers: TeamMember[] = [
     role: "DevOps & Observability Core",
     vertical: "Cloud",
     accentColor: "red",
-    bio: "Maintains container starter templates, OpenTelemetry labs, and zero-downtime deployment guides on Google Cloud.",
+    bio: "Maintains Docker starter templates, OpenTelemetry labs, and zero-downtime deployment guides on Google Cloud.",
     askMeAbout: "Cloud Run, Docker & OpenTelemetry",
     techStack: ["Docker", "OpenTelemetry", "Terraform", "Cloud Run"],
     campusFocus:
-      "Building resilient container runbooks, readiness-probe drills, and observability sandboxes for campus hackathons.",
+      "Writing practical Docker runbooks, health-probe drills, and tracing setups for campus hackathons.",
     portraitMask: "clover",
     portraitMotif: "mesh",
     links: {
@@ -218,11 +218,11 @@ export const teamMembers: TeamMember[] = [
     role: "Design Systems Lead",
     vertical: "Design",
     accentColor: "yellow",
-    bio: "Crafts typographic scales, editorial grids, and high-contrast Light/Dark interfaces rooted in developer clarity.",
+    bio: "Designs clean type scales, component libraries, and high-contrast Light and Dark themes built for readability.",
     askMeAbout: "WCAG AA palettes & design tokens",
     techStack: ["Design Tokens", "Tailwind CSS v4", "Figma", "WCAG AA"],
     campusFocus:
-      "Stewarding the chapter design token system and running live accessibility & contrast critiques.",
+      "Maintaining the chapter component tokens and hosting live accessibility and contrast reviews.",
     portraitMask: "scallop",
     portraitMotif: "compass",
     links: {
@@ -238,11 +238,11 @@ export const teamMembers: TeamMember[] = [
     role: "Interaction & Motion Designer",
     vertical: "Design",
     accentColor: "yellow",
-    bio: "Pairs spring physics with reduced-motion ergonomics so technical web interfaces feel tactile without heavy runtime cost.",
+    bio: "Builds spring-based UI transitions and keyboard shortcuts that feel snappy without weighing down the page.",
     askMeAbout: "Spring physics & micro-interactions",
     techStack: ["Motion Springs", "SVG Geometry", "Accessibility", "React"],
     campusFocus:
-      "Designing interactive playgrounds, view transitions, and keyboard-first navigation utilities with zero WebGL bloat.",
+      "Crafting interactive demos, view transitions, and keyboard-first UI with lightweight CSS and Motion.",
     portraitMask: "squircle",
     portraitMotif: "kinetic",
     links: {

@@ -244,9 +244,9 @@ export const events: EventItem[] = [
     slug: "devfest-campus-warmup",
     title: "DevFest Campus Warmup",
     tagline:
-      "Lightning architecture teardowns, live debugging sprints, and multi-track project clinics ahead of DevFest season.",
+      "Live code walkthroughs, debugging sprints, and multi-track project clinics ahead of DevFest season.",
     description:
-      "Our flagship autumn build gathering brought campus engineers together across Web, AI, and Cloud tracks for rapid design reviews, live bug-hunt sessions, and practical lessons from shipping student open-source projects.",
+      "Our autumn gathering brought campus developers together across Web, AI, and Cloud tracks for rapid design reviews, live bug-hunt sessions, and practical lessons from shipping student open-source projects.",
     track: "Web",
     status: "past",
     dateISO: "2026-10-24T09:30:00+05:30",
@@ -264,7 +264,7 @@ export const events: EventItem[] = [
     outcomes: [
       "Reviewed real-world frontend and backend postmortems from student projects",
       "Published reusable accessibility and deployment checklists for campus teams",
-      "Formed multi-vertical peer study circles for the winter build cycle",
+      "Formed multi-track peer study groups for the winter semester",
     ],
     agenda: [
       {
@@ -273,17 +273,17 @@ export const events: EventItem[] = [
         speaker: "Karthik Gowda",
         memberSlug: "karthik-gowda",
         notes:
-          "Framed the 2026–27 chapter build cycle around reproducible workshops, public starter kits, and peer engineering critiques.",
+          "Outlined the 2026–27 chapter roadmap around hands-on workshops, public starter kits, and peer code reviews.",
         setupTip: "Slides and semester roadmap are archived in the starter repository.",
       },
       {
         time: "10:15 AM",
-        title: "Architecture Teardown: From Prototype to Resilient Deployment",
+        title: "Code Walkthrough: From Prototype to Resilient Deployment",
         speaker: "Sneha Joshi",
         memberSlug: "sneha-joshi",
         notes:
           "Live refactoring session transforming a fragile hackathon app into an accessible, statically prerendered Next.js build.",
-        setupTip: "Review the `teardown-diff` branch in the DevFest Warmup repo.",
+        setupTip: "Review the `walkthrough-diff` branch in the DevFest Warmup repo.",
       },
       {
         time: "11:15 AM",
@@ -312,7 +312,7 @@ export const events: EventItem[] = [
     tagline:
       "Side-by-side declarative mobile engineering: adaptive layouts, state hoisting, and 60fps micro-interactions.",
     description:
-      "A practical mobile studio comparing Jetpack Compose and Flutter idioms through a single shared interface specification. Builders implemented adaptive tablet-to-phone layouts, theme tokens, and accessible touch ergonomics in real time.",
+      "A hands-on mobile lab comparing Jetpack Compose and Flutter through a single shared app spec. Students built adaptive tablet-to-phone layouts, theme tokens, and comfortable touch targets live.",
     track: "Android",
     status: "past",
     dateISO: "2026-09-19T14:00:00+05:30",
@@ -378,7 +378,7 @@ export const events: EventItem[] = [
     tagline:
       "Declarative deployments, GKE Autopilot fundamentals, health probes, and zero-downtime rollouts.",
     description:
-      "An interactive online study jam walking through container packaging, Kubernetes primitives, ConfigMaps, readiness probes, and rolling updates on Google Kubernetes Engine. Every concept was paired with a reproducible YAML blueprint.",
+      "An interactive online study jam walking through container packaging, Kubernetes primitives, ConfigMaps, readiness probes, and rolling updates on Google Kubernetes Engine, paired with ready-to-run YAML templates.",
     track: "Cloud",
     status: "past",
     dateISO: "2026-08-22T18:00:00+05:30",

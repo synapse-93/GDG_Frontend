@@ -107,6 +107,16 @@ input[type="search"]::-webkit-search-decoration {
   appearance: none;
 }
 
+/* Hide scrollbars on compact horizontal chip & snap strips */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Monumental Swiss Editorial Display Scale */
 .display-monumental {
   font-size: clamp(3.25rem, 7vw, 6.25rem);

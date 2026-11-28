@@ -13,7 +13,7 @@ interface BuilderPortraitProps {
   motif: PortraitMotif;
   isCoreLead?: boolean;
   imagePath?: string;
-  size?: "card" | "sheet";
+  size?: "compact" | "card" | "sheet";
 }
 
 const MASCOT_PALETTE: Record<
@@ -179,7 +179,12 @@ export function BuilderPortrait({
   const gradId = `gdg-mascot-grad-${reactId.replace(/:/g, "")}`;
   const colors = MASCOT_PALETTE[accentColor];
   const personality = EYE_PERSONALITY[motif];
-  const boxSize = size === "sheet" ? "h-20 w-20" : "h-[72px] w-[72px]";
+  const boxSize =
+    size === "sheet"
+      ? "h-20 w-20"
+      : size === "compact"
+      ? "h-14 w-14"
+      : "h-[72px] w-[72px]";
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (prefersReducedMotion) return;
